@@ -1,98 +1,118 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function HomeScreen() {
+// AJ : Main screen component 
+export default function AccountScreen() {
+    // AJ: Uses the useState hook to create a piece of state called expanded, starts as false, setExpanded is used to toggle 
+    const [expanded, setExpanded] = useState(false);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try It </ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScrollView style ={styles.container}> {/*Enables vertical scrolling if content overflows */}
+     <View style={styles.header}>
+        <Ionicons name="person-circle-outline" size={64} color="#007AFF" />
+        <Text style={styles.title}>Account Settings</Text>
+        <Text style={styles.subtitle}>Manage your Parcel Wizard details</Text>
+     </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+     {/* Basic Section */}
+     <TouchableOpacity
+        style={styles.sectionHeader}
+        onPress={() => setExpanded (!expanded)} //Toggle expanded state on press
+        activeOpacity={0.8}
+        >
+            <Text style={styles.sectionTitle}>Account Details</Text>
+            <Ionicons
+              name={expanded ? 'chevron-up' : 'chevron-down'}  //Icon changes based on expanded state
+              size={20}
+              color="#666"
+            />
+        </TouchableOpacity>
+
+        
+        {expanded && ( //AJ : Only renders when expanded is true
+        <View style={styles.sectionContent}>
+          <Text style={styles.label}>Name</Text>
+          <Text style={styles.value}>John Murphy</Text>
+
+          <Text style={styles.label}>Address</Text>
+          <Text style={styles.value}>123 Grafton Street, Dublin 2, D02 XY45</Text>
+
+            {/*Change address button */}
+          <TouchableOpacity style={styles.button}> 
+            <Ionicons name="map-outline" size={16} color="white" /> 
+            <Text style={styles.buttonText}>Change Address</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#FFF',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '600',
+    marginTop: 8,
+    color: '#007AFF',
+  },
+  subtitle: {
+    color: '#555',
+    fontSize: 14,
+    marginTop: 4,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: '#CCC',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  sectionContent: {
+    paddingVertical: 12,
+    gap: 8,
+  },
+  label: {
+    fontSize: 12,
+    color: '#888',
+  },
+  value: {
+    fontSize: 16,
+    color: '#000',
+  },
+  button: {
+    marginTop: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'center',
+    gap: 6,
+    backgroundColor: '#007AFF',
+    paddingVertical: 10,
+    borderRadius: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  buttonText: {
+    color: '#FFF',
+    fontWeight: '600',
   },
 });

@@ -1,3 +1,7 @@
+
+// AJ: Defines a react native component called "Icon Symbol", which is a small wrapper around SymbolView
+// AJ: a special view that renders apple SF natively on iOS ( no need for image files or vector imports)
+
 import { SymbolView, SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { StyleProp, ViewStyle } from 'react-native';
 

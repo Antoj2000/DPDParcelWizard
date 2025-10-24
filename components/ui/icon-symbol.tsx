@@ -1,5 +1,7 @@
 // Fallback for using MaterialIcons on Android and web.
 
+// AJ: This makes sure sf symbols are able to be used whilst on android
+
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
 import { ComponentProps } from 'react';
@@ -14,10 +16,14 @@ type IconSymbolName = keyof typeof MAPPING;
  * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
  */
 const MAPPING = {
-  'house.fill': 'home',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
+  'house.fill': 'home',                    // Home tab
+  'paperplane.fill': 'send',               // Explore tab
+  'shippingbox.fill': 'local-shipping',    // Deliveries tab
+  'calendar': 'calendar-month',            // Calendar tab
+  'house': 'location-on',                  // Addresses tab
+  'person.fill': 'account-circle',         // Account tab
+  'chevron.left.forwardslash.chevron.right': 'code', // Dev icon
+  'chevron.right': 'chevron-right',        // Arrow
 } as IconMapping;
 
 /**

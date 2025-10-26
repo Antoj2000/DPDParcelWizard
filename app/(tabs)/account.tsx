@@ -47,8 +47,9 @@ export default function AccountScreen() {
 
             {/*Change address button */}
           <TouchableOpacity style={styles.button}> 
-            <Ionicons name="map-outline" size={16} color="white" /> 
-            <Text style={styles.buttonText}>Change Address</Text>
+            <Text style={styles.buttonText}>
+            <Ionicons name="map-outline" size={16} color="white" /> Change Address
+            </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -76,8 +77,9 @@ export default function AccountScreen() {
           <Text style={styles.value}>+353 87 900 9088</Text>
 
           <TouchableOpacity style={styles.button}>
-            <Ionicons name="add-circle-outline" size={16} color="white" />
-            <Text style={styles.buttonText}>Add Phone Number</Text>
+            <Text style={styles.buttonText}>
+            <Ionicons name="add-circle-outline" size={16} color="white" />Add Phone Number
+            </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -105,8 +107,9 @@ export default function AccountScreen() {
           <Text style={styles.value}>g00385306@atu.ie</Text>
 
           <TouchableOpacity style={styles.button}>
-            <Ionicons name="add-circle-outline" size={16} color="white" />
-            <Text style={styles.buttonText}>Add Email Address</Text>
+            <Text style={styles.buttonText}>
+             <Ionicons name="add-circle-outline" size={16} color="white" />Add Email Address
+            </Text>
           </TouchableOpacity>
         </View>
       )}

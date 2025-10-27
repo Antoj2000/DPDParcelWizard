@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useAccountData } from '@/src/hooks/useAccountData';
+
 
 // AJ : Main screen component 
 export default function AccountScreen() {
@@ -9,6 +10,41 @@ export default function AccountScreen() {
     const [expandedAccount, setExpandedAccount] = useState(false);
     const [expandedPhone, setExpandedPhone] = useState(false);
     const [expandedEmail, setExpandedEmail] = useState(false);
+
+    const { loading, profile, updateAddress } = useAccountData();
+
+    const onChangeAddress = async () => {
+      if (!profile) return;
+    
+
+      const demoAddress =
+      profile.address.line1 === '123 Grafton Street'
+        ? {
+            line1: '45 Connell Street',
+            city: 'Dublin 1',
+            county: 'Dublin',
+            eircode: 'D01 ABC1',
+          }
+        : {
+            line1: '123 Grafton Street',
+            city: 'Dublin 2',
+            county: 'Dublin',
+            eircode: 'D02 XY45',
+          };
+
+      await updateAddress(demoAddress);
+      Alert.alert('Address Updated', 'This is a demo update using the service mock');
+  };
+
+  if (loading || !profile){
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Ionicons name="time-outline" size={28} />
+        <Text style={{ marginTop: 8 }}>Loading…</Text>
+      </View>
+    );
+  }
+
 
   return (
     <ScrollView style ={styles.container}> {/*Enables vertical scrolling if content overflows */}
@@ -23,32 +59,34 @@ export default function AccountScreen() {
         style={styles.sectionHeader}
         onPress={() => setExpandedAccount (!expandedAccount)} //Toggle expanded state on press
         activeOpacity={0.8}
-        >
-            <Text style={styles.sectionTitle}>Account Details</Text>
-            <Ionicons
-              name={expandedAccount ? 'chevron-up' : 'chevron-down'}  //Icon changes based on expanded state
-              size={20}
-              color="#666"
-            />
-        </TouchableOpacity>
+      >
+        <Text style={styles.sectionTitle}>Account Details</Text>
+        <Ionicons
+          name={expandedAccount ? 'chevron-up' : 'chevron-down'}  //Icon changes based on expanded state
+          size={20}
+          color="#666"
+        />
+      </TouchableOpacity>
 
         
         {expandedAccount && ( //AJ : Only renders when expanded is true
         <View style={styles.sectionContent}>
 
           <Text style={styles.label}>ParcelWizardID</Text>
-          <Text style={styles.value}>PW130628</Text>
+          <Text style={styles.value}>{profile.pwid}</Text>
 
           <Text style={styles.label}>Name</Text>
-          <Text style={styles.value}>John Murphy</Text>
+          <Text style={styles.value}>{profile.name}</Text>
 
           <Text style={styles.label}>Address</Text>
-          <Text style={styles.value}>123 Grafton Street, Dublin 2, D02 XY45</Text>
+          <Text style={styles.value}>
+            {profile.address.line1}, {profile.address.city}, {profile.address.county}, {profile.address.eircode}
+          </Text>
 
             {/*Change address button */}
-          <TouchableOpacity style={styles.button}> 
+          <TouchableOpacity style={styles.button} onPress={(onChangeAddress)}> 
             <Text style={styles.buttonText}>
-            <Ionicons name="map-outline" size={16} color="white" /> Change Address
+              <Ionicons name="map-outline" size={16} color="white" /> Change Address (demo)
             </Text>
           </TouchableOpacity>
         </View>

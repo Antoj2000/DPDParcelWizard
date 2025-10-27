@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAccountData } from '@/src/hooks/useAccountData';
 
@@ -11,12 +11,18 @@ export default function AccountScreen() {
     const [expandedPhone, setExpandedPhone] = useState(false);
     const [expandedEmail, setExpandedEmail] = useState(false);
 
-    const { loading, profile, updateAddress } = useAccountData();
+    // Pull in account data and the updateAddress function from our custom hook
+    const { loading, profile, updateAddress, addPhone } = useAccountData();
 
+    // Modal state for adding a new phone
+    const [showPhoneModal, setShowPhoneModal] = useState(false);
+    const [newPhone, setNewPhone] = useState('');
+
+    // Handler for when the user presses "Change Address"
     const onChangeAddress = async () => {
       if (!profile) return;
     
-
+      //Switches between demo addresses
       const demoAddress =
       profile.address.line1 === '123 Grafton Street'
         ? {
@@ -33,9 +39,25 @@ export default function AccountScreen() {
           };
 
       await updateAddress(demoAddress);
+      //Confirmation popup
       Alert.alert('Address Updated', 'This is a demo update using the service mock');
   };
 
+
+   // Handle adding the typed phone number
+  const handleAddPhone = async () => {
+    if (!newPhone.trim()) {
+      Alert.alert('Missing number', 'Please enter a valid phone number.');
+      return;
+    }
+
+    await addPhone({ label: 'Other', phoneNumber: newPhone });
+    setShowPhoneModal(false); // close modal
+    setNewPhone(''); // clear input
+    Alert.alert('Phone Added', `Added ${newPhone}`);
+  };
+
+  // Loading Screen
   if (loading || !profile){
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -45,7 +67,7 @@ export default function AccountScreen() {
     );
   }
 
-
+// Once profile is loaded, render the real screen content
   return (
     <ScrollView style ={styles.container}> {/*Enables vertical scrolling if content overflows */}
      <View style={styles.header}>
@@ -54,7 +76,7 @@ export default function AccountScreen() {
         <Text style={styles.subtitle}>Manage your Parcel Wizard details</Text>
      </View>
 
-     {/* Account Details*/}
+     {/* ======== Account Details ==========*/}
      <TouchableOpacity
         style={styles.sectionHeader}
         onPress={() => setExpandedAccount (!expandedAccount)} //Toggle expanded state on press
@@ -92,7 +114,7 @@ export default function AccountScreen() {
         </View>
       )}
 
-      {/*Phone Numbers Section */}
+      {/* ============ Phone Numbers Section ==============*/}
       <TouchableOpacity
         style={styles.sectionHeader}
         onPress={() => setExpandedPhone(!expandedPhone)}
@@ -108,19 +130,56 @@ export default function AccountScreen() {
 
       {expandedPhone && (
         <View style={styles.sectionContent}>
-          <Text style={styles.label}>Primary</Text>
-          <Text style={styles.value}>+353 87 776 6382</Text>
-
-          <Text style={styles.label}>Secondary</Text>
-          <Text style={styles.value}>+353 87 900 9088</Text>
-
-          <TouchableOpacity style={styles.button}>
+          {/* List all phone numbers */}
+          {profile.phones.map((p) => (
+            <View key={p.id}>
+              <Text style={styles.label}>{p.label}</Text>
+              <Text style={styles.value}>{p.phoneNumber}</Text>
+            </View>
+          ))}
+          {/* Add new phone button */}
+          <TouchableOpacity style={styles.button} onPress={() => setShowPhoneModal(true)}>
             <Text style={styles.buttonText}>
-            <Ionicons name="add-circle-outline" size={16} color="white" />Add Phone Number
+             <Ionicons name="add-circle-outline" size={16} color="white" />Add Phone Number
             </Text>
           </TouchableOpacity>
         </View>
       )}
+
+      {/* ============= MODAL FOR ENTERING PHONE NUMBER ============= */}
+      <Modal
+        visible={showPhoneModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowPhoneModal(false)}
+      >
+        {/* Dark background overlay */}
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Add Phone Number</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="+353 87 123 4567"
+              keyboardType="phone-pad"
+              value={newPhone}
+              onChangeText={setNewPhone}
+            />
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={[styles.modalButton, { backgroundColor: '#888' }]} onPress={() => setShowPhoneModal(false)}>
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={[styles.modalButton, { backgroundColor: '#ff0000ff' }]} onPress={handleAddPhone}>
+                <Text style={styles.modalButtonText}>Add</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+
 
       {/*Email Section */}
       <TouchableOpacity
@@ -151,12 +210,12 @@ export default function AccountScreen() {
           </TouchableOpacity>
         </View>
       )}
-
-      
     </ScrollView>
   );
 }
 
+
+// --- Styling --- 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -216,4 +275,37 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: '600',
   },
+
+  // modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    width: '80%',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: { fontSize: 18, fontWeight: '600', marginBottom: 12 },
+  input: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 10,
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  modalButtons: { flexDirection: 'row', gap: 10 },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonText: { color: '#fff', fontWeight: '600' },
 });

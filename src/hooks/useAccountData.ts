@@ -4,7 +4,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Alert } from 'react-native';
 import { accountService } from '../api/accountService';
-import type { AccountProfile, Address } from '../models/account';
+import type { AccountProfile, Address, PhoneNumber } from '../models/account';
 
 
 export function useAccountData(){
@@ -36,5 +36,14 @@ export function useAccountData(){
         }
     }, []);
 
-    return { loading, profile, updateAddress };
+    const addPhone = useCallback(async (phone: Omit<PhoneNumber, 'id'>) => {
+    try {
+      const updated = await accountService.addPhone(phone);
+      setProfile(updated);
+    } catch {
+      Alert.alert('Error', 'Could not add phone number.');
+    }
+  }, []);
+
+    return { loading, profile, updateAddress, addPhone };
 }

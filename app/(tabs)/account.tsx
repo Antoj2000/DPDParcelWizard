@@ -14,7 +14,7 @@ export default function AccountScreen() {
     // Pull in account data and the updateAddress function from our custom hook
     const { loading, profile, updateAddress, addPhone } = useAccountData();
 
-    // Modal state for adding a new phone
+    // Modal state for adding a new phone number 
     const [showPhoneModal, setShowPhoneModal] = useState(false);
     const [newPhone, setNewPhone] = useState('');
 

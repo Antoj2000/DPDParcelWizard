@@ -10,6 +10,9 @@ import {
   TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors as c, GlobalStyles as g, ButtonStyles as b, ModalStyles as m } from '@/src/styles';
+
+
 
 // Mock database of addresses
 const MOCK_ADDRESSES = [
@@ -74,20 +77,20 @@ export default function AddressesScreen() {
 
   return (
 
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Ionicons name="map-outline" size={64} color="#ff0000ff" />
-        <Text style={styles.title}>Address Book</Text>
-        <Text style={styles.subtitle}>Manage your delivery addresses</Text>
+    <ScrollView style={g.container}>
+      <View style={g.header}>
+        <Ionicons name="map-outline" size={64} color={c.dpdRed} />
+        <Text style={g.title}>Address Book</Text>
+        <Text style={g.subtitle}>Manage your delivery addresses</Text>
       </View>
 
       {/* Row that toggles the addresses section*/}
       <TouchableOpacity
-        style={styles.sectionHeader}
+        style={g.sectionHeader}
         onPress={() => setExpanded(!expanded)}
         activeOpacity={0.8}
       >
-        <Text style={styles.sectionTitle}>My Addresses</Text>
+        <Text style={g.sectionTitle}>My Addresses</Text>
         <Ionicons
           name={expanded ? 'chevron-up' : 'chevron-down'}
           size={20}
@@ -97,12 +100,12 @@ export default function AddressesScreen() {
 
       {/* Expanded list */}
       {expanded && (
-        <View style={styles.sectionContent}>
+        <View style={g.sectionContent}>
           {/* Render each saved address as a simple card */}
           {addresses.map((a) => (
             <View key={a.id} style={styles.addressCard}>
-              <Text style={styles.label}>{a.label}</Text>
-              <Text style={styles.value}>
+              <Text style={g.label}>{a.label}</Text>
+              <Text style={g.value}>
                 {a.line1}, {a.city}, {a.county}, {a.eircode}
               </Text>
             </View>
@@ -110,11 +113,11 @@ export default function AddressesScreen() {
 
           {/* Button to open the "Add New Address" modal */}
           <TouchableOpacity
-            style={styles.button}
+            style={[b.base, b.primary]}
             onPress={() => setShowModal(true)}
           >
             <Ionicons name="add-circle-outline" size={16} color="white" />
-            <Text style={styles.buttonText}>Add New Address</Text>
+            <Text style={b.text}>Add New Address</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -126,57 +129,57 @@ export default function AddressesScreen() {
         animationType="slide"
         onRequestClose={() => setShowModal(false)} // android back button handler
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Add New Address</Text>
+        <View style={m.overlay}>
+          <View style={m.content}>
+            <Text style={m.title}>Add New Address</Text>
 
             <TextInput
-              style={styles.input}
+              style={m.input}
               placeholder="Label (e.g. Home, Work)"
               value={label}
               onChangeText={setLabel}
             />
             <TextInput
-              style={styles.input}
+              style={m.input}
               placeholder="Address Line 1"
               value={line1}
               onChangeText={setLine1}
             />
             <TextInput
-              style={styles.input}
+              style={m.input}
               placeholder="Town / City"
               value={city}
               onChangeText={setCity}
             />
             <TextInput
-              style={styles.input}
+              style={m.input}
               placeholder="County"
               value={county}
               onChangeText={setCounty}
             />
             <TextInput
-              style={styles.input}
+              style={m.input}
               placeholder="Eircode"
               autoCapitalize="characters" // Keeps eircode characters upper case
               value={eircode}
               onChangeText={setEircode}
             />
 
-            <View style={styles.modalButtons}>
+            <View style={m.buttons}>
               {/* Close the modal without saving */}
               <TouchableOpacity
-                style={[styles.modalButton, { backgroundColor: '#888' }]}
+                style={[m.button, { backgroundColor: '#888' }]}
                 onPress={() => setShowModal(false)}
               >
-                <Text style={styles.modalButtonText}>Cancel</Text>
+                <Text style={m.buttonText}>Cancel</Text>
               </TouchableOpacity>
               
               {/* Validate + add the new address to state */}
               <TouchableOpacity
-                style={[styles.modalButton, { backgroundColor: '#ff0000ff' }]}
+                style={[m.button, { backgroundColor: '#ff0000ff' }]}
                 onPress={handleAddAddress}
               >
-                <Text style={styles.modalButtonText}>Save</Text>
+                <Text style={m.buttonText}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -188,111 +191,11 @@ export default function AddressesScreen() {
 
 // --- Styles ---
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#FFF',
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginTop: 8,
-    color: '#ff0000ff',
-  },
-  subtitle: {
-    color: '#555',
-    fontSize: 14,
-    marginTop: 4,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#CCC',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  sectionContent: {
-    paddingVertical: 12,
-    gap: 12,
-  },
   addressCard: {
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
     padding: 12,
     backgroundColor: '#f9f9f9',
-  },
-  label: {
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 4,
-  },
-  value: {
-    fontSize: 14,
-    color: '#333',
-  },
-  button: {
-    flexDirection: 'row',
-    backgroundColor: '#a5a5a5ff',
-    paddingVertical: 10,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 6,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    width: '85%',
-    padding: 20,
-    borderRadius: 10,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  input: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#96959565',
-    borderRadius: 8,
-    padding: 10,
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  modalButtons: {
-    flexDirection: 'row',
-    gap: 10,
-    marginTop: 8,
-  },
-  modalButton: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  modalButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
+  }
 });

@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Alert, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import { Alert, Modal, ScrollView, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAccountData } from '@/src/hooks/useAccountData';
+import { Colors as c, GlobalStyles as g, ButtonStyles as b, ModalStyles as m } from '@/src/styles';
+
 
 
 // AJ : Main screen component 
@@ -69,20 +71,20 @@ export default function AccountScreen() {
 
 // Once profile is loaded, render the real screen content
   return (
-    <ScrollView style ={styles.container}> {/*Enables vertical scrolling if content overflows */}
-     <View style={styles.header}>
-        <Ionicons name="person-circle-outline" size={64} color="#ff0000ff" />
-        <Text style={styles.title}>Account Settings</Text>
-        <Text style={styles.subtitle}>Manage your Parcel Wizard details</Text>
+    <ScrollView style ={g.container}> {/*Enables vertical scrolling if content overflows */}
+     <View style={g.header}>
+        <Ionicons name="person-circle-outline" size={64} color={c.dpdRed} />
+        <Text style={g.title}>Account Settings</Text>
+        <Text style={g.subtitle}>Manage your Parcel Wizard details</Text>
      </View>
 
      {/* ======== Account Details ==========*/}
      <TouchableOpacity
-        style={styles.sectionHeader}
+        style={g.sectionHeader}
         onPress={() => setExpandedAccount (!expandedAccount)} //Toggle expanded state on press
         activeOpacity={0.8}
       >
-        <Text style={styles.sectionTitle}>Account Details</Text>
+        <Text style={g.sectionTitle}>Account Details</Text>
         <Ionicons
           name={expandedAccount ? 'chevron-up' : 'chevron-down'}  //Icon changes based on expanded state
           size={20}
@@ -92,22 +94,22 @@ export default function AccountScreen() {
 
         
         {expandedAccount && ( //AJ : Only renders when expanded is true
-        <View style={styles.sectionContent}>
+        <View style={g.sectionContent}>
 
-          <Text style={styles.label}>ParcelWizardID</Text>
-          <Text style={styles.value}>{profile.pwid}</Text>
+          <Text style={g.label}>ParcelWizardID</Text>
+          <Text style={g.value}>{profile.pwid}</Text>
 
-          <Text style={styles.label}>Name</Text>
-          <Text style={styles.value}>{profile.name}</Text>
+          <Text style={g.label}>Name</Text>
+          <Text style={g.value}>{profile.name}</Text>
 
-          <Text style={styles.label}>Address</Text>
-          <Text style={styles.value}>
+          <Text style={g.label}>Address</Text>
+          <Text style={g.value}>
             {profile.address.line1}, {profile.address.city}, {profile.address.county}, {profile.address.eircode}
           </Text>
 
             {/*Change address button */}
-          <TouchableOpacity style={styles.button} onPress={(onChangeAddress)}> 
-            <Text style={styles.buttonText}>
+          <TouchableOpacity style={[b.base, b.primary, { marginTop: 8 }]} onPress={(onChangeAddress)}> 
+            <Text style={b.text}>
               <Ionicons name="map-outline" size={16} color="white" /> Change Address (demo)
             </Text>
           </TouchableOpacity>
@@ -116,11 +118,11 @@ export default function AccountScreen() {
 
       {/* ============ Phone Numbers Section ==============*/}
       <TouchableOpacity
-        style={styles.sectionHeader}
+        style={g.sectionHeader}
         onPress={() => setExpandedPhone(!expandedPhone)}
         activeOpacity={0.8}
       >
-        <Text style={styles.sectionTitle}>Phone Numbers</Text>
+        <Text style={g.sectionTitle}>Phone Numbers</Text>
         <Ionicons
               name={expandedPhone ? 'chevron-up' : 'chevron-down'}  //Icon changes based on expanded state
               size={20}
@@ -129,17 +131,17 @@ export default function AccountScreen() {
       </TouchableOpacity>
 
       {expandedPhone && (
-        <View style={styles.sectionContent}>
+        <View style={g.sectionContent}>
           {/* List all phone numbers */}
           {profile.phones.map((p) => (
             <View key={p.id}>
-              <Text style={styles.label}>{p.label}</Text>
-              <Text style={styles.value}>{p.phoneNumber}</Text>
+              <Text style={g.label}>{p.label}</Text>
+              <Text style={g.value}>{p.phoneNumber}</Text>
             </View>
           ))}
           {/* Add new phone button */}
-          <TouchableOpacity style={styles.button} onPress={() => setShowPhoneModal(true)}>
-            <Text style={styles.buttonText}>
+          <TouchableOpacity  style={[b.base, b.primary]} onPress={() => setShowPhoneModal(true)}>
+            <Text style={b.text}>
              <Ionicons name="add-circle-outline" size={16} color="white" />Add Phone Number
             </Text>
           </TouchableOpacity>
@@ -154,25 +156,25 @@ export default function AccountScreen() {
         onRequestClose={() => setShowPhoneModal(false)}
       >
         {/* Dark background overlay */}
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Add Phone Number</Text>
+        <View style={m.overlay}>
+          <View style={m.content}>
+            <Text style={m.title}>Add Phone Number</Text>
 
             <TextInput
-              style={styles.input}
+              style={m.input}
               placeholder="+353 87 123 4567"
               keyboardType="phone-pad"
               value={newPhone}
               onChangeText={setNewPhone}
             />
 
-            <View style={styles.modalButtons}>
-              <TouchableOpacity style={[styles.modalButton, { backgroundColor: '#888' }]} onPress={() => setShowPhoneModal(false)}>
-                <Text style={styles.modalButtonText}>Cancel</Text>
+            <View style={m.buttons}>
+              <TouchableOpacity style={[m.button, { backgroundColor: '#888' }]} onPress={() => setShowPhoneModal(false)}>
+                <Text style={m.buttonText}>Cancel</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={[styles.modalButton, { backgroundColor: '#ff0000ff' }]} onPress={handleAddPhone}>
-                <Text style={styles.modalButtonText}>Add</Text>
+              <TouchableOpacity style={[m.button, { backgroundColor: '#ff0000ff' }]} onPress={handleAddPhone}>
+                <Text style={m.buttonText}>Add</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -183,11 +185,11 @@ export default function AccountScreen() {
 
       {/*Email Section */}
       <TouchableOpacity
-        style={styles.sectionHeader}
+        style={g.sectionHeader}
         onPress={() => setExpandedEmail(!expandedEmail)}
         activeOpacity={0.8}
       >
-        <Text style={styles.sectionTitle}>Email Addresses</Text>
+        <Text style={g.sectionTitle}>Email Addresses</Text>
         <Ionicons
               name={expandedEmail ? 'chevron-up' : 'chevron-down'}  //Icon changes based on expanded state
               size={20}
@@ -196,15 +198,15 @@ export default function AccountScreen() {
       </TouchableOpacity>
 
       {expandedEmail && (
-        <View style={styles.sectionContent}>
-          <Text style={styles.label}>Primary</Text>
-          <Text style={styles.value}>johnsonanto2000@gmail.com</Text>
+        <View style={g.sectionContent}>
+          <Text style={g.label}>Primary</Text>
+          <Text style={g.value}>johnsonanto2000@gmail.com</Text>
 
-          <Text style={styles.label}>Secondary</Text>
-          <Text style={styles.value}>g00385306@atu.ie</Text>
+          <Text style={g.label}>Secondary</Text>
+          <Text style={g.value}>g00385306@atu.ie</Text>
 
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>
+          <TouchableOpacity style={[b.base, b.primary]}>
+            <Text style={b.text}>
              <Ionicons name="add-circle-outline" size={16} color="white" />Add Email Address
             </Text>
           </TouchableOpacity>
@@ -213,99 +215,3 @@ export default function AccountScreen() {
     </ScrollView>
   );
 }
-
-
-// --- Styling --- 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#FFF',
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginTop: 8,
-    color: '#ff0000ff',
-  },
-  subtitle: {
-    color: '#555',
-    fontSize: 14,
-    marginTop: 4,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#CCC',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  sectionContent: {
-    paddingVertical: 12,
-    gap: 8,
-  },
-  label: {
-    fontSize: 12,
-    color: '#888',
-  },
-  value: {
-    fontSize: 16,
-    color: '#000',
-  },
-  button: {
-    marginTop: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    backgroundColor: '#a5a5a5ff',
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: '#FFF',
-    fontWeight: '600',
-  },
-
-  // modal styles
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    width: '80%',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalTitle: { fontSize: 18, fontWeight: '600', marginBottom: 12 },
-  input: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 10,
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  modalButtons: { flexDirection: 'row', gap: 10 },
-  modalButton: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  modalButtonText: { color: '#fff', fontWeight: '600' },
-});

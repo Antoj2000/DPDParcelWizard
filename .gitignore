@@ -9,6 +9,9 @@ dist/
 web-build/
 expo-env.d.ts
 
+explore.tsx
+index.tsx
+
 # Native
 .kotlin/
 *.orig.*

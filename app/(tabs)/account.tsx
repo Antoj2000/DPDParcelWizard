@@ -3,6 +3,8 @@ import { Alert, Modal, ScrollView, Text, TouchableOpacity, View, TextInput } fro
 import { Ionicons } from '@expo/vector-icons';
 import { useAccountData } from '@/src/hooks/useAccountData';
 import { Colors as c, GlobalStyles as g, ButtonStyles as b, ModalStyles as m } from '@/src/styles';
+import { clearLoggedIn } from "@/src/auth/auth";
+import { router } from "expo-router";
 
 
 
@@ -212,6 +214,16 @@ export default function AccountScreen() {
           </TouchableOpacity>
         </View>
       )}
+
+        <TouchableOpacity
+         style={[b.base, b.primary, { marginTop: 20}]}
+         onPress={async () => {
+          await clearLoggedIn();
+          router.replace("/loginscreen");
+         }}
+        >
+          <Text style={b.text}>Logout</Text>
+        </TouchableOpacity>
     </ScrollView>
   );
 }

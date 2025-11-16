@@ -11,7 +11,7 @@ export default function ModalScreen() {
       <Link href="/(tabs)/deliveries" dismissTo style={styles.link}>
         <ThemedText type="link">Go to home screen</ThemedText>
       </Link>
-    </ThemedView>
+    </ThemedView> 
   );
 }
 

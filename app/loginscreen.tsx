@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { router } from "expo-router";
+import { setLoggedIn } from "@/src/auth/auth";
 
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Temporary mock login
     if (email === 'test@pw.ie' && password === '123') {
+      await setLoggedIn();
       Alert.alert('Login Successful', 'Welcome back!');
       router.replace("/(tabs)/deliveries");
     } else {

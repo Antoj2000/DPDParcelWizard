@@ -19,6 +19,11 @@ export default function LoginScreen() {
     }
   };
 
+  const handleDevLogin = async () => {
+    await setLoggedIn();
+    router.replace("/(tabs)/deliveries");
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Parcel Wizard Login</Text>
@@ -44,6 +49,10 @@ export default function LoginScreen() {
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleDevLogin}>
+        <Text style={styles.buttonText}>Dev Login (Skip Auth)</Text>
       </TouchableOpacity>
 
       <TouchableOpacity>

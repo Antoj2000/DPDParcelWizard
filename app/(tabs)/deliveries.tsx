@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 export default function DeliveriesHomeScreen() {
   const { deliveries } = useDeliveries();
 
-  // Compute stats from your real delivery types
+  // Compute stats from real delivery types
   const todayCount = deliveries.filter(
     d => d.status === "OutForDelivery"
   ).length;

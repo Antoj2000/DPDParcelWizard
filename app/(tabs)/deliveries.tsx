@@ -7,15 +7,15 @@ export default function DeliveriesHomeScreen() {
 
   // Compute stats from real delivery types
   const todayCount = deliveries.filter(
-    d => d.status === "OutForDelivery"
+    (d) => d.status === "OutForDelivery"
   ).length;
 
   const inTransitCount = deliveries.filter(
-    d => d.status === "InTransit"
+    (d) => d.status === "InTransit"
   ).length;
 
   const deliveredCount = deliveries.filter(
-    d => d.status === "Delivered"
+    (d) => d.status === "Delivered"
   ).length;
 
   return (
@@ -51,7 +51,6 @@ export default function DeliveriesHomeScreen() {
           </View>
         </View>
       </View>
-
     </ScrollView>
   );
 }
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     marginTop: 50,
-    backgroundColor: "#FF0000", 
+    backgroundColor: "#FF0000",
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,

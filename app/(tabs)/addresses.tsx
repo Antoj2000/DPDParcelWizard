@@ -1,36 +1,39 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
-  Alert,  // native alert popups
-  Modal,  // for displaying modal dialogs, they are pop-up windows that take focus away from the main app window 
-  ScrollView, // scrollable container 
-  StyleSheet, 
-  Text, 
-  TouchableOpacity, 
-  View,  
+  Alert, // native alert popups
+  Modal, // for displaying modal dialogs, they are pop-up windows that take focus away from the main app window
+  ScrollView, // scrollable container
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
   TextInput,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { Colors as c, GlobalStyles as g, ButtonStyles as b, ModalStyles as m } from '@/src/styles';
-
-
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  Colors as c,
+  GlobalStyles as g,
+  ButtonStyles as b,
+  ModalStyles as m,
+} from "@/src/styles";
 
 // Mock database of addresses
 const MOCK_ADDRESSES = [
   {
-    id: '1',
-    label: 'Home',
-    line1: '123 Grafton Street',
-    city: 'Dublin 2',
-    county: 'Dublin',
-    eircode: 'D02 XY45',
+    id: "1",
+    label: "Home",
+    line1: "123 Grafton Street",
+    city: "Dublin 2",
+    county: "Dublin",
+    eircode: "D02 XY45",
   },
   {
-    id: '2',
-    label: 'Office',
-    line1: '45 Patrick Street',
-    city: 'Cork',
-    county: 'Cork',
-    eircode: 'T12 R6C0',
+    id: "2",
+    label: "Office",
+    line1: "45 Patrick Street",
+    city: "Cork",
+    county: "Cork",
+    eircode: "T12 R6C0",
   },
 ];
 
@@ -40,16 +43,19 @@ export default function AddressesScreen() {
   const [showModal, setShowModal] = useState(false);
 
   // Form fields
-  const [label, setLabel] = useState('');
-  const [line1, setLine1] = useState('');
-  const [city, setCity] = useState('');
-  const [county, setCounty] = useState('');
-  const [eircode, setEircode] = useState('');
+  const [label, setLabel] = useState("");
+  const [line1, setLine1] = useState("");
+  const [city, setCity] = useState("");
+  const [county, setCounty] = useState("");
+  const [eircode, setEircode] = useState("");
 
   const handleAddAddress = () => {
-    // Validation that requires a label , line1 and eircode 
+    // Validation that requires a label , line1 and eircode
     if (!label.trim() || !line1.trim() || !eircode.trim()) {
-      Alert.alert('Missing fields', 'Please fill in label, address, and eircode.');
+      Alert.alert(
+        "Missing fields",
+        "Please fill in label, address, and eircode."
+      );
       return;
     }
     // Builds a new address object with a unique id
@@ -61,22 +67,21 @@ export default function AddressesScreen() {
       county,
       eircode,
     };
-     
+
     //Append the list and close the modal
     setAddresses([...addresses, newAddress]);
     setShowModal(false);
     //Reset form values for next time
-    setLabel('');
-    setLine1('');
-    setCity('');
-    setCounty('');
-    setEircode('');
+    setLabel("");
+    setLine1("");
+    setCity("");
+    setCounty("");
+    setEircode("");
     //Give feedback that addresses were added
-    Alert.alert('Address Added', `${label} added successfully.`);
+    Alert.alert("Address Added", `${label} added successfully.`);
   };
 
   return (
-
     <ScrollView style={g.container}>
       <View style={g.header}>
         <Ionicons name="map-outline" size={64} color={c.dpdRed} />
@@ -92,7 +97,7 @@ export default function AddressesScreen() {
       >
         <Text style={g.sectionTitle}>My Addresses</Text>
         <Ionicons
-          name={expanded ? 'chevron-up' : 'chevron-down'}
+          name={expanded ? "chevron-up" : "chevron-down"}
           size={20}
           color="#666"
         />
@@ -124,8 +129,8 @@ export default function AddressesScreen() {
 
       {/* Modal to add address */}
       <Modal
-        visible={showModal}  //Controls modal visibility
-        transparent           //Transparent background
+        visible={showModal} //Controls modal visibility
+        transparent //Transparent background
         animationType="slide"
         onRequestClose={() => setShowModal(false)} // android back button handler
       >
@@ -168,15 +173,15 @@ export default function AddressesScreen() {
             <View style={m.buttons}>
               {/* Close the modal without saving */}
               <TouchableOpacity
-                style={[m.button, { backgroundColor: '#888' }]}
+                style={[m.button, { backgroundColor: "#888" }]}
                 onPress={() => setShowModal(false)}
               >
                 <Text style={m.buttonText}>Cancel</Text>
               </TouchableOpacity>
-              
+
               {/* Validate + add the new address to state */}
               <TouchableOpacity
-                style={[m.button, { backgroundColor: '#ff0000ff' }]}
+                style={[m.button, { backgroundColor: "#ff0000ff" }]}
                 onPress={handleAddAddress}
               >
                 <Text style={m.buttonText}>Save</Text>
@@ -193,9 +198,9 @@ export default function AddressesScreen() {
 const styles = StyleSheet.create({
   addressCard: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 8,
     padding: 12,
-    backgroundColor: '#f9f9f9',
-  }
+    backgroundColor: "#f9f9f9",
+  },
 });

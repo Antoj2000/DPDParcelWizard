@@ -1,28 +1,34 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
 import { router } from "expo-router";
 import { setLoggedIn } from "@/src/auth/auth";
 
-
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
     // Temporary mock login
-    if (email === 'test@pw.ie' && password === '123') {
+    if (email === "test@pw.ie" && password === "123") {
       await setLoggedIn();
-      Alert.alert('Login Successful', 'Welcome back!');
+      Alert.alert("Login Successful", "Welcome back!");
       router.replace("/(tabs)/deliveries");
     } else {
-      Alert.alert('Login Failed', 'Invalid email or password');
+      Alert.alert("Login Failed", "Invalid email or password");
     }
   };
 
   const handleDevLogin = async () => {
     await setLoggedIn();
     router.replace("/(tabs)/deliveries");
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -65,43 +71,43 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 24,
   },
   title: {
     fontSize: 28,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 40,
-    color: '#ff0000',
+    color: "#ff0000",
   },
   input: {
-    width: '100%',
+    width: "100%",
     height: 50,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderWidth: 1,
     borderRadius: 12,
     paddingHorizontal: 14,
     marginBottom: 16,
   },
   button: {
-    backgroundColor: '#ff0000',
-    width: '100%',
+    backgroundColor: "#ff0000",
+    width: "100%",
     height: 50,
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 10,
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
     fontSize: 16,
   },
   linkText: {
     marginTop: 20,
-    color: '#555',
-    textDecorationLine: 'underline',
+    color: "#555",
+    textDecorationLine: "underline",
   },
 });

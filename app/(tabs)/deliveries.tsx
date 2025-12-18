@@ -1,3 +1,4 @@
+import QuickActions from "@/components/home/QuickActions";
 import { useDeliveries } from "@/src/hooks/useDelivery";
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -51,6 +52,7 @@ export default function DeliveriesHomeScreen() {
           </View>
         </View>
       </View>
+      <QuickActions />
     </ScrollView>
   );
 }

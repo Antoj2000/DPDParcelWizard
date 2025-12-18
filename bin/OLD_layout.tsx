@@ -10,12 +10,20 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function RootLayout() {
+  
+  const colorScheme = useColorScheme();
+
   return (
-    <>
-      <StatusBar style="dark" />
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
+        {/* Auth screen */}
+        <Stack.Screen name="loginscreen" options={{ headerShown: false }} />
+
+        {/* Main app with tabs */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
-    </>
+
+      <StatusBar style="auto" />
+    </ThemeProvider>
   );
 }

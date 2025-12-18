@@ -1,7 +1,7 @@
 //Currently used for buttons present in the project
 
 import { StyleSheet } from 'react-native';
-import { Colors } from './colors';
+import { Colors } from '../../constants/colors';
 
 export const ButtonStyles = StyleSheet.create({
   base: {

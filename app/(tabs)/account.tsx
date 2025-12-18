@@ -17,11 +17,10 @@ import {
   ModalStyles as m,
 } from "@/src/styles";
 import { clearLoggedIn } from "@/src/auth/auth";
-import { router } from "expo-router";
 
-// AJ : Main screen component
-export default function AccountScreen() {
-  // AJ: Uses the useState hook to create a piece of state called expanded, starts as false, setExpanded is used to toggle
+
+export default function Account() {
+  
   const [expandedAccount, setExpandedAccount] = useState(false);
   const [expandedPhone, setExpandedPhone] = useState(false);
   const [expandedEmail, setExpandedEmail] = useState(false);
@@ -238,7 +237,7 @@ export default function AccountScreen() {
         style={[b.base, b.primary, { marginTop: 20 }]}
         onPress={async () => {
           await clearLoggedIn();
-          router.replace("/loginscreen");
+          // router.replace("/loginscreen");
         }}
       >
         <Text style={b.text}>Logout</Text>

@@ -9,5 +9,6 @@ export const Colors = {
     border: '#CCC',
     lightGray: '#F9F9F9',
     background: '#FFF',
+    bg500: "#f7b2b29c",
     overlay: 'rgba(0, 0, 0, 0.5)', // RGBA used to create a transparent overlay
 };

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors as c } from './colors';
+import { Colors as c } from '../../constants/colors';
 
 export const ModalStyles = StyleSheet.create({
   overlay: {

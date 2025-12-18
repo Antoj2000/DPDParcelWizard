@@ -5,8 +5,7 @@ import DpdHeader from "@/components/header/DpdHeader";
 export default function Calendar() {
   return (
     <>
-      <Header title="Calendar" />
-      <DpdHeader />
+      
     </>
   );
 }

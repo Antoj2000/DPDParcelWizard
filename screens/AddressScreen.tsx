@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
-import Title from "@/components/header/Title";
 import TitleCard from "@/components/ui/TitleCard";
+import AddressCard from "@/components/addresses/AddressCard";
 
 export default function AddressScreen() {
   return (
     <View style={styles.rootContainer}>
-      <Title>Address Screen</Title>
       <TitleCard
         icon="map-outline"
         text="Address Book"
@@ -14,10 +13,7 @@ export default function AddressScreen() {
       <View>
         <Text>Add new address button</Text>
       </View>
-      <View>
-        <Text>Address Card DEFAULT</Text>
-        <Text>Other address cards</Text>
-      </View>
+      <AddressCard />
     </View>
   );
 }
@@ -25,7 +21,6 @@ export default function AddressScreen() {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    paddingTop: 50,
     paddingHorizontal: 16,
     backgroundColor: "white",
   },

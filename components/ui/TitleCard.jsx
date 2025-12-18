@@ -18,10 +18,10 @@ export default function TitleCard({ icon, text, subText }) {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    padding: 16,
+    marginVertical: 8,
+    padding: 8,
     borderRadius: 12,
-    paddingHorizontal: 16,
-    backgroundColor: "#f7b2b29c",
+    backgroundColor: Colors.bg500,
     borderWidth: 1,
     borderColor: Colors.dpdRed,
   },
@@ -30,10 +30,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
+    paddingBottom: 4,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
+    color: Colors.dpdRed,
     // textAlign: "left",
   },
   content: {

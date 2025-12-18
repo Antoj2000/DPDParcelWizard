@@ -2,6 +2,7 @@
 
 export const Colors = { 
     dpdRed: '#ff0000ff',
+    dpdRed300: "#f46868ff",
     accent: '#a5a5a5ff',
     blackText: '#000',
     whiteText: '#fff',

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
 
-export default function TitleCard({ icon, text, subText }) {
+export default function CardTitle({ icon, text, subText }) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.row}>

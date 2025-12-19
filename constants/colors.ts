@@ -11,5 +11,7 @@ export const Colors = {
     lightGray: '#F9F9F9',
     background: '#FFF',
     bg500: "#f7b2b29c",
+    bgCard: "#feadad3e",
+    bgIcon: "rgba(224, 137, 137, 0.76)",
     overlay: 'rgba(0, 0, 0, 0.5)', // RGBA used to create a transparent overlay
 };

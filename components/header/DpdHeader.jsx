@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
+import { Colors } from "@/constants/colors";
 //import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function DpdHeader({ title }) {
@@ -19,7 +20,7 @@ export default function DpdHeader({ title }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#E6002D", // DPD red
+    backgroundColor: Colors.dpdRed, // DPD red
     paddingTop: 56, // status bar safe
     paddingHorizontal: 16,
     paddingBottom: 16,

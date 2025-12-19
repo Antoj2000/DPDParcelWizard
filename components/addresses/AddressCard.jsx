@@ -1,8 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
+import IconButton from "@/components/ui/IconButton";
 
 export default function AddressCard() {
+  function deleteAddressHandler() {
+    console.log("Delete button pressed");
+  }
   return (
     <View style={styles.card}>
       <View style={styles.topContainerRow}>
@@ -18,7 +22,14 @@ export default function AddressCard() {
       </View>
       <View style={styles.bottomContainerRow}>
         <Text style={styles.editButton}>EDIT</Text>
-        <Text style={styles.deleteButton}>DELETE</Text>
+        <View style={styles.deleteButton}>
+          <IconButton
+            icon="trash-outline"
+            color={Colors.dpdRed}
+            size={20}
+            onPress={deleteAddressHandler}
+          />
+        </View>
       </View>
     </View>
   );
@@ -42,10 +53,10 @@ const styles = StyleSheet.create({
   },
   colIcon: {
     flexDirection: "column",
-    maxHeight: "45%",
+    height: "45%",
     padding: 4,
     borderRadius: 6,
-    backgroundColor: "#db8585ff",
+    backgroundColor: Colors.bgIcon,
   },
   colAddress: {
     paddingHorizontal: 8,
@@ -65,27 +76,27 @@ const styles = StyleSheet.create({
   },
   bottomContainerRow: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   editButton: {
     marginVertical: 4,
-    padding: 6,
+    paddingVertical: 8,
     borderRadius: 4,
-    borderColor: "grey", 
+    borderColor: "grey",
     borderWidth: 1,
     backgroundColor: "white",
     width: "70%",
     textAlign: "center",
-    
   },
   deleteButton: {
     marginVertical: 4,
     padding: 6,
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 4,
     borderColor: "grey",
     borderWidth: 1,
     backgroundColor: "white",
     width: "25%",
-    textAlign: "center",
   },
 });

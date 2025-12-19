@@ -1,7 +1,7 @@
 import QuickActions from "@/components/home/QuickActions";
-
 import { ScrollView, StyleSheet } from "react-native";
 import WelcomeCard from "@/components/home/WelcomeCard";
+
 
 export default function DeliveriesHomeScreen() {
   return (

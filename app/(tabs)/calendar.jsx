@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import CardPressable from "../../components/ui/CardPressable";
+import NewAddressForm from "../../components/addresses/NewAddressForm"
 
 export default function Calendar() {
   function pressHandler () {
@@ -7,9 +8,7 @@ export default function Calendar() {
   }
   return (
     <View style={styles.rootContainer}>
-      <CardPressable onPress={pressHandler}>
-        <Text>Hi</Text>
-      </CardPressable>
+      <NewAddressForm />
     </View>
   );
 }

@@ -15,5 +15,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "components/header/Title.jsx", "components/ui/QuickActionsButton.jsx", "components/header/DpdHeader.jsx"  ]
+, "components/header/Title.jsx", "components/ui/QuickActionsButton.jsx", "components/header/DpdHeader.jsx", "app/(tabs)/calendar.jsx"  ]
 }

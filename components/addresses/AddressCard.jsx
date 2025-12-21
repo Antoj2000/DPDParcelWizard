@@ -4,6 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import IconButton from "@/components/ui/IconButton";
 
 export default function AddressCard() {
+  function editAddressHandler() {
+    console.log("Edit button pressed");
+  }
   function deleteAddressHandler() {
     console.log("Delete button pressed");
   }
@@ -21,7 +24,15 @@ export default function AddressCard() {
         </View>
       </View>
       <View style={styles.bottomContainerRow}>
-        <Text style={styles.editButton}>EDIT</Text>
+        <View style={styles.editButton}>
+          <IconButton
+            icon="create-outline"
+            color={Colors.dpdRed}
+            size={20}
+            onPress={editAddressHandler}
+            label="Edit"
+          />
+        </View>
         <View style={styles.deleteButton}>
           <IconButton
             icon="trash-outline"
@@ -80,17 +91,18 @@ const styles = StyleSheet.create({
   },
   editButton: {
     marginVertical: 4,
-    paddingVertical: 8,
+    paddingVertical: 4,
     borderRadius: 4,
     borderColor: "grey",
     borderWidth: 1,
     backgroundColor: "white",
     width: "70%",
-    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   deleteButton: {
     marginVertical: 4,
-    padding: 6,
+    padding: 4,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 4,

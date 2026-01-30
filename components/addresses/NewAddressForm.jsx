@@ -1,34 +1,53 @@
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
+import {
+  Button,
+  KeyboardAvoidingView,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+
 import Input from "../ui/Input";
 
 export default function NewAddressForm({ onCancel }) {
   return (
     <Modal animationType="slide">
-      <View style={styles.form}>
-        <Text style={styles.title}>New Address</Text>
-        <Input label="Title" />
-        <Input label="Address Line 1" />
-        <Input label="Address Line 2" />
-        <Input label="Address Line 3" />
-        <Input label="Address Line 4" />
-        <Input label="Eircode" />
-      </View>
-      <View style={styles.buttons}>
-        <Button style={styles.button} onPress={onCancel} title="Cancel" />
-        {/* <Button style={styles.button} onPress={submitHandler}>
+      <KeyboardAvoidingView style={styles.screen} behavior="padding">
+        <ScrollView>
+          <View style={styles.form}>
+            <Text style={styles.title}>New Address</Text>
+            <Input label="Title" placeholder="Enter address title" />
+            <Input label="Address Line 1" placeholder="50 Valleycourt" />
+            <Input label="Address Line 2" placeholder="Bunnavalley" />
+            <Input label="Address Line 3" placeholder="Athlone" />
+            <Input label="Address Line 4" placeholder="Westmeath" />
+            <Input label="Eircode" placeholder="Enter Eircode" />
+          </View>
+        </ScrollView>
+        <View style={styles.buttons}>
+          <Button style={styles.button} onPress={onCancel} title="Cancel" />
+          {/* <Button style={styles.button} onPress={submitHandler}>
           {submitButtonLabel}
         </Button> */}
-      </View>
+        </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  form: { marginTop: 10 },
+  screen: {
+    flex: 1,
+  },
+  form: {
+    marginTop: 30,
+    padding: 16,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
     marginVertical: 24,
     textAlign: "center",
   },

@@ -70,6 +70,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bg500,
     borderWidth: 1,
     borderColor: Colors.dpdRed,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   topContainerRow: {
     flexDirection: "row",

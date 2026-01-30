@@ -1,29 +1,47 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 
-export default function Input({label}) {
+export default function Input({
+  label,
+  value,
+  placeholder,
+  keyboardType,
+  style,
+}) {
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} />
+      <TextInput
+        style={[styles.input, style]}
+        value={value}
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginHorizontal: 4,
     marginVertical: 8,
   },
   label: {
-    fontSize: 12,
+    fontSize: 14,
     color: "black",
-    marginBottom: 4,
+    marginBottom: 6,
+    fontWeight: "600",
   },
   input: {
     backgroundColor: "white",
     color: "black",
-    padding: 6,
-    borderRadius: 6,
-    fontSize: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 10,
+    fontSize: 16,
+  },
+  multiline: {
+    minHeight: 90,
+    textAlignVertical: "top",
   },
 });

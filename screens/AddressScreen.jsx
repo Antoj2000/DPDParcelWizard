@@ -1,21 +1,24 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import CardTitle from "@/components/ui/CardTitle";
 import AddressCard from "@/components/addresses/AddressCard";
 import IconButton from "@/components/ui/IconButton";
 import { useState } from "react";
 import NewAddressForm from "@/components/addresses/NewAddressForm";
+import { MOCK_ADDRESSES } from "@/data/mockAddresses";
 
 export default function AddressScreen() {
-  const [newAddress, setNewAddress] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  function addNewAddressHandler() {
-    console.log("Add new address");
-    setNewAddress(true);
+  function handleCancel() {
+    setShowModal(false);
   }
 
-  function cancelHandler() {
-    setShowModal(false);
+  function handleEdit(addressId) {
+    console.log("Edit Address", `Edit pressed for ${addressId}`);
+  }
+
+  function handleDelete(addressId) {
+    console.log("Delete Address", `Delete pressed for ${addressId}`);
   }
   return (
     <View style={styles.rootContainer}>
@@ -32,9 +35,19 @@ export default function AddressScreen() {
           onPress={() => setShowModal(true)}
           label="Add New Address"
         />
-        {showModal && <NewAddressForm onCancel={cancelHandler} />}
+        {showModal && <NewAddressForm onCancel={handleCancel} />}
       </View>
-      <AddressCard />
+      <FlatList
+        data={MOCK_ADDRESSES}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <AddressCard
+            address={item}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
+      />
     </View>
   );
 }

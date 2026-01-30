@@ -1,0 +1,32 @@
+export const MOCK_ADDRESSES = [
+  {
+    id: "addr_1",
+    title: "Home",
+    line1: "50 Valleycourt",
+    line2: "Athlone",
+    line3: "Wesmeath",
+    eircode: "N37 P1H2",
+    type: "home",
+    isDefault: true,
+  },
+  {
+    id: "addr_2",
+    title: "Work",
+    line1: "DPD Ireland Hub",
+    line2: "Unit 4",
+    line3: "Baldonnell",
+    eircode: "D22 F9K0",
+    type: "work",
+    isDefault: false,
+  },
+  {
+    id: "addr_3",
+    title: "Parents",
+    line1: "5 Oak Drive",
+    line2: "Castlebar",
+    line3: "Mayo",
+    eircode: "F23 Y9K1",
+    type: "other",
+    isDefault: false,
+  },
+];

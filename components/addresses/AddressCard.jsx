@@ -3,33 +3,49 @@ import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "@/components/ui/IconButton";
 
-export default function AddressCard() {
-  function editAddressHandler() {
-    console.log("Edit button pressed");
-  }
-  function deleteAddressHandler() {
-    console.log("Delete button pressed");
-  }
+export default function AddressCard({ address, onEdit, onDelete }) {
+  const {
+    id,
+    title,
+    line1,
+    line2,
+    line3,
+    line4,
+    eircode,
+    type = "home",
+    isDefault = false,
+  } = address;
+
+  const iconName =
+    type === "work"
+      ? "briefcase-outline"
+      : type === "other"
+      ? "location-outline"
+      : "home-outline";
+
   return (
     <View style={styles.card}>
       <View style={styles.topContainerRow}>
         <View style={styles.colIcon}>
-          <Ionicons name="home-outline" size={24} color={Colors.dpdRed} />
+          <Ionicons name={iconName} size={24} color={Colors.dpdRed} />
         </View>
         <View style={styles.colAddress}>
-          <Text style={styles.title}>Address Title</Text>
-          <Text style={styles.subtitle}>Address Line 1</Text>
-          <Text style={styles.subtitle}>Address Line 3</Text>
-          <Text style={styles.eircode}>Eircode</Text>
+          <Text style={styles.title}>
+            {title} {isDefault && "Default"}
+          </Text>
+          <Text style={styles.subtitle}>{line1}</Text>
+          <Text style={styles.subtitle}>{line3}</Text>
+          <Text style={styles.eircode}>{eircode}</Text>
         </View>
       </View>
+
       <View style={styles.bottomContainerRow}>
         <View style={styles.editButton}>
           <IconButton
             icon="create-outline"
             color={Colors.dpdRed}
             size={20}
-            onPress={editAddressHandler}
+            onPress={() => onEdit(id)}
             label="Edit"
           />
         </View>
@@ -38,7 +54,7 @@ export default function AddressCard() {
             icon="trash-outline"
             color={Colors.dpdRed}
             size={20}
-            onPress={deleteAddressHandler}
+            onPress={() => onDelete(id)}
           />
         </View>
       </View>

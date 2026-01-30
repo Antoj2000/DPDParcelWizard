@@ -8,7 +8,7 @@ export default function Calendar() {
   }
   return (
     <View style={styles.rootContainer}>
-      <NewAddressForm />
+      {/* //<NewAddressForm /> */}
     </View>
   );
 }

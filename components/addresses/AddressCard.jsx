@@ -20,8 +20,8 @@ export default function AddressCard({ address, onEdit, onDelete }) {
     type === "work"
       ? "briefcase-outline"
       : type === "other"
-      ? "location-outline"
-      : "home-outline";
+        ? "location-outline"
+        : "home-outline";
 
   return (
     <View style={styles.card}>
@@ -103,28 +103,28 @@ const styles = StyleSheet.create({
   },
   bottomContainerRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    gap: 12,
   },
   editButton: {
+    flex: 1,
     marginVertical: 4,
-    paddingVertical: 4,
+    paddingVertical: 2,
     borderRadius: 4,
     borderColor: "grey",
     borderWidth: 1,
     backgroundColor: "white",
-    width: "70%",
     alignItems: "center",
     justifyContent: "center",
   },
   deleteButton: {
+    flex: 0.35,
     marginVertical: 4,
     padding: 4,
-    alignItems: "center",
-    justifyContent: "center",
     borderRadius: 4,
     borderColor: "grey",
     borderWidth: 1,
     backgroundColor: "white",
-    width: "25%",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

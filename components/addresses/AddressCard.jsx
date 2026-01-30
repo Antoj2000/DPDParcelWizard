@@ -35,6 +35,7 @@ export default function AddressCard({ address, onEdit, onDelete }) {
           </Text>
           <Text style={styles.subtitle}>{line1}</Text>
           <Text style={styles.subtitle}>{line3}</Text>
+          <Text style={styles.subtitle}>{line4}</Text>
           <Text style={styles.eircode}>{eircode}</Text>
         </View>
       </View>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   },
   colIcon: {
     flexDirection: "column",
-    height: "45%",
+    height: 35,
     padding: 4,
     borderRadius: 6,
     backgroundColor: Colors.bgIcon,

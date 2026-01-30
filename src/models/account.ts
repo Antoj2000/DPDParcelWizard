@@ -1,11 +1,13 @@
 export type PWID = string;
 
 export interface Address {
+    title: string;
     line1: string;
     line2?: string;
-    city: string;
-    county: string;
+    line3: string;
+    line4: string;
     eircode: string;
+    isDefault: boolean;
 }
 
 export type LabelType = 'Primary' | 'Secondary' | 'Other';

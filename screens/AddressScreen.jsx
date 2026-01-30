@@ -8,8 +8,21 @@ import { MOCK_ADDRESSES } from "@/data/mockAddresses";
 
 export default function AddressScreen() {
   const [showModal, setShowModal] = useState(false);
+  const [addresses, setAddresses] = useState(MOCK_ADDRESSES);
 
   function handleCancel() {
+    setShowModal(false);
+  }
+
+  function handleAddAddress(newAddress) {
+    const addressToAdd = {
+      id: Date.now().toString(), // temporary id
+      type: "home",
+      isDefault: false,
+      ...newAddress,
+    };
+
+    setAddresses((prev) => [addressToAdd, ...prev]);
     setShowModal(false);
   }
 
@@ -35,10 +48,10 @@ export default function AddressScreen() {
           onPress={() => setShowModal(true)}
           label="Add New Address"
         />
-        {showModal && <NewAddressForm onCancel={handleCancel} />}
+        {showModal && <NewAddressForm onCancel={handleCancel} onSubmit={handleAddAddress}/>}
       </View>
       <FlatList
-        data={MOCK_ADDRESSES}
+        data={addresses}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <AddressCard

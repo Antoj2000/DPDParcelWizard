@@ -2,19 +2,18 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 
 export default function Input({
   label,
-  value,
   placeholder,
-  keyboardType,
   style,
+  textInputConfig,
 }) {
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
         style={[styles.input, style]}
-        value={value}
         placeholder={placeholder}
-        keyboardType={keyboardType}
+        placeholderTextColor="#88888844"
+        {...textInputConfig}
       />
     </View>
   );

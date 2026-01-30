@@ -7,29 +7,103 @@ import {
   Text,
   View,
 } from "react-native";
-
+import { useState } from "react";
 import Input from "../ui/Input";
 
-export default function NewAddressForm({ onCancel }) {
+export default function NewAddressForm({ onCancel, onSubmit }) {
+  const [inputValues, setInputValues] = useState({
+    title: "",
+    line1: "",
+    line2: "",
+    line3: "",
+    line4: "",
+    eircode: "",
+  });
+
+  function inputChangedHandler(inputIdentifier, enteredValue) {
+    setInputValues((curInputValues) => {
+      return {
+        ...curInputValues,
+        [inputIdentifier]: enteredValue,
+      };
+    });
+  }
+
+  function submitHandler() {
+    if (!inputValues.title.trim() || !inputValues.line1.trim() || !inputValues.line4.trim() || !inputValues.eircode.trim()) {
+      return;
+    }
+    onSubmit({
+      ...inputValues,
+      eircode: inputValues.eircode.trim().toUpperCase(),
+    });
+  }
+
   return (
     <Modal animationType="slide">
-      <KeyboardAvoidingView style={styles.screen} behavior="padding">
+      <KeyboardAvoidingView
+        // style={styles.screen}
+        behavior="padding"
+        keyboardVerticalOffset={20}
+      >
         <ScrollView>
           <View style={styles.form}>
             <Text style={styles.title}>New Address</Text>
-            <Input label="Title" placeholder="Enter address title" />
-            <Input label="Address Line 1" placeholder="50 Valleycourt" />
-            <Input label="Address Line 2" placeholder="Bunnavalley" />
-            <Input label="Address Line 3" placeholder="Athlone" />
-            <Input label="Address Line 4" placeholder="Westmeath" />
-            <Input label="Eircode" placeholder="Enter Eircode" />
+            <Input
+              label="Title"
+              placeholder="Enter address title"
+              textInputConfig={{
+                onChangeText: (value) => inputChangedHandler("title", value),
+                value: inputValues.title,
+              }}
+            />
+            <Input
+              label="Address Line 1"
+              placeholder="50 Valleycourt"
+              textInputConfig={{
+                onChangeText: (value) => inputChangedHandler("line1", value),
+                value: inputValues.line1,
+              }}
+            />
+            <Input
+              label="Address Line 2"
+              placeholder="Bunnavalley"
+              textInputConfig={{
+                onChangeText: (value) => inputChangedHandler("line2", value),
+                value: inputValues.line2,
+              }}
+            />
+            <Input
+              label="Address Line 3"
+              placeholder="Athlone"
+              textInputConfig={{
+                onChangeText: (value) => inputChangedHandler("line3", value),
+                value: inputValues.line3,
+              }}
+            />
+            <Input
+              label="Address Line 4"
+              placeholder="Westmeath"
+              textInputConfig={{
+                onChangeText: (value) => inputChangedHandler("line4", value),
+                value: inputValues.line4,
+              }}
+            />
+            <Input
+              label="Eircode"
+              placeholder="Enter Eircode"
+              textInputConfig={{
+                onChangeText: (value) => inputChangedHandler("eircode", value),
+                value: inputValues.eircode,
+                autoCapitalize: "characters",
+                maxLength: 7,
+              }}
+            />
           </View>
         </ScrollView>
         <View style={styles.buttons}>
-          <Button style={styles.button} onPress={onCancel} title="Cancel" />
-          {/* <Button style={styles.button} onPress={submitHandler}>
-          {submitButtonLabel}
-        </Button> */}
+          <Button onPress={onCancel} title="Cancel" />
+          <Button onPress={submitHandler} title="Save" />
         </View>
       </KeyboardAvoidingView>
     </Modal>

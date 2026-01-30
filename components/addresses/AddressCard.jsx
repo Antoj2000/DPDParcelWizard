@@ -20,8 +20,8 @@ export default function AddressCard({ address, onEdit, onDelete }) {
     type === "work"
       ? "briefcase-outline"
       : type === "other"
-      ? "location-outline"
-      : "home-outline";
+        ? "location-outline"
+        : "home-outline";
 
   return (
     <View style={styles.card}>
@@ -35,6 +35,7 @@ export default function AddressCard({ address, onEdit, onDelete }) {
           </Text>
           <Text style={styles.subtitle}>{line1}</Text>
           <Text style={styles.subtitle}>{line3}</Text>
+          <Text style={styles.subtitle}>{line4}</Text>
           <Text style={styles.eircode}>{eircode}</Text>
         </View>
       </View>
@@ -70,6 +71,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bg500,
     borderWidth: 1,
     borderColor: Colors.dpdRed,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   topContainerRow: {
     flexDirection: "row",
@@ -80,7 +89,7 @@ const styles = StyleSheet.create({
   },
   colIcon: {
     flexDirection: "column",
-    height: "45%",
+    height: 35,
     padding: 4,
     borderRadius: 6,
     backgroundColor: Colors.bgIcon,
@@ -103,28 +112,28 @@ const styles = StyleSheet.create({
   },
   bottomContainerRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    gap: 12,
   },
   editButton: {
+    flex: 1,
     marginVertical: 4,
-    paddingVertical: 4,
+    paddingVertical: 2,
     borderRadius: 4,
     borderColor: "grey",
     borderWidth: 1,
     backgroundColor: "white",
-    width: "70%",
     alignItems: "center",
     justifyContent: "center",
   },
   deleteButton: {
+    flex: 0.35,
     marginVertical: 4,
     padding: 4,
-    alignItems: "center",
-    justifyContent: "center",
     borderRadius: 4,
     borderColor: "grey",
     borderWidth: 1,
     backgroundColor: "white",
-    width: "25%",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

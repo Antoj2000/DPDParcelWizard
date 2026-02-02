@@ -1,0 +1,100 @@
+import { useMemo, useState, useCallback } from "react";
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import IconButton from "@/components/ui/IconButton";
+import { Colors } from "@/constants/colors";
+import {
+  buildCalendarDays,
+  startOfMonth,
+  addMonths,
+  formatMonthLabel,
+} from "@/utils/date";
+import CalendarCard from "@/components/calendar/CalendarCard";
+
+export default function CalendarScreen() {
+  const today = useMemo(() => new Date(), []); //Memo to avoid re-creating date object on every render
+  const [visibleMonth, setVisibleMonth] = useState(startOfMonth(today));
+  const [selectedDate, setSelectedDate] = useState(today);
+
+  const days = useMemo(
+    () => buildCalendarDays(visibleMonth, today),
+    [visibleMonth, today],
+  );
+
+  const monthLabel = useMemo(
+    () => formatMonthLabel(visibleMonth, "en-IE"),
+    [visibleMonth],
+  );
+
+  const onPrevMonth = () => {
+    setVisibleMonth(
+      (prevMonth) =>
+        new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1),
+    );
+  };
+
+  const onNextMonth = useCallback(() => {
+    setVisibleMonth((m) => addMonths(m, 1));
+  }, []);
+
+  const onSelectDate = (date: Date, inMonth: boolean) => {
+    setSelectedDate(date);
+    if (!inMonth) {
+      setVisibleMonth(new Date(date.getFullYear(), date.getMonth(), 1));
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.root}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.createButton}>
+          <IconButton
+            icon="add"
+            size={24}
+            color="white"
+            label="Create Delivery Schedule"
+            textStyle={styles.createButtonText}
+          />
+        </View>
+        <CalendarCard
+          monthLabel={monthLabel}
+          onPrevMonth={onPrevMonth}
+          onNextMonth={onNextMonth}
+          days={days}
+          selectedDate={selectedDate}
+          onSelectDate={onSelectDate}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 24,
+  },
+
+  createButton: {
+    backgroundColor: Colors.dpdRed,
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  createButtonText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "600",
+  },
+});

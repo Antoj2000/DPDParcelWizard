@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "@/components/ui/IconButton";
+import Pill from "@/components/ui/Pill";
 
 export default function AddressCard({ address, onEdit, onDelete }) {
   const {
@@ -31,7 +32,7 @@ export default function AddressCard({ address, onEdit, onDelete }) {
         </View>
         <View style={styles.colAddress}>
           <Text style={styles.title}>
-            {title} {isDefault && "Default"}
+            {title} {isDefault && <Pill>Default</Pill>}
           </Text>
           <Text style={styles.subtitle}>{line1}</Text>
           <Text style={styles.subtitle}>{line3}</Text>
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bg500,
     borderWidth: 1,
     borderColor: Colors.dpdRed,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,

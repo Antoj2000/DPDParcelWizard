@@ -18,9 +18,7 @@ import {
 } from "@/src/styles";
 import { clearLoggedIn } from "@/src/auth/auth";
 
-
 export default function Account() {
-  
   const [expandedAccount, setExpandedAccount] = useState(false);
   const [expandedPhone, setExpandedPhone] = useState(false);
   const [expandedEmail, setExpandedEmail] = useState(false);
@@ -56,7 +54,7 @@ export default function Account() {
     //Confirmation popup
     Alert.alert(
       "Address Updated",
-      "This is a demo update using the service mock"
+      "This is a demo update using the service mock",
     );
   };
 

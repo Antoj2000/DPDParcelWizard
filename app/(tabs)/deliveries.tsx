@@ -1,12 +1,16 @@
 import QuickActions from "@/components/home/QuickActions";
 import { ScrollView, StyleSheet } from "react-native";
 import WelcomeCard from "@/components/home/WelcomeCard";
+import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
 
-export default function DeliveriesHomeScreen() {
+import { arrivingToday } from "@/data/mockDeliveries";
+
+export default function Deliveries() {
   return (
     <ScrollView style={styles.container}>
       <WelcomeCard />
       <QuickActions />
+      <DeliveryFeed arrivingToday={arrivingToday} />
     </ScrollView>
   );
 }

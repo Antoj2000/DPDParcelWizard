@@ -1,4 +1,4 @@
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import IconRow from "../cards/IconRow";
@@ -15,8 +15,8 @@ export default function ParcelCard({ parcel, status, onPress }) {
           <Ionicons name="cube-outline" size={18} color={Colors.dpdRed} />
         </View>
         <View style={styles.cardDetails}>
-          <Text style={styles.trackingNumber}>901190123</Text>
-          <Text style={styles.recipient}>John Smith</Text>
+          <Text style={styles.trackingNumber}>{parcel.trackingNumber}</Text>
+          <Text style={styles.recipient}>{parcel.recipient}</Text>
           <IconRow
             icon={
               <Ionicons
@@ -25,16 +25,16 @@ export default function ParcelCard({ parcel, status, onPress }) {
                 color={Colors.mutedText}
               />
             }
-            text="Athlone, Co.Westmeath"
+            text={parcel.location}
           />
           <IconRow
             icon={<Feather name="clock" size={14} color={Colors.mutedText} />}
-            text="2:00 PM - 4:00 PM"
+            text={parcel.timeLabel}
           />
         </View>
 
         <View style={styles.cardActions}>
-          <Pill label="Out for delivery" />
+          <Pill label={status} />
           <Ionicons name="chevron-forward" size={18} color={Colors.mutedText} />
         </View>
       </View>

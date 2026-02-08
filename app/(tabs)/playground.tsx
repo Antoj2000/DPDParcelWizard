@@ -1,18 +1,12 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import SectionHeader from "@/components/deliveries/SectionHeader";
-import ParcelCard from "@/components/deliveries/cards/ParcelCard";
+import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
+import { arrivingToday} from "@/data/mockDeliveries";
 import { Colors } from '@/constants/colors'
 
 export default function Playground() {
   return (
     <ScrollView style={styles.container}>
-      <SectionHeader
-        title="Arriving Today"
-        icon={<Ionicons name="cube-outline" size={14} color={Colors.dpdRed} iconBg = {Colors.bgIcon}/>}
-        iconBg="#FDEBEC"
-      />
-      <ParcelCard />
+      <DeliveryFeed arrivingToday={arrivingToday} />
     </ScrollView>
   );
 }

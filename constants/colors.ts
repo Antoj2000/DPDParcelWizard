@@ -19,5 +19,9 @@ export const Colors = {
   bgCard: "#feadad3e",
   cardBGNew: "#FFFFFF",
   bgIcon: "rgba(224, 137, 137, 0.76)",
+
+  green: "#059669",
+
+
   overlay: "rgba(0, 0, 0, 0.5)", // RGBA used to create a transparent overlay
 };

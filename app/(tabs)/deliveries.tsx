@@ -3,14 +3,17 @@ import { ScrollView, StyleSheet } from "react-native";
 import WelcomeCard from "@/components/home/WelcomeCard";
 import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
 
-import { arrivingToday } from "@/data/mockDeliveries";
+import { arrivingToday, recentlyDelivered } from "@/data/mockDeliveries";
 
 export default function Deliveries() {
   return (
     <ScrollView style={styles.container}>
       <WelcomeCard />
       <QuickActions />
-      <DeliveryFeed arrivingToday={arrivingToday} />
+      <DeliveryFeed
+        arrivingToday={arrivingToday}
+        recentlyDelivered={recentlyDelivered}
+      />
     </ScrollView>
   );
 }

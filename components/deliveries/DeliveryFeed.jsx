@@ -1,9 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import ArrivingToday from "./sections/ArrivingToday";
-export default function DeliveryFeed({ arrivingToday }) {
+import RecentlyDelivered from "./sections/RecentlyDelivered";
+export default function DeliveryFeed({ arrivingToday, recentlyDelivered }) {
   return (
     <View style={styles.container}>
       <ArrivingToday parcels={arrivingToday} />
+      <RecentlyDelivered parcels={recentlyDelivered} />
     </View>
   );
 }

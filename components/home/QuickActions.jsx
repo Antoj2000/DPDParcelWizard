@@ -4,26 +4,17 @@ import QuickActionsButton from "@/components/ui/QuickActionsButton";
 export default function QuickActions() {
   return (
     <View style={styles.buttonRow}>
-      <QuickActionsButton>+</QuickActionsButton>
-      <QuickActionsButton>+</QuickActionsButton>
-      <QuickActionsButton>+</QuickActionsButton>
-      <QuickActionsButton>+</QuickActionsButton>
+      <QuickActionsButton icon="search-outline" label="Track" />
+      <QuickActionsButton icon="qr-code-outline" label="Scan" />
+      <QuickActionsButton icon="map-outline" label="Locate" />
+      <QuickActionsButton icon="call-outline" label="Support" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   buttonRow: {
-    marginTop: 8,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  //   buttonBox: {
-  //     marginHorizontal: 24,
-  //     paddingVertical: 12,
-  //     borderWidth: 2,
-  //     borderColor: "black",
-  //     borderRadius: 12,
-  //     alignItems: "center",
-  //   },
 });

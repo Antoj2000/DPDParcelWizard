@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Alert } from "react-native";
 import CardTitle from "@/components/ui/CardTitle";
 import AddressCard from "@/components/addresses/AddressCard";
 import IconButton from "@/components/ui/IconButton";
@@ -10,29 +10,72 @@ export default function AddressScreen() {
   const [showModal, setShowModal] = useState(false);
   const [addresses, setAddresses] = useState(MOCK_ADDRESSES);
 
+  const [editingAddress, setEditingAddress] = useState(null);
+
+  function openAddModal() {
+    setEditingAddress(null);
+    setShowModal(true);
+  }
+
+  function openEditModal(address) {
+    setEditingAddress(address);
+    setShowModal(true);
+  }
+
   function handleCancel() {
+    setEditingAddress(null);
     setShowModal(false);
   }
 
-  function handleAddAddress(newAddress) {
-    const addressToAdd = {
-      id: Date.now().toString(), // temporary id
-      type: "home",
-      isDefault: false,
-      ...newAddress,
-    };
+  function handleSubmit(formValues) {
+    if (editingAddress) {
+      // EDIT
+      setAddresses((prev) =>
+        prev.map((a) =>
+          a.id === editingAddress.id ? { ...a, ...formValues } : a,
+        ),
+      );
+    } else {
+      // ADD
+      const addressToAdd = {
+        id: Date.now().toString(),
+        type: "home",
+        isDefault: false,
+        ...formValues,
+      };
 
-    setAddresses((prev) => [addressToAdd, ...prev]);
+      setAddresses((prev) => [addressToAdd, ...prev]);
+    }
+
     setShowModal(false);
+    setEditingAddress(null);
   }
 
-  function handleEdit(addressId) {
-    console.log("Edit Address", `Edit pressed for ${addressId}`);
+  function handleDelete(address) {
+    if (address.isDefault) {
+      Alert.alert(
+        "Can't delete default address",
+        "Set another address as default before deleting this one.",
+      );
+      return;
+    }
+
+    Alert.alert(
+      "Delete address?",
+      `Remove "${address.title}" from your address book?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            setAddresses((prev) => prev.filter((a) => a.id !== address.id));
+          },
+        },
+      ],
+    );
   }
 
-  function handleDelete(addressId) {
-    console.log("Delete Address", `Delete pressed for ${addressId}`);
-  }
   return (
     <View style={styles.rootContainer}>
       <CardTitle
@@ -45,10 +88,16 @@ export default function AddressScreen() {
           icon="add"
           size={24}
           color="red"
-          onPress={() => setShowModal(true)}
+          onPress={openAddModal}
           label="Add New Address"
         />
-        {showModal && <NewAddressForm onCancel={handleCancel} onSubmit={handleAddAddress}/>}
+        {showModal && (
+          <NewAddressForm 
+            onCancel={handleCancel}
+            onSubmit={handleSubmit}
+            initialValues={editingAddress}
+          />
+        )}
       </View>
       <FlatList
         data={addresses}
@@ -56,7 +105,7 @@ export default function AddressScreen() {
         renderItem={({ item }) => (
           <AddressCard
             address={item}
-            onEdit={handleEdit}
+            onEdit={openEditModal}
             onDelete={handleDelete}
           />
         )}

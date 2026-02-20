@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   KeyboardAvoidingView,
@@ -7,17 +8,16 @@ import {
   Text,
   View,
 } from "react-native";
-import { useState } from "react";
 import Input from "../ui/Input";
 
-export default function NewAddressForm({ onCancel, onSubmit }) {
+export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
   const [inputValues, setInputValues] = useState({
-    title: "",
-    line1: "",
-    line2: "",
-    line3: "",
-    line4: "",
-    eircode: "",
+    title: initialValues?.title || "",
+    line1: initialValues?.line1 || "",
+    line2: initialValues?.line2 || "",
+    line3: initialValues?.line3 || "",
+    line4: initialValues?.line4 || "",
+    eircode: initialValues?.eircode || "",
   });
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
@@ -30,7 +30,12 @@ export default function NewAddressForm({ onCancel, onSubmit }) {
   }
 
   function submitHandler() {
-    if (!inputValues.title.trim() || !inputValues.line1.trim() || !inputValues.line4.trim() || !inputValues.eircode.trim()) {
+    if (
+      !inputValues.title.trim() ||
+      !inputValues.line1.trim() ||
+      !inputValues.line4.trim() ||
+      !inputValues.eircode.trim()
+    ) {
       return;
     }
     onSubmit({

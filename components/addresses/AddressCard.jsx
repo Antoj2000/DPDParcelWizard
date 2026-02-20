@@ -30,10 +30,18 @@ export default function AddressCard({ address, onEdit, onDelete }) {
         <View style={styles.colIcon}>
           <Ionicons name={iconName} size={24} color={Colors.dpdRed} />
         </View>
+
         <View style={styles.colAddress}>
-          <Text style={styles.title}>
-            {title} {isDefault && <Pill>Default</Pill>}
-          </Text>
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>{title}</Text>
+
+            {isDefault && (
+              <View style={styles.pill}>
+                <Pill label="Default" />
+              </View>
+            )}
+          </View>
+
           <Text style={styles.subtitle}>{line1}</Text>
           <Text style={styles.subtitle}>{line3}</Text>
           <Text style={styles.subtitle}>{line4}</Text>
@@ -41,13 +49,15 @@ export default function AddressCard({ address, onEdit, onDelete }) {
         </View>
       </View>
 
+      <View style={styles.divider} />
+
       <View style={styles.bottomContainerRow}>
         <View style={styles.editButton}>
           <IconButton
             icon="create-outline"
             color={Colors.dpdRed}
-            size={20}
-            onPress={() => onEdit(id)}
+            size={18}
+            onPress={() => onEdit(address)}
             label="Edit"
           />
         </View>
@@ -55,8 +65,8 @@ export default function AddressCard({ address, onEdit, onDelete }) {
           <IconButton
             icon="trash-outline"
             color={Colors.dpdRed}
-            size={20}
-            onPress={() => onDelete(id)}
+            size={18}
+            onPress={() => onDelete(address)}
           />
         </View>
       </View>
@@ -66,10 +76,10 @@ export default function AddressCard({ address, onEdit, onDelete }) {
 
 const styles = StyleSheet.create({
   card: {
-    marginVertical: 8,
-    padding: 12,
-    borderRadius: 12,
-    backgroundColor: Colors.bg500,
+    marginVertical: 10,
+    padding: 14,
+    borderRadius: 16,
+    backgroundColor: Colors.softPink,
     borderWidth: 1,
     borderColor: Colors.dpdRed,
     shadowColor: "#000",
@@ -78,30 +88,40 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowRadius: 8,
+    elevation: 4,
   },
   topContainerRow: {
     flexDirection: "row",
-    marginBottom: 8,
-    padding: 8,
-    borderBottomColor: Colors.mutedText,
-    borderBottomWidth: 2,
+    alignItems: "flex-start",
+    gap: 12,
   },
   colIcon: {
-    flexDirection: "column",
-    height: 35,
+    width: 44,
+    height: 44,
     padding: 4,
-    borderRadius: 6,
-    backgroundColor: Colors.bgIcon,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.iconPink,
   },
   colAddress: {
-    paddingHorizontal: 8,
+    flex: 1,
+    paddingTop: 2,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 6,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "600",
-    paddingBottom: 4,
+    fontSize: 18,
+    fontWeight: "700",
+    color: Colors.darkText
+  },
+  pill: {
+    transform: [{ translateY: 1 }],
   },
   subtitle: {
     fontSize: 14,
@@ -110,6 +130,12 @@ const styles = StyleSheet.create({
   eircode: {
     fontSize: 14,
     color: Colors.dpdRed,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#000",
+    marginTop: 14,
+    marginBottom: 12,
   },
   bottomContainerRow: {
     flexDirection: "row",

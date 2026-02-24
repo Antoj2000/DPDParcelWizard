@@ -14,7 +14,11 @@ export default function QuickActions() {
         onPress={() => router.push("/scan")}
       />
       <QuickActionsButton icon="map-outline" label="Locate" />
-      <QuickActionsButton icon="call-outline" label="Support" />
+      <QuickActionsButton
+        icon="call-outline"
+        label="Support"
+        onPress={() => router.push("/support")}
+      />
     </View>
   );
 }

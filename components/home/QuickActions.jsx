@@ -1,29 +1,31 @@
 import { View, StyleSheet } from "react-native";
 import QuickActionsButton from "@/components/ui/QuickActionsButton";
+import { useRouter } from "expo-router";
 
 export default function QuickActions() {
+  const router = useRouter();
+
   return (
     <View style={styles.buttonRow}>
-      <QuickActionsButton>+</QuickActionsButton>
-      <QuickActionsButton>+</QuickActionsButton>
-      <QuickActionsButton>+</QuickActionsButton>
-      <QuickActionsButton>+</QuickActionsButton>
+      <QuickActionsButton icon="search-outline" label="Track" />
+      <QuickActionsButton
+        icon="qr-code-outline"
+        label="Scan"
+        onPress={() => router.push("/scan")}
+      />
+      <QuickActionsButton icon="map-outline" label="Locate" />
+      <QuickActionsButton
+        icon="call-outline"
+        label="Support"
+        onPress={() => router.push("/support")}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   buttonRow: {
-    marginTop: 8,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  //   buttonBox: {
-  //     marginHorizontal: 24,
-  //     paddingVertical: 12,
-  //     borderWidth: 2,
-  //     borderColor: "black",
-  //     borderRadius: 12,
-  //     alignItems: "center",
-  //   },
 });

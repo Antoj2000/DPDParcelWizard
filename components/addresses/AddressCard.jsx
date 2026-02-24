@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     padding: 14,
     borderRadius: 16,
-    backgroundColor: Colors.softPink,
+    backgroundColor: "#f7f7f7",
     borderWidth: 1,
     borderColor: Colors.dpdRed,
     shadowColor: "#000",

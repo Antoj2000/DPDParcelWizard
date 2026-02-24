@@ -2,7 +2,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
-// import { useColorScheme } from "@/hooks/use-color-scheme";
+
 
 export default function RootLayout() {
   return (
@@ -10,6 +10,8 @@ export default function RootLayout() {
       <StatusBar style="light" />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="scan" options={{ headerShown: false }} />
+        <Stack.Screen name="support" options={{ headerShown: false }} />
       </Stack>
     </>
   );

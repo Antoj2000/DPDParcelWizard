@@ -5,6 +5,7 @@ import IconButton from "@/components/ui/IconButton";
 import { useState } from "react";
 import NewAddressForm from "@/components/addresses/NewAddressForm";
 import { MOCK_ADDRESSES } from "@/data/mockAddresses";
+import { Colors } from "@/constants/colors";
 
 export default function AddressScreen() {
   const [showModal, setShowModal] = useState(false);
@@ -78,18 +79,19 @@ export default function AddressScreen() {
 
   return (
     <View style={styles.rootContainer}>
-      <CardTitle
+      {/* <CardTitle
         icon="map-outline"
         text="Address Book"
         subText="Manage your delivery addresses"
-      />
+      /> */}
       <View style={styles.addButton}>
         <IconButton
           icon="add"
           size={24}
-          color="red"
+          color="white"
           onPress={openAddModal}
           label="Add New Address"
+          textStyle={{ color: "white", fontWeight: "600", fontSize: 15 }}
         />
         {showModal && (
           <NewAddressForm 
@@ -121,11 +123,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   addButton: {
-    marginVertical: 4,
+    marginTop: 16,
     borderColor: "red",
     borderRadius: 8,
     borderWidth: 1,
-    backgroundColor: "white",
+    backgroundColor: Colors.dpdRed,
     width: "100%",
   },
 });

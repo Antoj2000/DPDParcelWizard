@@ -10,7 +10,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="scan" options={{ headerShown: false }} />
         <Stack.Screen name="support" options={{ headerShown: false }} />
-        <Stack.Screen name="ParcelDetails" options={{ headerShown: false }} />
+        <Stack.Screen name="[trackingNumber]" options={{ headerShown: false }} />
       </Stack>
     </>
   );

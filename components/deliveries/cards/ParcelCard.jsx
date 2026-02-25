@@ -16,7 +16,7 @@ export default function ParcelCard({ parcel, status, onPress }) {
         </View>
         <View style={styles.cardDetails}>
           <Text style={styles.trackingNumber}>{parcel.trackingNumber}</Text>
-          <Text style={styles.recipient}>{parcel.recipient}</Text>
+          <Text style={styles.recipient}>{parcel.toName}</Text>
           <IconRow
             icon={
               <Ionicons
@@ -25,16 +25,24 @@ export default function ParcelCard({ parcel, status, onPress }) {
                 color={Colors.mutedText}
               />
             }
-            text={parcel.location}
+            text={
+              parcel.address.line1 +
+              ", " +
+              parcel.address.line3 +
+              ", " +
+              parcel.address.line4 +
+              ", " +
+              parcel.address.eircode
+            }
           />
           <IconRow
             icon={<Feather name="clock" size={14} color={Colors.mutedText} />}
-            text={parcel.timeLabel}
+            text={parcel.eta.label}
           />
         </View>
 
         <View style={styles.cardActions}>
-          <Pill label={status} />
+          <Pill label={parcel.statusDisplay} />
           <Ionicons name="chevron-forward" size={18} color={Colors.mutedText} />
         </View>
       </View>

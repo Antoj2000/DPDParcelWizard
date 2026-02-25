@@ -3,8 +3,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
 import SectionHeader from "../SectionHeader";
 import ParcelCard from "../cards/ParcelCard";
+import { useRouter } from "expo-router";
 
 export default function ArrivingToday({ parcels }) {
+  const router = useRouter();
   return (
     <View style={styles.section}>
       <SectionHeader
@@ -24,6 +26,7 @@ export default function ArrivingToday({ parcels }) {
           key={parcel.trackingNumber}
           parcel={parcel}
           status="Out for Delivery"
+          onPress={() => router.push(`/${parcel.trackingNumber}`)}
         />
       ))}
     </View>

@@ -3,9 +3,12 @@ import { ScrollView, StyleSheet } from "react-native";
 import WelcomeCard from "@/components/home/WelcomeCard";
 import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
 
-import { arrivingToday, recentlyDelivered } from "@/data/mockDeliveries";
+import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
 
 export default function Deliveries() {
+
+  const arrivingToday = mockDeliveryDetails.filter((d) => d.status !== "DELIVERED");
+  const recentlyDelivered = mockDeliveryDetails.filter((d) => d.status === "DELIVERED");
   return (
     <ScrollView style={styles.container}>
       <WelcomeCard />

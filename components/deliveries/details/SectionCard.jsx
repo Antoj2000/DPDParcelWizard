@@ -5,7 +5,7 @@ export default function SectionCard({ title, children }) {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
-      <View style={styles.content}>{children}</View>
+      <View>{children}</View>
     </View>
   );
 }

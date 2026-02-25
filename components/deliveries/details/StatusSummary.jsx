@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function StatusSummary() {
+export default function StatusSummary({ delivery }) {
   return (
     <View style={styles.card}>
       <View style={styles.topRow}>
@@ -11,13 +11,13 @@ export default function StatusSummary() {
         </View>
 
         <View style={styles.textCol}>
-          <Text style={styles.statusTitle}>Out for Delivery</Text>
-          <Text style={styles.etaText}>Today, 2:00pm - 4:00pm</Text>
+          <Text style={styles.statusTitle}>{delivery.statusDisplay}</Text>
+          <Text style={styles.etaText}>{delivery.eta.label}</Text>
         </View>
       </View>
       <View style={styles.trackingBlock}>
         <Text style={styles.trackingLabel}>Tracking Number</Text>
-        <Text style={styles.trackingNumber}>123456789</Text>
+        <Text style={styles.trackingNumber}>{delivery.trackingNumber}</Text>
       </View>
     </View>
   );

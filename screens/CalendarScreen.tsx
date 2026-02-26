@@ -59,7 +59,10 @@ export default function CalendarScreen() {
       >
         <CalendarLegend />
         {isCreatingSchedule ? (
-          <SelectDatesCard onClose={toggleCreateSchedule} />
+          <SelectDatesCard
+            onClose={toggleCreateSchedule}
+            selectedDates={[selectedDate]}
+          />
         ) : (
           <View style={styles.createButton}>
             <IconButton

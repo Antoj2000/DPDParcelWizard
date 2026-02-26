@@ -4,7 +4,7 @@ import { Colors } from "@/constants/colors";
 
 import TextButton from "../../ui/TextButton";
 
-export default function SelectDatesCard({onClose}) {
+export default function SelectDatesCard({ onClose, selectedDates }) {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -17,6 +17,14 @@ export default function SelectDatesCard({onClose}) {
         <Pressable style={styles.closeBtn} onPress={onClose}>
           <Ionicons name="close" size={18} color="#6B7280" />
         </Pressable>
+      </View>
+      <View style={styles.dateContainer}>
+        <Text style={styles.dateText}>
+          Selected:{" "} 
+          {selectedDates
+            ? selectedDates.map((d) => d.toLocaleDateString()).join(", ")
+            : "None"}
+        </Text>
       </View>
 
       <TextButton
@@ -54,6 +62,13 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: "#4B5563",
+  },
+  dateContainer: {
+    marginBottom: 10,
+  },
+  dateText: {
+    fontSize: 14,
+    color: Colors.darkText,
   },
   buttonContainer: {
     backgroundColor: Colors.dpdRed,

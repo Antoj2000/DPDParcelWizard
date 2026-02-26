@@ -2,12 +2,18 @@ import { ScrollView, StyleSheet } from "react-native";
 import { useState } from "react";
 import AccountDropdown from "@/components/account/AccountDropdown";
 import AccountDetails from "@/components/account/panels/AccountDetails";
+import MobileNumbers from "@/components/account/panels/MobileNumbers";
 
 export default function Account() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAccount, setIsOpenAccount] = useState(true);
+  const [isOpenMobile, setIsOpenMobile] = useState(false);
 
-  function handleToggle() {
-    setIsOpen((prev) => !prev);
+  function handleToggleAccount() {
+    setIsOpenAccount((prev) => !prev);
+  }
+
+  function handleToggleMobile() {
+    setIsOpenMobile((prev) => !prev);
   }
   return (
     <ScrollView style={styles.container}>
@@ -15,10 +21,20 @@ export default function Account() {
         icon="person-outline"
         title="Account Details"
         subtitle="Manage your Parcel Wizard details"
-        onToggle={handleToggle}
-        isOpen={isOpen}
+        onToggle={handleToggleAccount}
+        isOpen={isOpenAccount}
       >
         <AccountDetails />
+      </AccountDropdown>
+      <AccountDropdown
+        icon="call-outline"
+        title="Mobile Numbers"
+        subtitle="Manage your default phone numbers "
+        onToggle={handleToggleMobile}
+        isOpen={isOpenMobile}
+      >
+        <MobileNumbers />
+
       </AccountDropdown>
     </ScrollView>
   );

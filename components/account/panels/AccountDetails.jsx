@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
+import IconButton from "@/components/ui/IconButton";
 
 export default function AccountDetails() {
   return (
@@ -23,6 +24,28 @@ export default function AccountDetails() {
           <Text style={styles.addressText}>Co. Westmeath</Text>
           <Text style={styles.addressEircode}>N37 P1H2</Text>
         </View>
+        <View style={styles.changeButton}>
+          <IconButton
+            icon="location-outline"
+            size={18}
+            color={Colors.dpdRed}
+            label="Change Address"
+            textStyle={styles.buttonText}
+          />
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Password</Text>
+          <Text style={styles.value}>........</Text>
+        </View>
+        <View style={styles.changeButton}>
+          <IconButton
+            icon="lock-closed-outline"
+            size={18}
+            color={Colors.dpdRed}
+            label="Change Password"
+            textStyle={styles.buttonText}
+          />
+        </View>
       </View>
     </View>
   );
@@ -35,7 +58,7 @@ const styles = StyleSheet.create({
 
   row: {
     gap: 2,
-    marginBottom: 6,
+    marginBottom: 4,
   },
 
   label: {
@@ -50,8 +73,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   addressCard: {
-    backgroundColor: Colors.softPink, 
-    borderRadius: 12,
+    backgroundColor: Colors.softPink,
+    borderRadius: 8,
     marginTop: 6,
     padding: 12,
     gap: 4,
@@ -67,6 +90,18 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 15,
     color: Colors.dpdRed,
+    fontWeight: "600",
+  },
+  changeButton: {
+    marginVertical: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+
+    backgroundColor: "#e2e1e1",
+  },
+  buttonText: {
+    color: Colors.darkText,
+    fontSize: 14,
     fontWeight: "600",
   },
 });

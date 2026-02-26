@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import LegendItem from "./LegendItem";
-import { Colors } from '@/constants/colors'
+import { Colors } from "@/constants/colors";
 
 export default function CalendarLegend() {
   return (
@@ -30,12 +30,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#EFEFF3",
 
-    
     shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.08,
     shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-
   },
 
   header: {
@@ -53,7 +51,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 16, 
+    gap: 16,
     marginBottom: 10,
   },
 });

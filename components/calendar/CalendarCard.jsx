@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     borderRadius: 16,
     padding: 16,
-    marginBottom: 24,
+    marginBottom: 20,
     borderWidth: 1,
     borderColor: "#EFEFF3",
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.08,
     shadowRadius: 12,
-    elevation: 3,
+    
   },
   sectionTitle: {
     fontSize: 16,

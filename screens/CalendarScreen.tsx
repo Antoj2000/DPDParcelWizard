@@ -10,11 +10,13 @@ import {
 } from "@/utils/date";
 import CalendarLegend from "@/components/calendar/CalendarLegend";
 import CalendarCard from "@/components/calendar/CalendarCard";
+import SelectDatesCard from "@/components/calendar/schedule/SelectDatesCard";
 
 export default function CalendarScreen() {
   const today = useMemo(() => new Date(), []); //Memo to avoid re-creating date object on every render
   const [visibleMonth, setVisibleMonth] = useState(startOfMonth(today));
   const [selectedDate, setSelectedDate] = useState(today);
+  const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
 
   const days = useMemo(
     () => buildCalendarDays(visibleMonth, today),
@@ -44,6 +46,10 @@ export default function CalendarScreen() {
     }
   };
 
+  function toggleCreateSchedule() {
+    setIsCreatingSchedule((prev) => !prev);
+  }
+
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView
@@ -52,15 +58,21 @@ export default function CalendarScreen() {
         showsVerticalScrollIndicator={false}
       >
         <CalendarLegend />
-        <View style={styles.createButton}>
-          <IconButton
-            icon="add"
-            size={24}
-            color="white"
-            label="Create Delivery Schedule"
-            textStyle={styles.createButtonText}
-          />
-        </View>
+        {isCreatingSchedule ? (
+          <SelectDatesCard onClose={toggleCreateSchedule} />
+        ) : (
+          <View style={styles.createButton}>
+            <IconButton
+              icon="add"
+              size={24}
+              color="white"
+              label="Create Delivery Schedule"
+              textStyle={styles.createButtonText}
+              onPress={toggleCreateSchedule}
+            />
+          </View>
+        )}
+
         <CalendarCard
           monthLabel={monthLabel}
           onPrevMonth={onPrevMonth}
@@ -77,7 +89,7 @@ export default function CalendarScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: "#F9F9F9",
   },
   scroll: {
     flex: 1,
@@ -88,11 +100,11 @@ const styles = StyleSheet.create({
   },
 
   createButton: {
-    backgroundColor: Colors.dpdRed,
     borderRadius: 8,
     paddingVertical: 8,
     alignItems: "center",
     marginBottom: 20,
+    backgroundColor: Colors.dpdRed,
   },
   createButtonText: {
     color: "#FFFFFF",

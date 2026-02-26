@@ -91,7 +91,7 @@ export default function AddressScreen() {
           color="white"
           onPress={openAddModal}
           label="Add New Address"
-          textStyle={{ color: "white", fontWeight: "600", fontSize: 15 }}
+          textStyle={styles.addButtonText}
         />
         {showModal && (
           <NewAddressForm 
@@ -124,10 +124,13 @@ const styles = StyleSheet.create({
   },
   addButton: {
     marginTop: 16,
-    borderColor: "red",
     borderRadius: 8,
-    borderWidth: 1,
+    paddingVertical: 8,
     backgroundColor: Colors.dpdRed,
-    width: "100%",
+  },
+  addButtonText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "600",
   },
 });

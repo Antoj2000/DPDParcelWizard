@@ -8,6 +8,7 @@ import {
   addMonths,
   formatMonthLabel,
 } from "@/utils/date";
+import CalendarLegend from "@/components/calendar/CalendarLegend";
 import CalendarCard from "@/components/calendar/CalendarCard";
 
 export default function CalendarScreen() {
@@ -50,6 +51,7 @@ export default function CalendarScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        <CalendarLegend />
         <View style={styles.createButton}>
           <IconButton
             icon="add"
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
   createButton: {
     backgroundColor: Colors.dpdRed,
     borderRadius: 8,
-    paddingVertical: 14,
+    paddingVertical: 8,
     alignItems: "center",
     marginBottom: 20,
   },

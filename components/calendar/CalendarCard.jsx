@@ -33,9 +33,12 @@ export default function CalendarCard({
 const styles = StyleSheet.create({
   calendarCard: {
     backgroundColor: Colors.background,
-    borderRadius: 12,
+    borderRadius: 16,
     padding: 16,
     marginBottom: 24,
+    borderWidth: 1,
+    borderColor: "#EFEFF3",
+
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.08,

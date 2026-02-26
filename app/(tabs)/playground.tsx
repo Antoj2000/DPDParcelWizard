@@ -1,10 +1,11 @@
 import { ScrollView, StyleSheet } from "react-native";
-
+import CalendarLegend from "../../components/calendar/CalendarLegend";
+import Calendar from "./calendar";
 
 export default function Playground() {
   return (
     <ScrollView style={styles.container}>
-      
+      <CalendarLegend />
     </ScrollView>
   );
 }

@@ -79,17 +79,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     padding: 14,
     borderRadius: 16,
-    backgroundColor: "#f7f7f7",
-    borderWidth: 1,
-    borderColor: Colors.dpdRed,
+    backgroundColor: Colors.background,
+    borderWidth: 2,
+    borderColor: "#EFEFF3",
+
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.02,
+    shadowRadius: 12,
+    
   },
   topContainerRow: {
     flexDirection: "row",

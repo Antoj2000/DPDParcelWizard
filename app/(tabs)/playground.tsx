@@ -1,12 +1,25 @@
 import { ScrollView, StyleSheet } from "react-native";
-import CalendarLegend from "../../components/calendar/CalendarLegend";
-import SelectDatesCard from "../../components/calendar/schedule/SelectDatesCard";
+import { useState } from "react";
+import AccountDropdown from "@/components/account/AccountDropdown";
+import AccountDetails from "@/components/account/panels/AccountDetails";
 
 export default function Playground() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleToggle() {
+    setIsOpen((prev) => !prev);
+  }
   return (
     <ScrollView style={styles.container}>
-      <CalendarLegend />
-      <SelectDatesCard />
+      <AccountDropdown
+        icon="person-outline"
+        title="Account Details"
+        subtitle="Parcel Wizard ID: PW109736"
+        onToggle={handleToggle}
+        isOpen={isOpen}
+      >
+        <AccountDetails />
+      </AccountDropdown>
     </ScrollView>
   );
 }

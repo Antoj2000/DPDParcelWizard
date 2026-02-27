@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: "white",
+    backgroundColor: Colors.background,
   },
   addButton: {
     marginTop: 16,

@@ -3,10 +3,12 @@ import { useState } from "react";
 import AccountDropdown from "@/components/account/AccountDropdown";
 import AccountDetails from "@/components/account/panels/AccountDetails";
 import MobileNumbers from "@/components/account/panels/MobileNumbers";
+import EmailAddresses from "@/components/account/panels/EmailAddresses";
 
 export default function Account() {
   const [isOpenAccount, setIsOpenAccount] = useState(true);
   const [isOpenMobile, setIsOpenMobile] = useState(false);
+  const [isOpenEmail, setIsOpenEmail] = useState(false);
 
   function handleToggleAccount() {
     setIsOpenAccount((prev) => !prev);
@@ -14,6 +16,9 @@ export default function Account() {
 
   function handleToggleMobile() {
     setIsOpenMobile((prev) => !prev);
+  }
+  function handleToggleEmail() {
+    setIsOpenEmail((prev) => !prev);
   }
   return (
     <ScrollView style={styles.container}>
@@ -34,7 +39,15 @@ export default function Account() {
         isOpen={isOpenMobile}
       >
         <MobileNumbers />
-
+      </AccountDropdown>
+      <AccountDropdown
+        icon="mail-outline"
+        title="Email Addresses"
+        subtitle="Manage your default email addresses "
+        onToggle={handleToggleEmail}
+        isOpen={isOpenEmail}
+      >
+        <EmailAddresses />
       </AccountDropdown>
     </ScrollView>
   );

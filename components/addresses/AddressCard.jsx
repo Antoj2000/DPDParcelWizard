@@ -1,10 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import IconButton from "@/components/ui/IconButton";
-import Pill from "@/components/ui/Pill";
 
-export default function AddressCard({ address, onEdit, onDelete }) {
+import Pill from "@/components/ui/Pill";
+import Divider from "../ui/Divider";
+import ActionButtonsRow from "../ui/ActionButtonsRow";
+
+export default function AddressCard({
+  address,
+  onEdit,
+  onDelete,
+  onSetDefault,
+}) {
   const {
     id,
     title,
@@ -25,7 +32,15 @@ export default function AddressCard({ address, onEdit, onDelete }) {
         : "home-outline";
 
   return (
-    <View style={styles.card}>
+    <View
+      style={[
+        styles.card,
+        isDefault && {
+          backgroundColor: Colors.softPink,
+          borderColor: Colors.dpdRed,
+        },
+      ]}
+    >
       <View style={styles.topContainerRow}>
         <View style={styles.colIcon}>
           <Ionicons name={iconName} size={24} color={Colors.dpdRed} />
@@ -49,27 +64,15 @@ export default function AddressCard({ address, onEdit, onDelete }) {
         </View>
       </View>
 
-      <View style={styles.divider} />
+      <Divider />
 
-      <View style={styles.bottomContainerRow}>
-        <View style={styles.editButton}>
-          <IconButton
-            icon="create-outline"
-            color={Colors.dpdRed}
-            size={18}
-            onPress={() => onEdit(address)}
-            label="Edit"
-          />
-        </View>
-        <View style={styles.deleteButton}>
-          <IconButton
-            icon="trash-outline"
-            color={Colors.dpdRed}
-            size={18}
-            onPress={() => onDelete(address)}
-          />
-        </View>
-      </View>
+      <ActionButtonsRow
+        onEdit={onEdit}
+        onDelete={onDelete}
+        item={address}
+        isDefault={isDefault}
+        onSetDefault={onSetDefault}
+      />
     </View>
   );
 }
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
   card: {
     marginVertical: 10,
     padding: 14,
-    borderRadius: 16,
+    borderRadius: 8,
     backgroundColor: Colors.background,
     borderWidth: 2,
     borderColor: "#EFEFF3",
@@ -87,7 +90,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.02,
     shadowRadius: 12,
-    
   },
   topContainerRow: {
     flexDirection: "row",
@@ -105,6 +107,7 @@ const styles = StyleSheet.create({
   },
   colAddress: {
     flex: 1,
+    marginBottom: 8,
     paddingTop: 2,
   },
   titleRow: {
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "700",
-    color: Colors.darkText
+    color: Colors.darkText,
   },
   pill: {
     transform: [{ translateY: 1 }],
@@ -128,37 +131,5 @@ const styles = StyleSheet.create({
   eircode: {
     fontSize: 14,
     color: Colors.dpdRed,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#000",
-    marginTop: 14,
-    marginBottom: 12,
-  },
-  bottomContainerRow: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  editButton: {
-    flex: 1,
-    marginVertical: 4,
-    paddingVertical: 2,
-    borderRadius: 4,
-    borderColor: "grey",
-    borderWidth: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  deleteButton: {
-    flex: 0.35,
-    marginVertical: 4,
-    padding: 4,
-    borderRadius: 4,
-    borderColor: "grey",
-    borderWidth: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

@@ -25,15 +25,7 @@ export default function ParcelCard({ parcel, status, onPress }) {
                 color={Colors.mutedText}
               />
             }
-            text={
-              parcel.address.line1 +
-              ", " +
-              parcel.address.line3 +
-              ", " +
-              parcel.address.line4 +
-              ", " +
-              parcel.address.eircode
-            }
+            text={parcel.address.line1}
           />
           <IconRow
             icon={<Feather name="clock" size={14} color={Colors.mutedText} />}

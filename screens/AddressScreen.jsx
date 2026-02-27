@@ -77,6 +77,15 @@ export default function AddressScreen() {
     );
   }
 
+  function handleSetDefault(address) {
+    setAddresses((prev) =>
+      prev.map((a) => ({
+        ...a,
+        isDefault: a.id === address.id,
+      })),
+    );
+  }
+
   return (
     <View style={styles.rootContainer}>
       {/* <CardTitle
@@ -94,7 +103,7 @@ export default function AddressScreen() {
           textStyle={styles.addButtonText}
         />
         {showModal && (
-          <NewAddressForm 
+          <NewAddressForm
             onCancel={handleCancel}
             onSubmit={handleSubmit}
             initialValues={editingAddress}
@@ -109,6 +118,7 @@ export default function AddressScreen() {
             address={item}
             onEdit={openEditModal}
             onDelete={handleDelete}
+            onSetDefault={handleSetDefault}
           />
         )}
       />

@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
-  Button,
   KeyboardAvoidingView,
   Modal,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
+import { Colors } from "@/constants/colors";
 import Input from "../ui/Input";
+import FormHeader from "./FormHeader";
+import FormFooter from "./FormFooter";
 
 export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
   const [inputValues, setInputValues] = useState({
@@ -19,6 +20,12 @@ export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
     line4: initialValues?.line4 || "",
     eircode: initialValues?.eircode || "",
   });
+
+  const line1Ref = useRef();
+  const line2Ref = useRef();
+  const line3Ref = useRef();
+  const line4Ref = useRef();
+  const eircodeRef = useRef();
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputValues((curInputValues) => {
@@ -44,71 +51,117 @@ export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
     });
   }
 
+  const isEditing = !!initialValues;
+
   return (
-    <Modal animationType="slide">
+    <Modal animationType="slide" transparent>
       <KeyboardAvoidingView
-        // style={styles.screen}
+        style={styles.overlay}
         behavior="padding"
-        keyboardVerticalOffset={20}
+        
       >
-        <ScrollView>
-          <View style={styles.form}>
-            <Text style={styles.title}>New Address</Text>
+        <View style={styles.sheet}>
+          <FormHeader
+            icon="map-outline"
+            title={isEditing ? "Edit Address" : "New Address"}
+            subtitle={
+              isEditing
+                ? "Update your saved delivery address"
+                : "Add a new delivery address to your book"
+            }
+            onClose={onCancel}
+          />
+
+          <ScrollView
+            contentContainerStyle={styles.content}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
             <Input
               label="Title"
-              placeholder="Enter address title"
+              placeholder="e.g. Home, Work, Mam's"
               textInputConfig={{
-                onChangeText: (value) => inputChangedHandler("title", value),
+                onChangeText: (v) => inputChangedHandler("title", v),
                 value: inputValues.title,
+                returnKeyType: "next",
+                blurOnSubmit: false,
+                onSubmitEditing: () => line1Ref.current?.focus(),
               }}
             />
+
             <Input
+              ref={line1Ref}
               label="Address Line 1"
-              placeholder="50 Valleycourt"
+              placeholder="House number + street"
               textInputConfig={{
-                onChangeText: (value) => inputChangedHandler("line1", value),
+                autoComplete: "address-line1",
+                onChangeText: (v) => inputChangedHandler("line1", v),
                 value: inputValues.line1,
+                returnKeyType: "next",
+                blurOnSubmit: false,
+                onSubmitEditing: () => line2Ref.current?.focus(),
               }}
             />
+
             <Input
+              ref={line2Ref}
               label="Address Line 2"
-              placeholder="Bunnavalley"
+              placeholder="Area (Optional)"
               textInputConfig={{
-                onChangeText: (value) => inputChangedHandler("line2", value),
+                autoComplete: "off",
+                onChangeText: (v) => inputChangedHandler("line2", v),
                 value: inputValues.line2,
+                returnKeyType: "next",
+                blurOnSubmit: false,
+                onSubmitEditing: () => line3Ref.current?.focus(),
               }}
             />
+
             <Input
+              ref={line3Ref}
               label="Address Line 3"
-              placeholder="Athlone"
+              placeholder="Town / city"
               textInputConfig={{
-                onChangeText: (value) => inputChangedHandler("line3", value),
+                textContentType: "addressCity",
+                onChangeText: (v) => inputChangedHandler("line3", v),
                 value: inputValues.line3,
+                returnKeyType: "next",
+                blurOnSubmit: false,
+                onSubmitEditing: () => line4Ref.current?.focus(),
               }}
             />
+
             <Input
+              ref={line4Ref}
               label="Address Line 4"
-              placeholder="Westmeath"
+              placeholder="County"
               textInputConfig={{
-                onChangeText: (value) => inputChangedHandler("line4", value),
+                textContentType: "addressState",
+                onChangeText: (v) => inputChangedHandler("line4", v),
                 value: inputValues.line4,
+                returnKeyType: "next",
+                blurOnSubmit: false,
+                onSubmitEditing: () => eircodeRef.current?.focus(),
               }}
             />
+
             <Input
+              ref={eircodeRef}
               label="Eircode"
-              placeholder="Enter Eircode"
+              placeholder="e.g. D02 X285"
               textInputConfig={{
-                onChangeText: (value) => inputChangedHandler("eircode", value),
+                autoComplete: "postal-code",
+                onChangeText: (v) => inputChangedHandler("eircode", v),
                 value: inputValues.eircode,
                 autoCapitalize: "characters",
-                maxLength: 7,
+                maxLength: 8,
+                returnKeyType: "done",
+                onSubmitEditing: submitHandler,
               }}
             />
-          </View>
-        </ScrollView>
-        <View style={styles.buttons}>
-          <Button onPress={onCancel} title="Cancel" />
-          <Button onPress={submitHandler} title="Save" />
+          </ScrollView>
+
+          <FormFooter onCancel={onCancel} onSubmit={submitHandler} />
         </View>
       </KeyboardAvoidingView>
     </Modal>
@@ -116,34 +169,28 @@ export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  overlay: {
     flex: 1,
+    backgroundColor: "rgba(0,0,0,0.35)",
+    justifyContent: "flex-end",
   },
-  form: {
-    marginTop: 30,
-    padding: 16,
+
+  sheet: {
+    backgroundColor: Colors.background,
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    borderWidth: 2,
+    borderColor: "#EFEFF3",
+    maxHeight: "90%",
+
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -6 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "black",
-    marginVertical: 24,
-    textAlign: "center",
-  },
-  inputsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  rowInput: {
-    flex: 1,
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
+
+  content: {
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
 });

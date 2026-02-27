@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Button,
   KeyboardAvoidingView,
@@ -19,6 +19,12 @@ export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
     line4: initialValues?.line4 || "",
     eircode: initialValues?.eircode || "",
   });
+
+  const line1Ref = useRef();
+  const line2Ref = useRef();
+  const line3Ref = useRef();
+  const line4Ref = useRef();
+  const eircodeRef = useRef();
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputValues((curInputValues) => {
@@ -60,46 +66,62 @@ export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
               textInputConfig={{
                 onChangeText: (value) => inputChangedHandler("title", value),
                 value: inputValues.title,
+                returnKeyType: "next",
+                onSubmitEditing: () => line1Ref.current?.focus(),
               }}
             />
             <Input
               label="Address Line 1"
               placeholder="50 Valleycourt"
               textInputConfig={{
+                ref: line1Ref,
                 onChangeText: (value) => inputChangedHandler("line1", value),
                 value: inputValues.line1,
+                returnKeyType: "next",
+                onSubmitEditing: () => line2Ref.current?.focus(),
               }}
             />
             <Input
               label="Address Line 2"
               placeholder="Bunnavalley"
               textInputConfig={{
+                ref: line2Ref,
                 onChangeText: (value) => inputChangedHandler("line2", value),
                 value: inputValues.line2,
+                returnKeyType: "next",
+                onSubmitEditing: () => line3Ref.current?.focus(),
               }}
             />
             <Input
               label="Address Line 3"
               placeholder="Athlone"
               textInputConfig={{
+                ref: line3Ref,
                 onChangeText: (value) => inputChangedHandler("line3", value),
                 value: inputValues.line3,
+                returnKeyType: "next",
+                onSubmitEditing: () => line4Ref.current?.focus(),
               }}
             />
             <Input
               label="Address Line 4"
               placeholder="Westmeath"
               textInputConfig={{
+                ref: line4Ref,
                 onChangeText: (value) => inputChangedHandler("line4", value),
                 value: inputValues.line4,
+                returnKeyType: "next",
+                onSubmitEditing: () => eircodeRef.current?.focus(),
               }}
             />
             <Input
               label="Eircode"
               placeholder="Enter Eircode"
               textInputConfig={{
+                ref: eircodeRef,
                 onChangeText: (value) => inputChangedHandler("eircode", value),
                 value: inputValues.eircode,
+                returnKeyType: "done",
                 autoCapitalize: "characters",
                 maxLength: 7,
               }}

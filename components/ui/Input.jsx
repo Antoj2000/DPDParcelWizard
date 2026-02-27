@@ -1,15 +1,16 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
+import { forwardRef } from "react";
 
-export default function Input({
-  label,
-  placeholder,
-  style,
-  textInputConfig,
-}) {
+const Input = forwardRef(function Input(
+  { label, placeholder, style, textInputConfig },
+  ref,
+) {
   return (
     <View style={styles.inputContainer}>
-      <Text style={styles.label}>{label}</Text>
+      {!!label && <Text style={styles.label}>{label}</Text>}
+
       <TextInput
+        ref={ref}
         style={[styles.input, style]}
         placeholder={placeholder}
         placeholderTextColor="#88888844"
@@ -17,7 +18,9 @@ export default function Input({
       />
     </View>
   );
-}
+});
+
+export default Input;
 
 const styles = StyleSheet.create({
   inputContainer: {

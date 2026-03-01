@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import StatusSummary from "../components/deliveries/details/StatusSummary";
 import SectionCard from "../components/deliveries/details/SectionCard";
 import InfoRow from "../components/deliveries/details/InfoRow";
+import PodImage from "../components/deliveries/details/PodImage";
 
 import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
 
@@ -11,6 +12,8 @@ export default function ParcelDetails() {
   const delivery = mockDeliveryDetails.find(
     (d) => d.trackingNumber === trackingNumber,
   );
+
+  const isDelivered = delivery.status === "DELIVERED";
 
   return (
     <ScrollView style={styles.container}>
@@ -37,6 +40,7 @@ export default function ParcelDetails() {
           value={delivery.eta.label}
         />
       </SectionCard>
+      {isDelivered && <PodImage />}
     </ScrollView>
   );
 }

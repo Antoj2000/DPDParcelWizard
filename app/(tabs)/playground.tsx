@@ -1,13 +1,11 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { useState } from "react";
-import ActionButtonsRow from "../../components/ui/ActionButtonsRow";
 
+import PodImage from "../../components/deliveries/details/PodImage";
 
 export default function Playground() {
-  
   return (
     <ScrollView style={styles.container}>
-      <ActionButtonsRow />
+      <PodImage />
     </ScrollView>
   );
 }

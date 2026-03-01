@@ -3,6 +3,9 @@ import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function StatusSummary({ delivery }) {
+
+
+
   return (
     <View style={styles.card}>
       <View style={styles.topRow}>

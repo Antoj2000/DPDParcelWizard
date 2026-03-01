@@ -10,6 +10,7 @@ export const Colors = {
   accent: "#a5a5a5ff",
   blackText: "#000",
   darkText: "#1b1b1b",
+  greyText: "#6B7280",
   whiteText: "#fff",
   mutedText: "#7A7A7A",
 

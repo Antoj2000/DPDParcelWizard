@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useDeliveries } from "@/src/hooks/useDelivery";
 import { Ionicons } from "@expo/vector-icons";
+import { Colors } from '@/constants/colors'
 
 export default function WelcomeCard() {
   const { deliveries } = useDeliveries();
@@ -54,7 +55,7 @@ export default function WelcomeCard() {
 
 const styles = StyleSheet.create({
   heroCard: {
-    backgroundColor: "#FF0000",
+    backgroundColor: Colors.dpdRed,
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,

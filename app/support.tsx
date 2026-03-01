@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
-import { Colors } from '@/constants/colors'
+import { Colors } from "@/constants/colors";
 
 export default function Support() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Support Page</Text>
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Contact Us</Text>
         <Text style={styles.link}>support@parcelwizard.ie</Text>
@@ -28,16 +27,7 @@ export default function Support() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
     padding: 20,
-  },
-
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    marginBottom: 20,
-    textAlign: "center",
-    color: Colors.darkText,
   },
 
   card: {

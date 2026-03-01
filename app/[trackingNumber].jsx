@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import StatusSummary from "../components/deliveries/details/StatusSummary";
 import SectionCard from "../components/deliveries/details/SectionCard";
 import InfoRow from "../components/deliveries/details/InfoRow";
+
 import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
 
 export default function ParcelDetails() {

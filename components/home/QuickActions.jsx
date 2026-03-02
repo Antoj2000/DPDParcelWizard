@@ -2,12 +2,16 @@ import { View, StyleSheet } from "react-native";
 import QuickActionsButton from "@/components/ui/QuickActionsButton";
 import { useRouter } from "expo-router";
 
-export default function QuickActions() {
+export default function QuickActions({ onTrackPress }) {
   const router = useRouter();
 
   return (
     <View style={styles.buttonRow}>
-      <QuickActionsButton icon="search-outline" label="Track" />
+      <QuickActionsButton
+        icon="search-outline"
+        label="Track"
+        onPress={onTrackPress}
+      />
       <QuickActionsButton
         icon="qr-code-outline"
         label="Scan"

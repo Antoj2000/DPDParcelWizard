@@ -2,12 +2,10 @@ import { Tabs } from "expo-router";
 import { HapticTab } from "@/components/expo/haptic-tab";
 import { IconSymbol } from "@/components/expo/icon-symbol";
 import { View, StyleSheet } from "react-native";
-import DpdHeader from "@/components/header/DpdHeader";
 
 export default function TabLayout() {
   return (
     <View style={styles.container}>
-      {/* <DpdHeader title="DPD Ireland"/> */}
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "red",

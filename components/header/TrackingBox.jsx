@@ -1,17 +1,27 @@
 import { StyleSheet, TextInput, View } from "react-native";
+import { useEffect, useRef } from "react";
 import { Colors } from "@/constants/colors";
 export default function TrackingBox({ value, onChangeText, onSubmit }) {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <TextInput
+          ref={inputRef}
           value={value}
           onChangeText={onChangeText}
           placeholder="Search tracking number..."
           placeholderTextColor="#777"
-          inputMode="numeric"
           keyboardType="number-pad"
-          autoCapitalize="characters"
           autoCorrect={false}
           returnKeyType="search"
           maxLength={9}
@@ -28,9 +38,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 2,
     paddingBottom: 12,
-    borderBottomLeftRadius: 14,
-    borderBottomRightRadius: 14,
-    
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
   searchContainer: {
     backgroundColor: "#fff",

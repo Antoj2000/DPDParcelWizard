@@ -57,7 +57,6 @@ export default function CalendarScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <CalendarLegend />
         {isCreatingSchedule ? (
           <SelectDatesCard
             onClose={toggleCreateSchedule}
@@ -84,6 +83,7 @@ export default function CalendarScreen() {
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
         />
+        <CalendarLegend />
       </ScrollView>
     </SafeAreaView>
   );

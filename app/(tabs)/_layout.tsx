@@ -7,7 +7,7 @@ import DpdHeader from "@/components/header/DpdHeader";
 export default function TabLayout() {
   return (
     <View style={styles.container}>
-      <DpdHeader title="DPD Ireland"/>
+      {/* <DpdHeader title="DPD Ireland"/> */}
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "red",

@@ -8,7 +8,17 @@ export default function RootLayout() {
     <>
       <StatusBar style="light" />
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: true,
+            title: "DPD Ireland",
+            headerStyle: { backgroundColor: Colors.dpdRed },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: 700, fontSize: 18 },
+            
+          }}
+        />
         <Stack.Screen name="scan" options={{ headerShown: false }} />
         <Stack.Screen
           name="support"

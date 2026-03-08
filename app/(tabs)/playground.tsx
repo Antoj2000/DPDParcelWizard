@@ -1,11 +1,16 @@
 import { ScrollView, StyleSheet } from "react-native";
-import TrackingBox from "@/components/header/TrackingBox";
-
+import LoginToggle from "@/components/login/LoginToggle";
+import LoginCard from "@/components/login/LoginCard";
+import { useState } from "react";
 
 export default function Playground() {
+  const [loginState, setLoginState] = useState("login");
+
   return (
     <ScrollView style={styles.container}>
-      <TrackingBox />
+      <LoginCard>
+        <LoginToggle value={loginState} onChange={setLoginState} />
+      </LoginCard>
     </ScrollView>
   );
 }

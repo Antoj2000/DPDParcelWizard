@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import LoginToggle from "@/components/login/LoginToggle";
 import LoginCard from "@/components/login/LoginCard";
 import LoginInput from "@/components/login/LoginInput";
+import LoginButton from "@/components/login/LoginButton";
 import { useState } from "react";
 
 export default function Playground() {
@@ -31,6 +32,11 @@ export default function Playground() {
           rightIcon={hidePassword ? "eye-off-outline" : "eye-outline"}
           onRightPress={() => setHidePassword((prev) => !prev)}
           autoCompleteType="password"
+        />
+        <LoginButton
+          title="Login"
+          onPress={() => {}}
+          disabled={!email || !password}
         />
       </LoginCard>
     </ScrollView>

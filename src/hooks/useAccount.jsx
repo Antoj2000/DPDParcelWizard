@@ -34,10 +34,43 @@ export default function useAccount() {
     }));
   }
 
+  function addEmail(newEmail) {
+    setAccount((prev) => ({
+      ...prev,
+      emails: [
+        ...prev.emails,
+        {
+          id: Date.now().toString(),
+          value: newEmail.value,
+          isPrimary: prev.emails.length === 0,
+        },
+      ],
+    }));
+  }
+
+  function updateEmail(updatedEmail) {
+    setAccount((prev) => ({
+      ...prev,
+      emails: prev.emails.map((email) =>
+        email.id === updatedEmail.id ? updatedEmail : email,
+      ),
+    }));
+  }
+
+  function deleteEmail(id) {
+    setAccount((prev) => ({
+      ...prev,
+      emails: prev.emails.filter((email) => email.id !== id),
+    }));
+  }
+
   return {
     account,
     addPhoneNumber,
     updatePhoneNumber,
     deletePhoneNumber,
+    addEmail,
+    updateEmail,
+    deleteEmail,
   };
 }

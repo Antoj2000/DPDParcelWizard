@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useDeliveries } from "@/src/hooks/useDelivery";
+import { useDeliveries } from "@/bin/hooks/useDelivery";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from '@/constants/colors'
 

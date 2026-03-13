@@ -5,7 +5,7 @@ import { Colors } from "@/constants/colors";
 import AddressCard from "@/components/addresses/AddressCard";
 import IconButton from "@/components/ui/IconButton";
 import NewAddressForm from "@/components/addresses/NewAddressForm";
-import useAddresses from "@/hooks/useAddresses";
+import useAddresses from "@/src/hooks/useAddresses";
 
 export default function AddressScreen() {
   const [showModal, setShowModal] = useState(false);

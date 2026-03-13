@@ -6,7 +6,7 @@ import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
 import QuickActions from "@/components/home/QuickActions";
 import TrackingBox from "@/components/header/TrackingBox";
 
-import useParcels from "@/hooks/useParcels";
+import useParcels from "@/src/hooks/useParcels";
 
 export default function Deliveries() {
   const router = useRouter();

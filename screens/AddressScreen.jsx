@@ -53,8 +53,7 @@ export default function AddressScreen() {
       addAddress(addressToAdd);
     }
 
-    setShowModal(false);
-    setEditingAddress(null);
+    handleCancel();
   }
 
   function handleDelete(address) {

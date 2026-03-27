@@ -8,8 +8,8 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { ThemedView } from "@/components/expo/themed-view";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useThemeColor } from "@/hooks/use-theme-color";
+import { useColorScheme } from "@/src/hooks/use-color-scheme";
+import { useThemeColor } from "@/src/hooks/use-theme-color";
 
 const HEADER_HEIGHT = 250;
 
@@ -34,14 +34,14 @@ export default function ParallaxScrollView({
           translateY: interpolate(
             scrollOffset.value,
             [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-            [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75]
+            [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75],
           ),
         },
         {
           scale: interpolate(
             scrollOffset.value,
             [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-            [2, 1, 1]
+            [2, 1, 1],
           ),
         },
       ],

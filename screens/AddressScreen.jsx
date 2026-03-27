@@ -1,17 +1,25 @@
-import { View, StyleSheet, FlatList, Alert } from "react-native";
-import CardTitle from "@/components/ui/CardTitle";
+import { View, StyleSheet, FlatList, Alert, Text } from "react-native";
+import { useState } from "react";
+import { Colors } from "@/constants/colors";
+
 import AddressCard from "@/components/addresses/AddressCard";
 import IconButton from "@/components/ui/IconButton";
-import { useState } from "react";
 import NewAddressForm from "@/components/addresses/NewAddressForm";
-import { MOCK_ADDRESSES } from "@/data/mockAddresses";
-import { Colors } from "@/constants/colors";
+import useAddresses from "@/src/hooks/useAddresses";
 
 export default function AddressScreen() {
   const [showModal, setShowModal] = useState(false);
-  const [addresses, setAddresses] = useState(MOCK_ADDRESSES);
-
   const [editingAddress, setEditingAddress] = useState(null);
+
+  const {
+    addresses,
+    loading,
+    error,
+    addAddress,
+    updateAddress,
+    deleteAddress,
+    setDefaultAddress,
+  } = useAddresses();
 
   function openAddModal() {
     setEditingAddress(null);
@@ -30,14 +38,11 @@ export default function AddressScreen() {
 
   function handleSubmit(formValues) {
     if (editingAddress) {
-      // EDIT
-      setAddresses((prev) =>
-        prev.map((a) =>
-          a.id === editingAddress.id ? { ...a, ...formValues } : a,
-        ),
-      );
+      updateAddress({
+        ...editingAddress,
+        ...formValues,
+      });
     } else {
-      // ADD
       const addressToAdd = {
         id: Date.now().toString(),
         type: "home",
@@ -45,11 +50,10 @@ export default function AddressScreen() {
         ...formValues,
       };
 
-      setAddresses((prev) => [addressToAdd, ...prev]);
+      addAddress(addressToAdd);
     }
 
-    setShowModal(false);
-    setEditingAddress(null);
+    handleCancel();
   }
 
   function handleDelete(address) {
@@ -70,7 +74,7 @@ export default function AddressScreen() {
           text: "Delete",
           style: "destructive",
           onPress: () => {
-            setAddresses((prev) => prev.filter((a) => a.id !== address.id));
+            deleteAddress(address.id);
           },
         },
       ],
@@ -78,21 +82,27 @@ export default function AddressScreen() {
   }
 
   function handleSetDefault(address) {
-    setAddresses((prev) =>
-      prev.map((a) => ({
-        ...a,
-        isDefault: a.id === address.id,
-      })),
+    setDefaultAddress(address.id);
+  }
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <Text>Loading addresses...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>{error}</Text>
+      </View>
     );
   }
 
   return (
     <View style={styles.rootContainer}>
-      {/* <CardTitle
-        icon="map-outline"
-        text="Address Book"
-        subText="Manage your delivery addresses"
-      /> */}
       <View style={styles.addButton}>
         <IconButton
           icon="add"
@@ -142,5 +152,10 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 15,
     fontWeight: "600",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

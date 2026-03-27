@@ -6,13 +6,15 @@ import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
 import QuickActions from "@/components/home/QuickActions";
 import TrackingBox from "@/components/header/TrackingBox";
 
-import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
+import useParcels from "@/src/hooks/useParcels";
 
 export default function Deliveries() {
   const router = useRouter();
 
   const [isTracking, setIsTracking] = useState(false);
   const [trackingNumber, setTrackingNumber] = useState("");
+
+  const { arrivingToday, recentlyDelivered, loading, error } = useParcels();
 
   function handleTrackPress() {
     setIsTracking((prev) => !prev);
@@ -30,12 +32,6 @@ export default function Deliveries() {
     setTrackingNumber("");
   }
 
-  const arrivingToday = mockDeliveryDetails.filter(
-    (d) => d.status !== "DELIVERED",
-  );
-  const recentlyDelivered = mockDeliveryDetails.filter(
-    (d) => d.status === "DELIVERED",
-  );
   return (
     <>
       {isTracking && (

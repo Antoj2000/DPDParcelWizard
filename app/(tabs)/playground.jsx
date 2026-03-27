@@ -1,16 +1,19 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Alert } from "react-native";
+import { useState } from "react";
+import * as SecureStore from "expo-secure-store";
+
 import LoginToggle from "@/components/login/LoginToggle";
 import LoginCard from "@/components/login/LoginCard";
-
 import LoginButton from "@/components/login/LoginButton";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
-import { useState } from "react";
+
+import { login } from "@/services/authService";
 
 export default function Playground() {
   const [loginState, setLoginState] = useState("login");
   const [loginValues, setLoginValues] = useState({
-    email: "",
+    accountNo: "",
     password: "",
   });
 
@@ -42,14 +45,27 @@ export default function Playground() {
     }));
   }
 
+  async function handleLogin() {
+    try {
+      const result = await login(loginValues.accountNo, loginValues.password);
+
+      await SecureStore.setItemAsync("token", result.access_token);
+
+      Alert.alert("Success", "Login successful");
+      console.log(result);
+    } catch (error) {
+      Alert.alert("Login failed", error.message);
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <LoginCard>
         <LoginToggle value={loginState} onChange={setLoginState} />
         {loginState === "login" ? (
           <LoginForm
-            email={loginValues.email}
-            setEmail={(value) => updateLoginField("email", value)}
+            accountNo={loginValues.accountNo}
+            setAccountNo={(value) => updateLoginField("accountNo", value)}
             password={loginValues.password}
             setPassword={(value) => updateLoginField("password", value)}
             hidePassword={visibility.loginPassword}
@@ -92,13 +108,13 @@ export default function Playground() {
         )}
         <LoginButton
           title={loginState === "login" ? "Login" : "Register"}
-          onPress={() => {}}
+          onPress={loginState === "login" ? handleLogin : () => {}}
           disabled={
             loginState === "login"
-              ? !loginValues.email || !loginValues.password
+              ? !loginValues.accountNo || !loginValues.password
               : !registerValues.firstName ||
                 !registerValues.lastName ||
-                !registerValues.email ||
+                !registerValues.accountNo ||
                 !registerValues.password ||
                 !registerValues.confirmPassword
           }

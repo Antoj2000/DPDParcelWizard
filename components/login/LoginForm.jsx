@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
 import LoginInput from "@/components/login/LoginInput";
 export default function LoginForm({
-  email,
-  setEmail,
+  accountNo,
+  setAccountNo,
   password,
   setPassword,
   hidePassword,
@@ -11,14 +10,14 @@ export default function LoginForm({
   return (
     <>
       <LoginInput
-        label="Email"
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
+        label="Account Number"
+        placeholder="Enter your account number"
+        value={accountNo}
+        onChangeText={setAccountNo}
+        keyboardType="default"
+        autoCapitalize="characters"
         autoCorrect={false}
-        autoComplete="email"
+        autoComplete="off"
       />
       <LoginInput
         label="Password"
@@ -35,4 +34,4 @@ export default function LoginForm({
     </>
   );
 }
-const styles = StyleSheet.create({});
+

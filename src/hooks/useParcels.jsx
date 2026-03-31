@@ -17,12 +17,12 @@ export default function useParcels() {
       } catch (err) {
         setError("Failed to load parcels");
       } finally {
-        setLoading(false);
-      }
+        setLoading(false); 
+      } 
     }
 
     loadParcels();
-  }, []);
+  }, []); 
 
   const arrivingToday = parcels.filter(
     (parcel) => parcel.status === "OUT_FOR_DELIVERY",

@@ -12,11 +12,24 @@ import CalendarLegend from "@/components/calendar/CalendarLegend";
 import CalendarCard from "@/components/calendar/CalendarCard";
 import SelectDatesCard from "@/components/calendar/schedule/SelectDatesCard";
 
+import useParcels from "@/src/hooks/useParcels";
+
 export default function CalendarScreen() {
   const today = useMemo(() => new Date(), []); //Memo to avoid re-creating date object on every render
+
   const [visibleMonth, setVisibleMonth] = useState(startOfMonth(today));
   const [selectedDate, setSelectedDate] = useState(today);
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
+
+  const { parcels } = useParcels();
+
+  const deliveryDates = useMemo(() => {
+    return new Set(
+      parcels
+        .filter((parcel) => parcel.expectedAt)
+        .map((parcel) => parcel.expectedAt),
+    );
+  }, [parcels]);
 
   const days = useMemo(
     () => buildCalendarDays(visibleMonth, today),
@@ -39,7 +52,7 @@ export default function CalendarScreen() {
     setVisibleMonth((m) => addMonths(m, 1));
   }, []);
 
-  const onSelectDate = (date: Date, inMonth: boolean) => {
+  const onSelectDate = (date, inMonth) => {
     setSelectedDate(date);
     if (!inMonth) {
       setVisibleMonth(new Date(date.getFullYear(), date.getMonth(), 1));
@@ -82,6 +95,7 @@ export default function CalendarScreen() {
           days={days}
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
+          deliveryDates={deliveryDates}
         />
         <CalendarLegend />
       </ScrollView>

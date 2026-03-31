@@ -2,11 +2,22 @@ import { useMemo } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { isSameDay } from "@/utils/date";
 import { Colors } from "@/constants/colors";
-export default function DaysCell({ item, selectedDate, onPress }) {
+export default function DaysCell({
+  item,
+  selectedDate,
+  onPress,
+  deliveryDates,
+}) {
   const isSelected = useMemo(
     () => isSameDay(item.date, selectedDate),
     [item.date, selectedDate],
   );
+
+  const dateKey = useMemo(() => {
+    return item.date.toISOString().split("T")[0];
+  }, [item.date]);
+
+  const hasDelivery = item.inMonth && deliveryDates?.has(dateKey);
 
   return (
     <View style={styles.cell}>
@@ -14,23 +25,26 @@ export default function DaysCell({ item, selectedDate, onPress }) {
         onPress={() => onPress(item.date, item.inMonth)}
         style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
       >
-        <View
-          style={[
-            styles.circle,
-            item.isToday && styles.todayCircle,
-            isSelected && styles.selectedCircle,
-          ]}
-        >
-          <Text
+        <View style={styles.content}>
+          <View
             style={[
-              styles.dayText,
-              !item.inMonth && styles.mutedText,
-              item.isToday && styles.todayText,
-              isSelected && styles.selectedText,
+              styles.circle,
+              item.isToday && styles.todayCircle,
+              isSelected && styles.selectedCircle,
             ]}
           >
-            {item.day}
-          </Text>
+            <Text
+              style={[
+                styles.dayText,
+                !item.inMonth && styles.mutedText,
+                item.isToday && styles.todayText,
+                isSelected && styles.selectedText,
+              ]}
+            >
+              {item.day}
+            </Text>
+          </View>
+          {hasDelivery && <View style={styles.deliveryDot} />}
         </View>
       </Pressable>
     </View>
@@ -52,6 +66,10 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.7,
+  },
+  content: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   circle: {
     width: 36,
@@ -86,5 +104,11 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: "white",
+  },
+  deliveryDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.dpdRed,
   },
 });

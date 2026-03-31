@@ -1,63 +1,26 @@
-import { useMemo, useState, useCallback } from "react";
+import { useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import IconButton from "@/components/ui/IconButton";
 import { Colors } from "@/constants/colors";
-import {
-  buildCalendarDays,
-  startOfMonth,
-  addMonths,
-  formatMonthLabel,
-} from "@/utils/date";
+
 import CalendarLegend from "@/components/calendar/CalendarLegend";
 import CalendarCard from "@/components/calendar/CalendarCard";
 import SelectDatesCard from "@/components/calendar/schedule/SelectDatesCard";
 
-import useParcels from "@/src/hooks/useParcels";
+import useCalendarScreen from "@/src/hooks/useCalendarScreen";
 
 export default function CalendarScreen() {
-  const today = useMemo(() => new Date(), []); //Memo to avoid re-creating date object on every render
+  const {
+    selectedDate,
+    monthLabel,
+    days,
+    deliveryDates,
+    onPrevMonth,
+    onNextMonth,
+    onSelectDate,
+  } = useCalendarScreen();
 
-  const [visibleMonth, setVisibleMonth] = useState(startOfMonth(today));
-  const [selectedDate, setSelectedDate] = useState(today);
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
-
-  const { parcels } = useParcels();
-
-  const deliveryDates = useMemo(() => {
-    return new Set(
-      parcels
-        .filter((parcel) => parcel.expectedAt)
-        .map((parcel) => parcel.expectedAt),
-    );
-  }, [parcels]);
-
-  const days = useMemo(
-    () => buildCalendarDays(visibleMonth, today),
-    [visibleMonth, today],
-  );
-
-  const monthLabel = useMemo(
-    () => formatMonthLabel(visibleMonth, "en-IE"),
-    [visibleMonth],
-  );
-
-  const onPrevMonth = () => {
-    setVisibleMonth(
-      (prevMonth) =>
-        new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1),
-    );
-  };
-
-  const onNextMonth = useCallback(() => {
-    setVisibleMonth((m) => addMonths(m, 1));
-  }, []);
-
-  const onSelectDate = (date, inMonth) => {
-    setSelectedDate(date);
-    if (!inMonth) {
-      setVisibleMonth(new Date(date.getFullYear(), date.getMonth(), 1));
-    }
-  };
 
   function toggleCreateSchedule() {
     setIsCreatingSchedule((prev) => !prev);
@@ -87,7 +50,6 @@ export default function CalendarScreen() {
             />
           </View>
         )}
-
         <CalendarCard
           monthLabel={monthLabel}
           onPrevMonth={onPrevMonth}

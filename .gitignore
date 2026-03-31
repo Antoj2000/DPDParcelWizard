@@ -44,3 +44,6 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Config files
+src/config/api.js

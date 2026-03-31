@@ -1,6 +1,5 @@
 import { ScrollView, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
-import * as SecureStore from "expo-secure-store";
 
 import LoginToggle from "@/components/login/LoginToggle";
 import LoginCard from "@/components/login/LoginCard";
@@ -8,7 +7,7 @@ import LoginButton from "@/components/login/LoginButton";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
 
-import { login } from "@/services/authService";
+import { login, loginToAccount } from "@/src/services/authService";
 
 export default function Playground() {
   const [loginState, setLoginState] = useState("login");
@@ -47,12 +46,15 @@ export default function Playground() {
 
   async function handleLogin() {
     try {
-      const result = await login(loginValues.accountNo, loginValues.password);
+      const { account } = await loginToAccount(
+        loginValues.accountNo,
+        loginValues.password,
+      );
 
-      await SecureStore.setItemAsync("token", result.access_token);
-
-      Alert.alert("Success", "Login successful");
-      console.log(result);
+      Alert.alert(
+        "Success",
+        `Login successful\nName: ${account.name}\nEmail: ${account.email}`,
+      );
     } catch (error) {
       Alert.alert("Login failed", error.message);
     }

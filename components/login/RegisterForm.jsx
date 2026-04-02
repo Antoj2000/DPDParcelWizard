@@ -1,4 +1,4 @@
-import { StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 import LoginInput from "./LoginInput";
 
 export default function RegisterForm({
@@ -61,7 +61,8 @@ export default function RegisterForm({
         onRightPress={setHideConfirmPassword}
         autoComplete="password"
       />
-    </>
+      </>
   );
 }
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+});

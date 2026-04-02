@@ -1,11 +1,11 @@
-import { useMemo, useState, useCallback } from "react";
 import useParcels from "@/src/hooks/useParcels";
 import {
-  buildCalendarDays,
-  startOfMonth,
   addMonths,
+  buildCalendarDays,
   formatMonthLabel,
+  startOfMonth,
 } from "@/utils/date";
+import { useCallback, useMemo, useState } from "react";
 
 export default function useCalendarScreen() {
   const today = useMemo(() => new Date(), []);
@@ -21,6 +21,12 @@ export default function useCalendarScreen() {
         .map((parcel) => parcel.expectedAt),
     );
   }, [parcels]);
+
+  const selectedDateParcels = useMemo(() => {
+    const selectedDateKey = selectedDate.toISOString().split("T")[0];
+
+    return parcels.filter((parcel) => parcel.expectedAt === selectedDateKey);
+  }, [parcels, selectedDate]);
 
   const days = useMemo(
     () => buildCalendarDays(visibleMonth, today),
@@ -52,6 +58,7 @@ export default function useCalendarScreen() {
   }, []);
   return {
     selectedDate,
+    selectedDateParcels,
     monthLabel,
     days,
     deliveryDates,

@@ -6,7 +6,7 @@ export const mockDeliveryDetails = [
     status: "OUT_FOR_DELIVERY",
     statusDisplay: "Out for Delivery",
 
-    eta: {
+    eta: { 
       label: "Today, 2:00 PM – 4:00 PM",
     },
 

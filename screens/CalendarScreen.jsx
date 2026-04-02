@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
-import IconButton from "@/components/ui/IconButton";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
 
+import IconButton from "@/components/ui/IconButton";
 import CalendarLegend from "@/components/calendar/CalendarLegend";
 import CalendarCard from "@/components/calendar/CalendarCard";
 import SelectDatesCard from "@/components/calendar/schedule/SelectDatesCard";
+import ParcelCard from "@/components/deliveries/cards/ParcelCard";
 
 import useCalendarScreen from "@/src/hooks/useCalendarScreen";
 
@@ -18,7 +20,10 @@ export default function CalendarScreen() {
     onPrevMonth,
     onNextMonth,
     onSelectDate,
+    selectedDateParcels,
   } = useCalendarScreen();
+
+  const router = useRouter();
 
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
 
@@ -27,7 +32,7 @@ export default function CalendarScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -59,9 +64,16 @@ export default function CalendarScreen() {
           onSelectDate={onSelectDate}
           deliveryDates={deliveryDates}
         />
+        {selectedDateParcels.map((parcel) => (
+          <ParcelCard
+            key={parcel.id}
+            parcel={parcel}
+            onPress={() => router.push(`/${parcel.trackingNumber}`)}
+          />
+        ))}
         <CalendarLegend />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

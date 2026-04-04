@@ -4,7 +4,11 @@ import { Colors } from "@/constants/colors";
 
 import TextButton from "../../ui/TextButton";
 
-export default function SelectDatesCard({ onClose, selectedDates }) {
+export default function SelectDatesCard({
+  onClose,
+  selectedDates, 
+  onContinue,
+}) {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -20,8 +24,8 @@ export default function SelectDatesCard({ onClose, selectedDates }) {
       </View>
       <View style={styles.dateContainer}>
         <Text style={styles.dateText}>
-          Selected:{" "} 
-          {selectedDates
+          Selected:{" "}
+          {selectedDates && selectedDates.length > 0
             ? selectedDates.map((d) => d.toLocaleDateString()).join(", ")
             : "None"}
         </Text>
@@ -31,6 +35,7 @@ export default function SelectDatesCard({ onClose, selectedDates }) {
         label="Continue to Schedule Details"
         style={styles.buttonContainer}
         textStyle={styles.buttonText}
+        onPress={onContinue}
       />
     </View>
   );

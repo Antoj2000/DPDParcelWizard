@@ -12,6 +12,9 @@ export default function CalendarCard({
   selectedDate,
   onSelectDate,
   deliveryDates,
+  scheduleMap,
+  selectedDates,
+  isSelectingSchedule = false,
 }) {
   return (
     <View style={styles.calendarCard}>
@@ -27,6 +30,9 @@ export default function CalendarCard({
         selectedDate={selectedDate}
         onSelectDate={onSelectDate}
         deliveryDates={deliveryDates}
+        scheduleMap={scheduleMap}
+        selectedDates={selectedDates}
+        isSelectingSchedule={isSelectingSchedule}
       />
     </View>
   );

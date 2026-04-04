@@ -16,7 +16,7 @@ import { loginToAccount } from "@/src/services/authService";
 import { createAccount } from "@/src/services/accountService";
 
 export default function Playground() {
-  const [loginState, setLoginState] = useState("login");
+  const [loginState, setLoginState] = useState("login"); 
   const [loginValues, setLoginValues] = useState({
     accountNo: "",
     password: "",

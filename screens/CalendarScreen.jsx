@@ -7,9 +7,12 @@ import IconButton from "@/components/ui/IconButton";
 import CalendarLegend from "@/components/calendar/CalendarLegend";
 import CalendarCard from "@/components/calendar/CalendarCard";
 import SelectDatesCard from "@/components/calendar/schedule/SelectDatesCard";
+import ScheduleDetailsCard from "@/components/calendar/schedule/ScheduleDetailsCard";
 import ParcelCard from "@/components/deliveries/cards/ParcelCard";
 
 import useCalendarScreen from "@/src/hooks/useCalendarScreen";
+import useSchedules from "@/src/hooks/useSchedules";
+import { isSameDay } from "@/utils/date";
 
 export default function CalendarScreen() {
   const {
@@ -19,16 +22,53 @@ export default function CalendarScreen() {
     deliveryDates,
     onPrevMonth,
     onNextMonth,
-    onSelectDate,
+    onSelectDate: onSelectDateHook,
     selectedDateParcels,
   } = useCalendarScreen();
+
+  const { addSchedule, scheduleMap } = useSchedules();
 
   const router = useRouter();
 
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
+  const [selectedScheduleDates, setSelectedScheduleDates] = useState([]);
+  const [showScheduleDetails, setShowScheduleDetails] = useState(false);
 
   function toggleCreateSchedule() {
     setIsCreatingSchedule((prev) => !prev);
+    setSelectedScheduleDates([]);
+    setShowScheduleDetails(false);
+  }
+
+  function handleSelectDate(date, inMonth) {
+    if (isCreatingSchedule) {
+      setSelectedScheduleDates((prev) => {
+        const exists = prev.some((d) => isSameDay(d, date));
+
+        if (exists) {
+          return prev.filter((d) => !isSameDay(d, date));
+        }
+
+        return [...prev, date];
+      });
+    } else {
+      onSelectDateHook(date, inMonth);
+    }
+  }
+
+  function handleContinue() {
+    if (selectedScheduleDates.length === 0) { 
+      return;
+    }
+
+    setShowScheduleDetails(true);
+  }
+
+  function handleSave(schedule) {
+    addSchedule(schedule);
+    setIsCreatingSchedule(false);
+    setSelectedScheduleDates([]);
+    setShowScheduleDetails(false);
   }
 
   return (
@@ -39,10 +79,19 @@ export default function CalendarScreen() {
         showsVerticalScrollIndicator={false}
       >
         {isCreatingSchedule ? (
-          <SelectDatesCard
-            onClose={toggleCreateSchedule}
-            selectedDates={[selectedDate]}
-          />
+          showScheduleDetails ? (
+            <ScheduleDetailsCard
+              selectedDates={selectedScheduleDates}
+              onSave={handleSave}
+              onCancel={() => setShowScheduleDetails(false)}
+            />
+          ) : (
+            <SelectDatesCard
+              onClose={toggleCreateSchedule}
+              selectedDates={selectedScheduleDates}
+              onContinue={handleContinue}
+            />
+          )
         ) : (
           <View style={styles.createButton}>
             <IconButton
@@ -55,15 +104,20 @@ export default function CalendarScreen() {
             />
           </View>
         )}
+
         <CalendarCard
           monthLabel={monthLabel}
           onPrevMonth={onPrevMonth}
           onNextMonth={onNextMonth}
           days={days}
           selectedDate={selectedDate}
-          onSelectDate={onSelectDate}
+          onSelectDate={handleSelectDate}
           deliveryDates={deliveryDates}
+          scheduleMap={scheduleMap}
+          selectedDates={selectedScheduleDates}
+          isSelectingSchedule={isCreatingSchedule}
         />
+
         {selectedDateParcels.map((parcel) => (
           <ParcelCard
             key={parcel.id}
@@ -71,6 +125,7 @@ export default function CalendarScreen() {
             onPress={() => router.push(`/${parcel.trackingNumber}`)}
           />
         ))}
+
         <CalendarLegend />
       </ScrollView>
     </View>
@@ -89,7 +144,6 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 24,
   },
-
   createButton: {
     borderRadius: 8,
     paddingVertical: 8,

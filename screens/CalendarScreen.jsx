@@ -57,7 +57,7 @@ export default function CalendarScreen() {
   }
 
   function handleContinue() {
-    if (selectedScheduleDates.length === 0) {
+    if (selectedScheduleDates.length === 0) { 
       return;
     }
 

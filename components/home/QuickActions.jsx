@@ -1,9 +1,15 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet} from "react-native";
 import QuickActionsButton from "@/components/ui/QuickActionsButton";
 import { useRouter } from "expo-router";
+import useLocateUser from "@/src/hooks/useLocateUser";
 
 export default function QuickActions({ onTrackPress }) {
   const router = useRouter();
+  const { locateUser } = useLocateUser();
+
+  function handleLocatePress() {
+    locateUser();
+  }
 
   return (
     <View style={styles.buttonRow}>
@@ -17,7 +23,11 @@ export default function QuickActions({ onTrackPress }) {
         label="Scan"
         onPress={() => router.push("/scan")}
       />
-      <QuickActionsButton icon="map-outline" label="Locate" />
+      <QuickActionsButton
+        icon="map-outline"
+        label="Locate"
+        onPress={handleLocatePress}
+      />
       <QuickActionsButton
         icon="call-outline"
         label="Support"

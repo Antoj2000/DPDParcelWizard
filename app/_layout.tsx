@@ -32,6 +32,17 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="map"
+          options={{
+            headerShown: true,
+            title: "DPD Locator",
+            headerStyle: { backgroundColor: Colors.dpdRed },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: 700, fontSize: 18 },
+            headerBackTitle: "Back",
+          }}
+        />
+        <Stack.Screen
           name="[trackingNumber]"
           options={{
             headerShown: true,
@@ -43,6 +54,6 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-    </> 
+    </>  
   );
 }

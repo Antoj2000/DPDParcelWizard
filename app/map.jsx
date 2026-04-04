@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import MapView, { Marker } from "react-native-maps";
 
 export default function Map() {
-  const { latitude, longitude } = useLocalSearchParams();
+  const { latitude, longitude } = useLocalSearchParams(); 
 
   const parsedLatitude = Number(latitude);
   const parsedLongitude = Number(longitude);

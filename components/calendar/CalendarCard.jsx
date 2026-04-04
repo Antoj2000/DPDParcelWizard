@@ -11,6 +11,7 @@ export default function CalendarCard({
   days,
   selectedDate,
   onSelectDate,
+  deliveryDates,
 }) {
   return (
     <View style={styles.calendarCard}>
@@ -18,13 +19,14 @@ export default function CalendarCard({
       <MonthHeader
         monthLabel={monthLabel}
         onPrev={onPrevMonth}
-        onNext={onNextMonth}
+        onNext={onNextMonth} 
       />
       <WeekdayRow />
       <DaysGrid
         days={days}
         selectedDate={selectedDate}
         onSelectDate={onSelectDate}
+        deliveryDates={deliveryDates}
       />
     </View>
   );

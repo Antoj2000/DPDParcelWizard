@@ -1,57 +1,38 @@
-import { useMemo, useState, useCallback } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
-import IconButton from "@/components/ui/IconButton";
+import { useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
 import { Colors } from "@/constants/colors";
-import {
-  buildCalendarDays,
-  startOfMonth,
-  addMonths,
-  formatMonthLabel,
-} from "@/utils/date";
+
+import IconButton from "@/components/ui/IconButton";
 import CalendarLegend from "@/components/calendar/CalendarLegend";
 import CalendarCard from "@/components/calendar/CalendarCard";
 import SelectDatesCard from "@/components/calendar/schedule/SelectDatesCard";
+import ParcelCard from "@/components/deliveries/cards/ParcelCard";
+
+import useCalendarScreen from "@/src/hooks/useCalendarScreen";
 
 export default function CalendarScreen() {
-  const today = useMemo(() => new Date(), []); //Memo to avoid re-creating date object on every render
-  const [visibleMonth, setVisibleMonth] = useState(startOfMonth(today));
-  const [selectedDate, setSelectedDate] = useState(today);
+  const {
+    selectedDate,
+    monthLabel,
+    days,
+    deliveryDates,
+    onPrevMonth,
+    onNextMonth,
+    onSelectDate,
+    selectedDateParcels,
+  } = useCalendarScreen();
+
+  const router = useRouter();
+
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
-
-  const days = useMemo(
-    () => buildCalendarDays(visibleMonth, today),
-    [visibleMonth, today],
-  );
-
-  const monthLabel = useMemo(
-    () => formatMonthLabel(visibleMonth, "en-IE"),
-    [visibleMonth],
-  );
-
-  const onPrevMonth = () => {
-    setVisibleMonth(
-      (prevMonth) =>
-        new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1),
-    );
-  };
-
-  const onNextMonth = useCallback(() => {
-    setVisibleMonth((m) => addMonths(m, 1));
-  }, []);
-
-  const onSelectDate = (date: Date, inMonth: boolean) => {
-    setSelectedDate(date);
-    if (!inMonth) {
-      setVisibleMonth(new Date(date.getFullYear(), date.getMonth(), 1));
-    }
-  };
 
   function toggleCreateSchedule() {
     setIsCreatingSchedule((prev) => !prev);
   }
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -74,7 +55,6 @@ export default function CalendarScreen() {
             />
           </View>
         )}
-
         <CalendarCard
           monthLabel={monthLabel}
           onPrevMonth={onPrevMonth}
@@ -82,10 +62,18 @@ export default function CalendarScreen() {
           days={days}
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
+          deliveryDates={deliveryDates}
         />
+        {selectedDateParcels.map((parcel) => (
+          <ParcelCard
+            key={parcel.id}
+            parcel={parcel}
+            onPress={() => router.push(`/${parcel.trackingNumber}`)}
+          />
+        ))}
         <CalendarLegend />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

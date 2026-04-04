@@ -1,4 +1,9 @@
-import { ScrollView, StyleSheet, Alert } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Alert,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useState } from "react";
 
 import LoginToggle from "@/components/login/LoginToggle";
@@ -84,68 +89,74 @@ export default function Playground() {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <LoginCard>
-        <LoginToggle value={loginState} onChange={setLoginState} />
-        {loginState === "login" ? (
-          <LoginForm
-            accountNo={loginValues.accountNo}
-            setAccountNo={(value) => updateLoginField("accountNo", value)}
-            password={loginValues.password}
-            setPassword={(value) => updateLoginField("password", value)}
-            hidePassword={visibility.loginPassword}
-            onTogglePassword={() =>
-              setVisibility((prev) => ({
-                ...prev,
-                loginPassword: !prev.loginPassword,
-              }))
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior="padding"
+      keyboardVerticalOffset={140}
+    >
+      <ScrollView style={styles.container}>
+        <LoginCard>
+          <LoginToggle value={loginState} onChange={setLoginState} />
+          {loginState === "login" ? (
+            <LoginForm
+              accountNo={loginValues.accountNo}
+              setAccountNo={(value) => updateLoginField("accountNo", value)}
+              password={loginValues.password}
+              setPassword={(value) => updateLoginField("password", value)}
+              hidePassword={visibility.loginPassword}
+              onTogglePassword={() =>
+                setVisibility((prev) => ({
+                  ...prev,
+                  loginPassword: !prev.loginPassword,
+                }))
+              }
+            />
+          ) : (
+            <RegisterForm
+              firstName={registerValues.firstName}
+              setFirstName={(value) => updateRegisterField("firstName", value)}
+              lastName={registerValues.lastName}
+              setLastName={(value) => updateRegisterField("lastName", value)}
+              email={registerValues.email}
+              setEmail={(value) => updateRegisterField("email", value)}
+              password={registerValues.password}
+              setPassword={(value) => updateRegisterField("password", value)}
+              confirmPassword={registerValues.confirmPassword}
+              setConfirmPassword={(value) =>
+                updateRegisterField("confirmPassword", value)
+              }
+              hidePassword={visibility.registerPassword}
+              setHidePassword={() =>
+                setVisibility((prev) => ({
+                  ...prev,
+                  registerPassword: !prev.registerPassword,
+                }))
+              }
+              hideConfirmPassword={visibility.registerConfirmPassword}
+              setHideConfirmPassword={() =>
+                setVisibility((prev) => ({
+                  ...prev,
+                  registerConfirmPassword: !prev.registerConfirmPassword,
+                }))
+              }
+            />
+          )}
+          <LoginButton
+            title={loginState === "login" ? "Login" : "Register"}
+            onPress={loginState === "login" ? handleLogin : handleRegister}
+            disabled={
+              loginState === "login"
+                ? !loginValues.accountNo || !loginValues.password
+                : !registerValues.firstName ||
+                  !registerValues.lastName ||
+                  !registerValues.email ||
+                  !registerValues.password ||
+                  !registerValues.confirmPassword
             }
           />
-        ) : (
-          <RegisterForm
-            firstName={registerValues.firstName}
-            setFirstName={(value) => updateRegisterField("firstName", value)}
-            lastName={registerValues.lastName}
-            setLastName={(value) => updateRegisterField("lastName", value)}
-            email={registerValues.email}
-            setEmail={(value) => updateRegisterField("email", value)}
-            password={registerValues.password}
-            setPassword={(value) => updateRegisterField("password", value)}
-            confirmPassword={registerValues.confirmPassword}
-            setConfirmPassword={(value) =>
-              updateRegisterField("confirmPassword", value)
-            }
-            hidePassword={visibility.registerPassword}
-            setHidePassword={() =>
-              setVisibility((prev) => ({
-                ...prev,
-                registerPassword: !prev.registerPassword,
-              }))
-            }
-            hideConfirmPassword={visibility.registerConfirmPassword}
-            setHideConfirmPassword={() =>
-              setVisibility((prev) => ({
-                ...prev,
-                registerConfirmPassword: !prev.registerConfirmPassword,
-              }))
-            }
-          />
-        )}
-        <LoginButton
-          title={loginState === "login" ? "Login" : "Register"}
-          onPress={loginState === "login" ? handleLogin : handleRegister}
-          disabled={
-            loginState === "login"
-              ? !loginValues.accountNo || !loginValues.password
-              : !registerValues.firstName ||
-                !registerValues.lastName ||
-                !registerValues.email ||
-                !registerValues.password ||
-                !registerValues.confirmPassword
-          }
-        />
-      </LoginCard>
-    </ScrollView>
+        </LoginCard>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

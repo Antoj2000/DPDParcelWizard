@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import DaysCell from "./DaysCell";
 
-export default function DaysGrid({ days = [], selectedDate, onSelectDate }) {
+export default function DaysGrid({ days = [], selectedDate, onSelectDate, deliveryDates }) {
   return (
     <View style={styles.daysGrid}>
       {days.map((day) => (
@@ -10,6 +10,7 @@ export default function DaysGrid({ days = [], selectedDate, onSelectDate }) {
           item={day}
           selectedDate={selectedDate}
           onPress={onSelectDate}
+          deliveryDates={deliveryDates}
         />
       ))}
     </View>

@@ -7,7 +7,7 @@ export type CalendarDay = {
 
 export function isSameDay(a: Date, b: Date): boolean {
   return (
-    a.getFullYear() === b.getFullYear() && 
+    a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
   );
@@ -31,6 +31,14 @@ export function formatLongDate(date: Date, locale = "en-IE"): string {
     day: "numeric",
     month: "long",
   });
+}
+
+export function formatDateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 export function buildCalendarDays(monthDate: Date, today: Date): CalendarDay[] {

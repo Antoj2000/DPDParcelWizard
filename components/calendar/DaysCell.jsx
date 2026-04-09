@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import { isSameDay } from "@/utils/date";
 import { Colors } from "@/constants/colors";
+import { formatDateKey, isSameDay } from "@/utils/date";
+import { useMemo } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 export default function DaysCell({
   item,
   selectedDate,
@@ -18,7 +18,7 @@ export default function DaysCell({
 
   // Create a key for deliveryDates and scheduleMap based on the date (e.g., "2024-09-01")
   const dateKey = useMemo(() => {
-    return item.date.toISOString().split("T")[0];
+    return formatDateKey(item.date);
   }, [item.date]);
 
   const hasDelivery = item.inMonth && deliveryDates?.has(dateKey);

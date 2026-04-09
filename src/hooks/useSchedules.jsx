@@ -1,4 +1,5 @@
-import { useState, useMemo, useCallback } from "react";
+import { formatDateKey } from "@/utils/date";
+import { useCallback, useMemo, useState } from "react";
 
 export default function useSchedules() {
   // Store all schedules
@@ -36,7 +37,7 @@ export default function useSchedules() {
           currentDate.setDate(currentDate.getDate() + 1)
         ) {
           if (weekdays.includes(currentDate.getDay())) {
-            const key = currentDate.toISOString().split("T")[0];
+            const key = formatDateKey(currentDate);
             map.set(key, schedule.action);
           }
         }

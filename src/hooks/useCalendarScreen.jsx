@@ -2,6 +2,7 @@ import useParcels from "@/src/hooks/useParcels";
 import {
   addMonths,
   buildCalendarDays,
+  formatDateKey,
   formatMonthLabel,
   startOfMonth,
 } from "@/utils/date";
@@ -23,7 +24,7 @@ export default function useCalendarScreen() {
   }, [parcels]);
 
   const selectedDateParcels = useMemo(() => {
-    const selectedDateKey = selectedDate.toISOString().split("T")[0];
+    const selectedDateKey = formatDateKey(selectedDate);
 
     return parcels.filter((parcel) => parcel.expectedAt === selectedDateKey);
   }, [parcels, selectedDate]);

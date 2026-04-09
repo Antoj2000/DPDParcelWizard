@@ -6,7 +6,7 @@ import TextButton from "../../ui/TextButton";
 
 export default function SelectDatesCard({
   onClose,
-  selectedDates, 
+  selectedDates,  
   onContinue,
 }) {
   return (

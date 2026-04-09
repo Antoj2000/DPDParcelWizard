@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function StatusSummary({ delivery }) {
-
-
+  const statusLabel = delivery?.statusDisplay ?? "In Transit";
 
   return (
     <View style={styles.card}>
@@ -14,7 +13,7 @@ export default function StatusSummary({ delivery }) {
         </View>
 
         <View style={styles.textCol}>
-          <Text style={styles.statusTitle}>{delivery.statusDisplay}</Text>
+          <Text style={styles.statusTitle}>{statusLabel}</Text>
           <Text style={styles.etaText}>{delivery.eta.label}</Text>
         </View>
       </View>

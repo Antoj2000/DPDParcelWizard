@@ -1,15 +1,16 @@
-import { useState, useMemo } from "react";
+import { Colors } from "@/constants/colors";
+import { formatDateKey } from "@/utils/date";
+import { Ionicons } from "@expo/vector-icons";
+import { useMemo, useState } from "react";
 import {
-  View,
+  Pressable,
+  StyleSheet,
+  Switch,
   Text,
   TextInput,
-  StyleSheet,
-  Pressable,
-  Switch,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import TextButton from "../../ui/TextButton";
-import { Colors } from "@/constants/colors";
 
 export default function ScheduleDetailsCard({
   selectedDates = [],
@@ -29,7 +30,11 @@ export default function ScheduleDetailsCard({
   const endDate = orderedDates[orderedDates.length - 1] ?? null;
 
   function formatDate(date) {
-    return date?.toISOString().split("T")[0];
+    if (!date) {
+      return "";
+    }
+
+    return formatDateKey(date);
   }
 
   // Validation and pass to parent

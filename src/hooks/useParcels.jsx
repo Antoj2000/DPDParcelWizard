@@ -18,7 +18,7 @@ export default function useParcels() {
         setParcels(mockDeliveryDetails);
       } catch (err) {
         setError("Failed to load parcels");
-      } finally {
+      } finally { 
         setLoading(false);
       }
     }

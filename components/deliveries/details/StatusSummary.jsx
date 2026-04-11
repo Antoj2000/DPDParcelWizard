@@ -6,7 +6,7 @@ export default function StatusSummary({ delivery }) {
   const statusLabel = delivery?.statusDisplay ?? "In Transit";
 
   return (
-    <View style={styles.card}>
+    <View style={styles.card}> 
       <View style={styles.topRow}>
         <View style={styles.statusIcon}>
           <Ionicons name="cube-outline" size={18} color={Colors.dpdRed} />

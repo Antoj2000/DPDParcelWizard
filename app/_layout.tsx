@@ -10,6 +10,7 @@ export default function RootLayout() {
     <>
       <StatusBar style="light" />
       <Stack>
+        <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen
           name="(tabs)"
           options={{
@@ -19,8 +20,6 @@ export default function RootLayout() {
             headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: 700, fontSize: 18 },
             headerRight: () => <LogoutButton />,
-            
-
           }}
         />
         <Stack.Screen name="scan" options={{ headerShown: false }} />
@@ -58,6 +57,6 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-    </>  
+    </>
   );
 }

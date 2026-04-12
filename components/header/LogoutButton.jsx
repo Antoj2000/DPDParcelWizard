@@ -18,7 +18,7 @@ export default function LogoutButton() {
   async function handleLogout() {
     await clearAuth();
 
-    router.replace("/(tabs)/playground");
+    router.replace("/login");
   }
 
   return (

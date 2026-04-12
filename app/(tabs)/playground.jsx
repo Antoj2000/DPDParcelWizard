@@ -3,6 +3,8 @@ import {
   StyleSheet,
   Alert,
   KeyboardAvoidingView,
+  View,
+  Button,
 } from "react-native";
 import { useState } from "react";
 
@@ -12,11 +14,20 @@ import LoginButton from "@/components/login/LoginButton";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
 
+import ParcelCard from "@/components/deliveries/cards/ParcelCard";
+
 import { loginToAccount } from "@/src/services/authService";
 import { createAccount } from "@/src/services/accountService";
 
+import {
+  getConsignmentsForAccount,
+  getConsignmentByNumber,
+} from "@/src/services/consignmentService";
+
+import mapConsignmentsToParcels from "@/src/mappers/mapConsignments";
+
 export default function Playground() {
-  const [loginState, setLoginState] = useState("login"); 
+  const [loginState, setLoginState] = useState("login");
   const [loginValues, setLoginValues] = useState({
     accountNo: "",
     password: "",
@@ -35,6 +46,9 @@ export default function Playground() {
     registerPassword: true,
     registerConfirmPassword: true,
   });
+
+  const [loggedInAccount, setLoggedInAccount] = useState(null);
+  const [parcels, setParcels] = useState([]);
 
   function updateLoginField(field, value) {
     setLoginValues((prev) => ({
@@ -56,6 +70,8 @@ export default function Playground() {
         loginValues.accountNo,
         loginValues.password,
       );
+
+      setLoggedInAccount(account);
 
       Alert.alert(
         "Success",
@@ -85,6 +101,35 @@ export default function Playground() {
       );
     } catch (error) {
       Alert.alert("Registration failed", error.message);
+    }
+  }
+
+  async function handleFetchConsignments() {
+    try {
+      if (!loggedInAccount?.account_no) {
+        Alert.alert("Error", "No logged in account found");
+        return;
+      }
+      // Get account number; you already have it after login
+      const accountNo = loggedInAccount.account_no;
+      const conNumbers = await getConsignmentsForAccount(accountNo);
+      console.log("Consignment numbers:", conNumbers);
+
+      // If you want to fetch full details for each:
+      const conDetails = await Promise.all(
+        conNumbers.map((num) => getConsignmentByNumber(num))
+      );
+      console.log("Consignment details:", conDetails);
+
+      const mappedParcels = mapConsignmentsToParcels(conDetails);
+      console.log("Mapped parcels:", mappedParcels);
+
+      setParcels(mappedParcels);
+
+      Alert.alert("Success", `Fetched ${mappedParcels.length} consignments`);
+    } catch (err) {
+      console.error("Error fetching consignments:", err);
+      Alert.alert("Fetch failed", err.message);
     }
   }
 
@@ -154,6 +199,22 @@ export default function Playground() {
                   !registerValues.confirmPassword
             }
           />
+          {loggedInAccount && (
+            <View style={styles.fetchButtonContainer}>
+              <Button
+                title="Fetch My Consignments"
+                onPress={handleFetchConsignments}
+              />
+            </View>
+          )}
+          {parcels.length > 0 && (
+            <View style={styles.parcelPreview}>
+              <ParcelCard
+                parcel={parcels[0]}
+                onPress={() => console.log("Pressed parcel:", parcels[0])}
+              />
+            </View>
+          )}
         </LoginCard>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -165,5 +226,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "#f5f5f5",
+  },
+  fetchButtonContainer: {
+    marginTop: 16,
+  },
+  parcelPreview: {
+    marginTop: 16,
   },
 });

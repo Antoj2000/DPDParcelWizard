@@ -16,6 +16,7 @@ export default function mapConsignmentToParcel(consignment) {
     trackingNumber: String(consignment.consignment_number),
 
     toName: consignment.name,
+    fromName: consignment.sender_name,
 
     address: {
       line1: consignment.addressline1,
@@ -28,13 +29,12 @@ export default function mapConsignmentToParcel(consignment) {
     eta: {
       label: formatDateLabel(consignment.expected_delivery_date),
     },
-
+    
+    shippedAt: consignment.shipped_at,
     expectedAt: consignment.expected_delivery_date,
     status: consignment.status,
-    statusDisplay: consignment.statusDisplay,
-
-    fromName: "Unknown Sender",
-    shippedAt: null,
+    statusDisplay: consignment.statusDisplay, 
+    
     deliveryDepot: consignment.delivery_depot,
     weight: consignment.weight,
     accountNo: consignment.account_no,

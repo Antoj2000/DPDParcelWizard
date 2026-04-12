@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
+import { getAccountNo } from "@/src/storage/authStorage";
 import { getParcelStatus, getParcelStatusDisplay } from "@/utils/parcels";
+
+import { getParcelsForAccount } from "@/src/services/parcelService";
+import mapConsignmentsToParcels from "@/src/mappers/mapConsignments";
 
 export default function useParcels() {
   const [parcels, setParcels] = useState([]);
@@ -14,8 +18,14 @@ export default function useParcels() {
         setLoading(true);
         setError(null);
 
-        // later replace this with API call
-        setParcels(mockDeliveryDetails);
+        const accountNo = await getAccountNo();
+        if (accountNo) {
+          const consignments = await getParcelsForAccount(accountNo);
+          const mappedParcels = mapConsignmentsToParcels(consignments);
+          setParcels(mappedParcels);
+        } else {
+          setParcels(mockDeliveryDetails); // Fallback to mock data if no account number is found
+        }
       } catch (err) {
         setError("Failed to load parcels");
       } finally { 

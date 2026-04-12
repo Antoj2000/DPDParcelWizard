@@ -1,4 +1,4 @@
-import { saveToken } from "@/src/storage/authStorage";
+import { saveToken, saveAccountNo } from "@/src/storage/authStorage";
 import { getAccountByNumber } from "@/src/services/accountService";
 import { API_CONFIG } from "@/src/config/api";
 
@@ -28,6 +28,7 @@ export async function loginToAccount(accountNo, password) {
   const result = await login(accountNo, password);
 
   await saveToken(result.access_token);
+  await saveAccountNo(accountNo);
 
   const account = await getAccountByNumber(accountNo);
 

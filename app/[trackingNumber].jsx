@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import InfoRow from "../components/deliveries/details/InfoRow";
 import PodImage from "../components/deliveries/details/PodImage";
 import SectionCard from "../components/deliveries/details/SectionCard";
@@ -8,6 +8,8 @@ import StatusSummary from "../components/deliveries/details/StatusSummary";
 import TrackingHistory from "../components/deliveries/details/TrackingHistory";
 
 import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
+
+import useParcels from "@/src/hooks/useParcels";
 import {
   deliveredParcelTracking,
   outForDeliveryTracking,
@@ -16,26 +18,26 @@ import { getParcelStatus, getParcelStatusDisplay } from "@/utils/parcels";
 
 export default function ParcelDetails() {
   const { trackingNumber } = useLocalSearchParams();
+  const { parcels, loading } = useParcels();
+
   const delivery = useMemo(() => {
-    const parcel = mockDeliveryDetails.find(
-      (d) => d.trackingNumber === trackingNumber,
+    return parcels.find(
+      (parcel) => parcel.trackingNumber === String(trackingNumber)
     );
+  }, [parcels, trackingNumber]);
 
-    if (!parcel) {
-      return null;
-    }
-
-    const status = getParcelStatus(parcel.expectedAt);
-
-    return {
-      ...parcel,
-      status,
-      statusDisplay: getParcelStatusDisplay(status),
-    };
-  }, [trackingNumber]);
+  if (loading) {
+    return <ScrollView style={styles.container} />;
+  }
 
   if (!delivery) {
-    return <ScrollView style={styles.container} />;
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.emptyState}>
+          <Text>Parcel not found</Text>
+        </View>
+      </ScrollView>
+    );
   }
 
   const isDelivered = delivery.status === "DELIVERED";
@@ -80,5 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "#f5f5f5",
+  },
+  emptyState: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
 });

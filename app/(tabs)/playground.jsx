@@ -14,6 +14,8 @@ import LoginButton from "@/components/login/LoginButton";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
 
+import ParcelCard from "@/components/deliveries/cards/ParcelCard";
+
 import { loginToAccount } from "@/src/services/authService";
 import { createAccount } from "@/src/services/accountService";
 
@@ -21,6 +23,8 @@ import {
   getConsignmentsForAccount,
   getConsignmentByNumber,
 } from "@/src/services/consignmentService";
+
+import mapConsignmentsToParcels from "@/src/mappers/mapConsignments";
 
 export default function Playground() {
   const [loginState, setLoginState] = useState("login");
@@ -44,6 +48,7 @@ export default function Playground() {
   });
 
   const [loggedInAccount, setLoggedInAccount] = useState(null);
+  const [parcels, setParcels] = useState([]);
 
   function updateLoginField(field, value) {
     setLoginValues((prev) => ({
@@ -112,11 +117,19 @@ export default function Playground() {
 
       // If you want to fetch full details for each:
       const conDetails = await Promise.all(
-        conNumbers.map((num) => getConsignmentByNumber(num)),
+        conNumbers.map((num) => getConsignmentByNumber(num))
       );
       console.log("Consignment details:", conDetails);
+
+      const mappedParcels = mapConsignmentsToParcels(conDetails);
+      console.log("Mapped parcels:", mappedParcels);
+
+      setParcels(mappedParcels);
+
+      Alert.alert("Success", `Fetched ${mappedParcels.length} consignments`);
     } catch (err) {
       console.error("Error fetching consignments:", err);
+      Alert.alert("Fetch failed", err.message);
     }
   }
 
@@ -194,6 +207,14 @@ export default function Playground() {
               />
             </View>
           )}
+          {parcels.length > 0 && (
+            <View style={styles.parcelPreview}>
+              <ParcelCard
+                parcel={parcels[0]}
+                onPress={() => console.log("Pressed parcel:", parcels[0])}
+              />
+            </View>
+          )}
         </LoginCard>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -207,6 +228,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   fetchButtonContainer: {
+    marginTop: 16,
+  },
+  parcelPreview: {
     marginTop: 16,
   },
 });

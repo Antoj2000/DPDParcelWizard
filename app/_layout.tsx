@@ -3,6 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { Colors } from "@/constants/colors";
 
+import LogoutButton from "@/components/header/LogoutButton";
+
 export default function RootLayout() {
   return (
     <>
@@ -16,7 +18,9 @@ export default function RootLayout() {
             headerStyle: { backgroundColor: Colors.dpdRed },
             headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: 700, fontSize: 18 },
+            headerRight: () => <LogoutButton />,
             
+
           }}
         />
         <Stack.Screen name="scan" options={{ headerShown: false }} />

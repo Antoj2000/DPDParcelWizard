@@ -26,3 +26,8 @@ export async function getAccountNo() {
 export async function deleteAccountNo() {
   await SecureStore.deleteItemAsync(ACCOUNT_NO_KEY);
 }
+
+export async function clearAuth() {
+  await deleteToken();
+  await deleteAccountNo();
+}

@@ -21,10 +21,10 @@ export default function Deliveries() {
   }
 
   function handleTrackSubmit() {
-    if (trackingNumber.length !== 9) {
-      Alert.alert("Invalid number", "Tracking number must be 9 digits long");
-      return;
-    }
+    // if (trackingNumber.length !== 9) {
+    //   Alert.alert("Invalid number", "Tracking number must be 9 digits long");
+    //   return;
+    // }
 
     router.push(`/${trackingNumber}`);
 

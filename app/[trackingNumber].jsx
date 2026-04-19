@@ -1,20 +1,18 @@
 import { useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
+
 import InfoRow from "../components/deliveries/details/InfoRow";
 import PodImage from "../components/deliveries/details/PodImage";
 import SectionCard from "../components/deliveries/details/SectionCard";
 import StatusSummary from "../components/deliveries/details/StatusSummary";
 import TrackingHistory from "../components/deliveries/details/TrackingHistory";
 
-import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
-
 import useParcels from "@/src/hooks/useParcels";
 import {
   deliveredParcelTracking,
   outForDeliveryTracking,
 } from "@/data/mockTrackingData";
-import { getParcelStatus, getParcelStatusDisplay } from "@/utils/parcels";
 
 export default function ParcelDetails() {
   const { trackingNumber } = useLocalSearchParams();

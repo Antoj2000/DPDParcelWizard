@@ -16,12 +16,13 @@ import LoginButton from "@/components/login/LoginButton";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
 
-import { loginToAccount } from "@/src/services/authService";
 import { createAccount } from "@/src/services/accountService";
-import { clearAuth } from "@/src/storage/authStorage";
+import { useAuth } from "@/src/context/authContext";
 import { Colors } from "@/constants/colors";
 
 export default function LoginScreen() {
+  const { login, skipLogin } = useAuth();
+
   const [loginState, setLoginState] = useState("login");
   const [loginValues, setLoginValues] = useState({
     accountNo: "",
@@ -58,7 +59,7 @@ export default function LoginScreen() {
 
   async function handleLogin() {
     try {
-      await loginToAccount(loginValues.accountNo, loginValues.password);
+      await login(loginValues.accountNo, loginValues.password);
       router.replace("/(tabs)/deliveries");
     } catch (error) {
       Alert.alert("Login failed", error.message || "Could not log in");
@@ -98,7 +99,7 @@ export default function LoginScreen() {
 
   async function handleSkipLogin() {
     try {
-      await clearAuth();
+      await skipLogin();
       router.replace("/(tabs)/deliveries");
     } catch {
       Alert.alert("Error", "Could not continue in mock mode");

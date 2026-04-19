@@ -3,11 +3,12 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { Colors } from "@/constants/colors";
 
+import { AuthProvider } from "@/src/context/authContext";
 import LogoutButton from "@/components/header/LogoutButton";
 
 export default function RootLayout() {
   return (
-    <>
+    <AuthProvider>
       <StatusBar style="light" />
       <Stack>
         <Stack.Screen name="login" options={{ headerShown: false }} />
@@ -57,6 +58,6 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-    </>
+    </AuthProvider>
   );
 }

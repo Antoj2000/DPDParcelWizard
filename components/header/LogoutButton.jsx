@@ -1,9 +1,11 @@
 import { Alert, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { clearAuth } from "@/src/storage/authStorage";
+import { useAuth } from "@/src/context/authContext";
 
 export default function LogoutButton() {
+  const { logout } = useAuth();
+
   function confirmLogout() {
     Alert.alert("Logout", "Are you sure you want to log out?", [
       { text: "Cancel", style: "cancel" },
@@ -16,8 +18,7 @@ export default function LogoutButton() {
   }
 
   async function handleLogout() {
-    await clearAuth();
-
+    await logout();
     router.replace("/login");
   }
 

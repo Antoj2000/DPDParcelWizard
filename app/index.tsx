@@ -1,34 +1,24 @@
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useRouter } from "expo-router";
-import { getToken, getAccountNo } from "@/src/storage/authStorage";
+import { useAuth } from "@/src/context/authContext";
 
 export default function Index() {
   const router = useRouter();
+  const { isHydrating, isAuthenticated, isMockMode } = useAuth();
 
+  // Redirect to appropriate screen based on auth status
   useEffect(() => {
-    let isMounted = true;
-    async function routeOnBoot() {
-      const [token, accountNo] = await Promise.all([
-        getToken(),
-        getAccountNo(),
-      ]);
+    // Wait for hydration to complete before redirecting
+    if (isHydrating) return;
 
-      if (!isMounted) return;
-
-      if (token && accountNo) {
-        router.replace("/(tabs)/deliveries");
-      } else {
-        router.replace("/login");
-      }
+    // If authenticated or in mock mode, go to deliveries; otherwise, go to login
+    if (isAuthenticated || isMockMode) {
+      router.replace("/(tabs)/deliveries");
+    } else {
+      router.replace("/login");
     }
-
-    routeOnBoot();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [router]);
+  }, [isHydrating, isAuthenticated, isMockMode, router]);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

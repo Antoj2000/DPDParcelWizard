@@ -1,51 +1,64 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import IconButton from "@/components/ui/IconButton";
+import useAccount from "@/src/hooks/useAccount";
 
 export default function AccountDetails() {
+  const { account } = useAccount();
+
+  const defaultAddress = account.addresses?.find((addr) => addr.isDefault);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.label}>Parcel Wizard ID</Text>
-        <Text style={styles.value}>PW109736</Text>
+        <Text style={styles.value}>{account.id || "N/A"}</Text>
       </View>
+
       <View style={styles.row}>
         <Text style={styles.label}>Name</Text>
-        <Text style={styles.value}>Anthony Johnson</Text>
+        <Text style={styles.value}>
+          {account.firstName || account.lastName || "N/A"}
+        </Text>
       </View>
 
-      <View style={styles.row}>
-        <Text style={styles.label}>Delivery Address</Text>
-
-        <View style={styles.addressCard}>
-          <Text style={styles.addressText}>50 Valleycourt</Text>
-          <Text style={styles.addressText}>Bonnavalley</Text>
-          <Text style={styles.addressText}>Athlone</Text>
-          <Text style={styles.addressText}>Co. Westmeath</Text>
-          <Text style={styles.addressEircode}>N37 P1H2</Text>
-        </View>
-        <View style={styles.changeButton}>
-          <IconButton
-            icon="location-outline"
-            size={18}
-            color={Colors.dpdRed}
-            label="Change Address"
-            textStyle={styles.buttonText}
-          />
-        </View>
+      {defaultAddress && (
         <View style={styles.row}>
-          <Text style={styles.label}>Password</Text>
-          <Text style={styles.value}>........</Text>
+          <Text style={styles.label}>Delivery Address</Text>
+
+          <View style={styles.addressCard}>
+            <Text style={styles.addressText}>{defaultAddress.line1}</Text>
+            {defaultAddress.line2 && (
+              <Text style={styles.addressText}>{defaultAddress.line2}</Text>
+            )}
+            <Text style={styles.addressText}>{defaultAddress.line3}</Text>
+            <Text style={styles.addressText}>{defaultAddress.line4}</Text>
+            <Text style={styles.addressEircode}>{defaultAddress.eircode}</Text>
+          </View>
+          <View style={styles.changeButton}>
+            <IconButton
+              icon="location-outline"
+              size={18}
+              color={Colors.dpdRed}
+              label="Change Address"
+              textStyle={styles.buttonText}
+            />
+          </View>
         </View>
-        <View style={styles.changeButton}>
-          <IconButton
-            icon="lock-closed-outline"
-            size={18}
-            color={Colors.dpdRed}
-            label="Change Password"
-            textStyle={styles.buttonText}
-          />
-        </View>
+      )}
+
+      <View style={styles.row}>
+        <Text style={styles.label}>Password</Text>
+        <Text style={styles.value}>........</Text>
+      </View>
+      <View style={styles.changeButton}>
+        <IconButton
+          icon="lock-closed-outline"
+          size={18}
+          color={Colors.dpdRed}
+          label="Change Password"
+          textStyle={styles.buttonText}
+        />
       </View>
     </View>
   );
@@ -96,7 +109,6 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     paddingVertical: 8,
     borderRadius: 8,
-
     backgroundColor: "#e2e1e1",
   },
   buttonText: {

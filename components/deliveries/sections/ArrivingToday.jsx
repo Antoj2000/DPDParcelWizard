@@ -11,6 +11,7 @@ export default function ArrivingToday({ parcels }) {
     <View style={styles.section}>
       <SectionHeader
         title="Arriving Today"
+        count={parcels.length}
         icon={
           <Ionicons
             name="cube-outline"

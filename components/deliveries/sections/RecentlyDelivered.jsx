@@ -12,6 +12,7 @@ export default function RecentlyDelivered({ parcels }) {
     <View style={styles.section}>
       <SectionHeader
         title="Recently Delivered"
+        count={parcels.length}
         icon={<Ionicons name="checkmark-done" size={14} color={Colors.green} />}
         iconBg="#E7F7EE"
       />

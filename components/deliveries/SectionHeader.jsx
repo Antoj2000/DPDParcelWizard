@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Colors } from "@/constants/colors";
 
-export default function SectionHeader({ title, icon, iconBg }) {
+export default function SectionHeader({ title, icon, iconBg, count }) {
   return (
     <View style={styles.header}>
       <View style={styles.titleWrap}>
@@ -10,7 +9,7 @@ export default function SectionHeader({ title, icon, iconBg }) {
         </View>
         <Text style={styles.sectionTitle}>{title}</Text>
       </View>
-      <Text style={styles.count}>2 Parcels</Text>
+      <Text style={styles.count}>{count} Parcels</Text>
     </View>
   );
 }

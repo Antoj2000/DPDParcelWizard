@@ -18,6 +18,12 @@ export default function NewEmailForm({ onCancel, onSubmit, initialValues }) {
 
   const emailRef = useRef();
 
+  function focusEmailInput() {
+    setTimeout(() => {
+      emailRef.current?.focus();
+    }, 20);
+  }
+
   function submitHandler() {
     const cleanedEmail = email.trim().toLowerCase();
 
@@ -40,7 +46,7 @@ export default function NewEmailForm({ onCancel, onSubmit, initialValues }) {
   const isEditing = !!initialValues;
 
   return (
-    <Modal animationType="slide" transparent>
+    <Modal animationType="slide" transparent onShow={focusEmailInput}>
       <KeyboardAvoidingView style={styles.overlay} behavior="padding">
         <View style={styles.sheet}>
           <FormHeader
@@ -56,7 +62,7 @@ export default function NewEmailForm({ onCancel, onSubmit, initialValues }) {
 
           <ScrollView
             contentContainerStyle={styles.content}
-            keyboardShouldPersistTaps="handled"
+            keyboardShouldPersistTaps="always"
             showsVerticalScrollIndicator={false}
           >
             <Input

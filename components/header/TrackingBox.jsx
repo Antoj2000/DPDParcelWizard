@@ -1,16 +1,23 @@
-import { StyleSheet, TextInput, View } from "react-native";
-import { useEffect, useRef } from "react";
 import { Colors } from "@/constants/colors";
-export default function TrackingBox({ value, onChangeText, onSubmit }) {
+import { useEffect, useRef } from "react";
+import { StyleSheet, TextInput, View, Keyboard } from "react-native";
+
+export default function TrackingBox({ value, onChangeText, onSubmit, isOpen }) {
   const inputRef = useRef(null);
 
   useEffect(() => {
+    if (!isOpen) {
+      inputRef.current?.blur();
+      Keyboard.dismiss();
+      return;
+    }
+
     const timer = setTimeout(() => {
       inputRef.current?.focus();
-    }, 100);
+    }, 200);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isOpen]);
 
   return (
     <View style={styles.container}>
@@ -32,6 +39,7 @@ export default function TrackingBox({ value, onChangeText, onSubmit }) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.dpdRed,

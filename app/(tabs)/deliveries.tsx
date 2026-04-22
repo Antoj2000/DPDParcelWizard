@@ -1,11 +1,12 @@
-import { ScrollView, StyleSheet, Alert } from "react-native";
-import { useState } from "react";
 import { useRouter } from "expo-router";
-import WelcomeCard from "@/components/home/WelcomeCard";
-import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
-import QuickActions from "@/components/home/QuickActions";
-import TrackingBox from "@/components/header/TrackingBox";
+import { useState } from "react";
+import { ScrollView, StyleSheet, Keyboard } from "react-native";
 
+import DeliveryFeed from "@/components/deliveries/DeliveryFeed";
+import TrackingBox from "@/components/header/TrackingBox";
+import QuickActions from "@/components/home/QuickActions";
+import WelcomeCard from "@/components/home/WelcomeCard";
+import SlideDownPanel from "@/components/ui/SlideDownPanel";
 import useParcels from "@/src/hooks/useParcels";
 
 export default function Deliveries() {
@@ -14,33 +15,40 @@ export default function Deliveries() {
   const [isTracking, setIsTracking] = useState(false);
   const [trackingNumber, setTrackingNumber] = useState("");
 
-  const { arrivingToday, recentlyDelivered, loading, error } = useParcels();
+  const { arrivingToday, recentlyDelivered } = useParcels();
 
   function handleTrackPress() {
-    setIsTracking((prev) => !prev);
+    setIsTracking((prev) => {
+      const next = !prev;
+      if (!next) Keyboard.dismiss();
+      return next;
+    });
   }
 
   function handleTrackSubmit() {
-    // if (trackingNumber.length !== 9) {
-    //   Alert.alert("Invalid number", "Tracking number must be 9 digits long");
-    //   return;
-    // }
-
+    Keyboard.dismiss();
     router.push(`/${trackingNumber}`);
-
     setIsTracking(false);
     setTrackingNumber("");
   }
 
   return (
     <>
-      {isTracking && (
+      <SlideDownPanel
+        isOpen={isTracking}
+        onClose={() => setIsTracking(false)}
+        headerOffset={0}
+        maxHeight={88}
+        duration={320}
+      >
         <TrackingBox
           value={trackingNumber}
           onChangeText={setTrackingNumber}
           onSubmit={handleTrackSubmit}
+          isOpen={isTracking}
         />
-      )}
+      </SlideDownPanel>
+
       <ScrollView style={styles.container}>
         <WelcomeCard />
         <QuickActions onTrackPress={handleTrackPress} />

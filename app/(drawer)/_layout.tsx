@@ -1,19 +1,20 @@
+import DrawerContent from "@/components/drawer/DrawerContent";
 import { Colors } from "@/constants/colors";
 import { Drawer } from "expo-router/drawer";
 import { Dimensions } from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const DRAWER_WIDTH = Math.min(300, Math.round(SCREEN_WIDTH * 0.70));
+const DRAWER_WIDTH = Math.min(300, Math.round(SCREEN_WIDTH * 0.7));
 
 export default function DrawerLayout() {
   return (
     <Drawer
+      drawerContent={() => <DrawerContent />}
       screenOptions={{
         headerShown: false,
 
         // Behavior
         drawerType: "slide",
-        drawerPosition: "left",
         swipeEnabled: true,
         swipeEdgeWidth: 28,
 
@@ -28,28 +29,9 @@ export default function DrawerLayout() {
         sceneStyle: {
           backgroundColor: Colors.lightGray,
         },
-
-        // Item styling
-        drawerActiveTintColor: Colors.dpdRed,
-        drawerInactiveTintColor: Colors.darkText,
-        drawerItemStyle: {
-          borderRadius: 10,
-          marginHorizontal: 2,
-        },
-        drawerLabelStyle: {
-          fontWeight: "600",
-          fontSize: 15,
-        },
-
       }}
     >
-      <Drawer.Screen
-        name="(tabs)"
-        options={{
-          drawerLabel: "Home",
-          title: "Home",
-        }}
-      />
+      <Drawer.Screen name="(tabs)" />
     </Drawer>
   );
 }

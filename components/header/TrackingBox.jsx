@@ -30,6 +30,10 @@ export default function TrackingBox({ value, onChangeText, onSubmit, isOpen }) {
           placeholderTextColor="#777"
           keyboardType="number-pad"
           autoCorrect={false}
+          autoComplete="off"
+          textContentType="none"
+          autoCapitalize="none"
+          spellCheck={false}
           returnKeyType="search"
           maxLength={9}
           onSubmitEditing={onSubmit}

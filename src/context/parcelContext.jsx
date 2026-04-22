@@ -104,11 +104,16 @@ export function ParcelProvider({ children }) {
     return parcels.filter((parcel) => parcel.status === "DELIVERED");
   }, [parcels]);
 
+  const inTransit = useMemo(() => {
+    return parcels.filter((parcel) => parcel.status === "IN_TRANSIT");
+  }, [parcels]);
+
   const value = useMemo(
     () => ({
       parcels,
       arrivingToday,
       recentlyDelivered,
+      inTransit,
       loading,
       error,
       lastLoadedAt,
@@ -119,6 +124,7 @@ export function ParcelProvider({ children }) {
       parcels,
       arrivingToday,
       recentlyDelivered,
+      inTransit,
       loading,
       error,
       lastLoadedAt,

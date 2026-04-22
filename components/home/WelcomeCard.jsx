@@ -5,19 +5,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
 
 export default function WelcomeCard() {
-  const { parcels } = useParcels();
+  const { arrivingToday, inTransit, recentlyDelivered } = useParcels();
   const { account } = useAccount();
 
   // Compute stats from real delivery types
-  const todayCount = parcels.filter(
-    (d) => d.status === "OUT_FOR_DELIVERY",
-  ).length;
-
-  const inTransitCount = parcels.filter(
-    (d) => d.status === "IN_TRANSIT",
-  ).length;
-
-  const deliveredCount = parcels.filter((d) => d.status === "DELIVERED").length;
+  const todayCount = arrivingToday.length;
+  const inTransitCount = inTransit.length;
+  const deliveredCount = recentlyDelivered.length;
 
   return (
     <View style={styles.heroCard}>

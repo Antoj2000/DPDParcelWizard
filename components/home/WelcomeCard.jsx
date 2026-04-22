@@ -1,57 +1,59 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useDeliveries } from "@/bin/hooks/useDelivery";
+import useParcels from "@/src/hooks/useParcels";
+import useAccount from "@/src/hooks/useAccount";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from '@/constants/colors'
+import { Colors } from "@/constants/colors";
 
 export default function WelcomeCard() {
-  const { deliveries } = useDeliveries();
+  const { parcels } = useParcels();
+  const { account } = useAccount();
 
   // Compute stats from real delivery types
-  const todayCount = deliveries.filter(
-    (d) => d.status === "OutForDelivery"
+  const todayCount = parcels.filter(
+    (d) => d.status === "OUT_FOR_DELIVERY",
   ).length;
 
-  const inTransitCount = deliveries.filter(
-    (d) => d.status === "InTransit"
+  const inTransitCount = parcels.filter(
+    (d) => d.status === "IN_TRANSIT",
   ).length;
 
-  const deliveredCount = deliveries.filter(
-    (d) => d.status === "Delivered"
-  ).length;
+  const deliveredCount = parcels.filter((d) => d.status === "DELIVERED").length;
+
   return (
     <View style={styles.heroCard}>
-        <View style={styles.heroHeader}>
-          <View>
-            <Text style={styles.heroSubtitle}>Welcome back, Anthony</Text>
-            <Text style={styles.heroTitle}>Your Deliveries</Text>
-          </View>
-
-          <View style={styles.iconCircle}>
-            <Ionicons name="cube-outline" size={30} color="#fff" />
-          </View>
+      <View style={styles.heroHeader}>
+        <View>
+          <Text style={styles.heroSubtitle}>
+            Welcome back, {account.firstName}
+          </Text>
+          <Text style={styles.heroTitle}>Your Deliveries</Text>
         </View>
 
-        {/* Stats row */}
-        <View style={styles.statsRow}>
-          <View style={styles.statBox}>
-            <Text style={styles.statNumber}>{todayCount}</Text>
-            <Text style={styles.statLabel}>Today</Text>
-          </View>
-
-          <View style={styles.statBox}>
-            <Text style={styles.statNumber}>{inTransitCount}</Text>
-            <Text style={styles.statLabel}>In Transit</Text>
-          </View>
-
-          <View style={styles.statBox}>
-            <Text style={styles.statNumber}>{deliveredCount}</Text>
-            <Text style={styles.statLabel}>Delivered</Text>
-          </View>
+        <View style={styles.iconCircle}>
+          <Ionicons name="cube-outline" size={30} color="#fff" />
         </View>
       </View>
+
+      {/* Stats row */}
+      <View style={styles.statsRow}>
+        <View style={styles.statBox}>
+          <Text style={styles.statNumber}>{todayCount}</Text>
+          <Text style={styles.statLabel}>Today</Text>
+        </View>
+
+        <View style={styles.statBox}>
+          <Text style={styles.statNumber}>{inTransitCount}</Text>
+          <Text style={styles.statLabel}>In Transit</Text>
+        </View>
+
+        <View style={styles.statBox}>
+          <Text style={styles.statNumber}>{deliveredCount}</Text>
+          <Text style={styles.statLabel}>Delivered</Text>
+        </View>
+      </View>
+    </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   heroCard: {
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   heroSubtitle: {
-    color: "rgba(255,255,255,0.85)",
+    color: "#F9F9F9",
     fontSize: 14,
     marginBottom: 4,
   },
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   statLabel: {
-    color: "rgba(255,255,255,0.85)",
+    color: "#F9F9F9",
     fontSize: 12,
   },
 });

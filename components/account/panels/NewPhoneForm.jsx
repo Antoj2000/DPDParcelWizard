@@ -21,6 +21,12 @@ export default function NewPhoneForm({ onCancel, onSubmit, initialValues }) {
 
   const phoneRef = useRef();
 
+  function focusPhoneInput() {
+    setTimeout(() => {
+      phoneRef.current?.focus();
+    }, 20);
+  }
+
   function handleChange(text) {
     if (!text.startsWith(PREFIX)) {
       text = PREFIX + text.replace("+353", "").trim();
@@ -52,7 +58,7 @@ export default function NewPhoneForm({ onCancel, onSubmit, initialValues }) {
   const isEditing = !!initialValues;
 
   return (
-    <Modal animationType="slide" transparent>
+    <Modal animationType="slide" transparent onShow={focusPhoneInput}>
       <KeyboardAvoidingView style={styles.overlay} behavior="padding">
         <View style={styles.sheet}>
           <FormHeader
@@ -68,7 +74,7 @@ export default function NewPhoneForm({ onCancel, onSubmit, initialValues }) {
 
           <ScrollView
             contentContainerStyle={styles.content}
-            keyboardShouldPersistTaps="handled"
+            keyboardShouldPersistTaps="always"
             showsVerticalScrollIndicator={false}
           >
             <Input
@@ -81,7 +87,6 @@ export default function NewPhoneForm({ onCancel, onSubmit, initialValues }) {
                 textContentType: "telephoneNumber",
                 onChangeText: handleChange,
                 value: phoneNumber,
-                returnKeyType: "done",
                 onSubmitEditing: submitHandler,
               }}
             />

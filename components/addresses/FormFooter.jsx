@@ -5,11 +5,11 @@ import { Colors } from "@/constants/colors";
 export default function FormFooter({ onCancel, onSubmit }) {
   return (
     <View style={styles.footer}>
-      <Pressable onPress={onCancel} style={styles.cancelBtn}>
+      <Pressable onPressIn={onCancel} style={styles.cancelBtn}>
         <Text style={styles.cancelText}>Cancel</Text>
       </Pressable>
 
-      <Pressable onPress={onSubmit} style={styles.saveBtn}>
+      <Pressable onPressIn={onSubmit} style={styles.saveBtn}>
         <Ionicons name="checkmark" size={18} color="#fff" />
         <Text style={styles.saveText}>Save</Text>
       </Pressable>

@@ -14,7 +14,7 @@ export default function Index() {
 
     // If authenticated or in mock mode, go to deliveries; otherwise, go to login
     if (isAuthenticated || isMockMode) {
-      router.replace("/(tabs)/deliveries");
+      router.replace("/(drawer)/deliveries");
     } else {
       router.replace("/login");
     }

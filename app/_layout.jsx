@@ -17,7 +17,7 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="login" options={{ headerShown: false }} />
             <Stack.Screen
-              name="(tabs)"
+              name="(drawer)"
               options={{
                 headerShown: true,
                 title: "DPD Ireland",

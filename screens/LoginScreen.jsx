@@ -60,7 +60,7 @@ export default function LoginScreen() {
   async function handleLogin() {
     try {
       await login(loginValues.accountNo, loginValues.password);
-      router.replace("/(tabs)/deliveries");
+      router.replace("/(drawer)/deliveries");
     } catch (error) {
       Alert.alert("Login failed", error.message || "Could not log in");
     }
@@ -100,7 +100,7 @@ export default function LoginScreen() {
   async function handleSkipLogin() {
     try {
       await skipLogin();
-      router.replace("/(tabs)/deliveries");
+      router.replace("/(drawer)/deliveries");
     } catch {
       Alert.alert("Error", "Could not continue in mock mode");
     }

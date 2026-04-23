@@ -10,7 +10,7 @@ import {
 import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
 import { getParcelsForAccount } from "@/src/services/parcelService";
 import mapConsignmentsToParcels from "@/src/mappers/mapConsignments";
-import { getParcelStatus, getParcelStatusDisplay } from "@/utils/parcels";
+import { getParcelStatus, getParcelStatusDisplay } from "@/utils/parcels"; 
 import { useAuth } from "@/src/context/authContext";
 
 const ParcelContext = createContext(null);
@@ -103,7 +103,7 @@ export function ParcelProvider({ children }) {
   const recentlyDelivered = useMemo(() => {
     return parcels.filter((parcel) => parcel.status === "DELIVERED");
   }, [parcels]);
-
+ 
   const inTransit = useMemo(() => {
     return parcels.filter((parcel) => parcel.status === "IN_TRANSIT");
   }, [parcels]);

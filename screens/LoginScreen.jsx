@@ -23,6 +23,16 @@ import { Colors } from "@/constants/colors";
 export default function LoginScreen() {
   const { login, skipLogin } = useAuth();
 
+  async function handleLogin() {
+    try {
+      await login(loginValues.accountNo, loginValues.password);
+      router.replace("/(drawer)/deliveries");
+    } catch (error) {
+      Alert.alert("Login failed", error.message || "Could not log in");
+    }
+  }
+
+  
   const [loginState, setLoginState] = useState("login");
   const [loginValues, setLoginValues] = useState({
     accountNo: "",
@@ -55,15 +65,6 @@ export default function LoginScreen() {
       ...prev,
       [field]: value,
     }));
-  }
-
-  async function handleLogin() {
-    try {
-      await login(loginValues.accountNo, loginValues.password);
-      router.replace("/(drawer)/deliveries");
-    } catch (error) {
-      Alert.alert("Login failed", error.message || "Could not log in");
-    }
   }
 
   async function handleRegister() {

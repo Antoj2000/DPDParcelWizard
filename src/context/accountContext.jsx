@@ -34,7 +34,9 @@ function cloneMockAccount() {
 }
 
 function normalizeAccount(input) {
+
   const safe = input || {};
+
   // Map phone_numbers to mobileNumbers and normalize field names
   const mobileNumbers = Array.isArray(safe.phone_numbers)
     ? safe.phone_numbers.map((phone) => ({
@@ -118,7 +120,7 @@ export function AccountProvider({ children }) {
     if (mode === "guest") {
       inFlightRefreshRef.current = null;
       clearAccount();
-      return;
+      return; 
     }
 
     if (mode === "mock") {

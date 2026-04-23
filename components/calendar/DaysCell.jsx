@@ -34,11 +34,36 @@ export default function DaysCell({
     return selectedDates.some((date) => isSameDay(date, item.date));
   }, [isSelectingSchedule, selectedDates, item.date]);
 
+  const isPastInScheduleMode = useMemo(() => {
+    if (!isSelectingSchedule) {
+      return false;
+    }
+
+    const today = new Date();
+    const todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    );
+    const itemStart = new Date(
+      item.date.getFullYear(),
+      item.date.getMonth(),
+      item.date.getDate(),
+    );
+
+    return itemStart < todayStart;
+  }, [isSelectingSchedule, item.date]);
+
   return (
     <View style={styles.cell}>
       <Pressable
         onPress={() => onPress(item.date, item.inMonth)}
-        style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
+        disabled={isPastInScheduleMode}
+        style={({ pressed }) => [
+          styles.pressable,
+          isPastInScheduleMode && styles.disabledPressable,
+          pressed && !isPastInScheduleMode && styles.pressed,
+        ]}
       >
         <View style={styles.content}>
           {scheduleSymbol ? (
@@ -61,6 +86,7 @@ export default function DaysCell({
                 item.isToday && styles.todayText,
                 isSelected && styles.selectedText,
                 isSelectedForSchedule && styles.scheduleSelectText,
+                isPastInScheduleMode && styles.pastDateText,
               ]}
             >
               {item.day}
@@ -85,6 +111,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+  },
+  disabledPressable: {
+    opacity: 0.45,
   },
   pressed: {
     opacity: 0.7,
@@ -111,6 +140,9 @@ const styles = StyleSheet.create({
   mutedText: {
     color: "#9CA3AF",
     fontWeight: "500",
+  },
+  pastDateText: {
+    color: "#9CA3AF",
   },
 
   todayCircle: {

@@ -19,7 +19,7 @@ export default function DrawerContent() {
         <MenuRow
           label="Notifications"
           icon="notifications-outline"
-          onPress={() => {}}
+          onPress={() => router.push("/notifications")}
         />
         <MenuRow
           label="Help & Support"

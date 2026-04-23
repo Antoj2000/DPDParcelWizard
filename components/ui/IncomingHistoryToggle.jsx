@@ -6,6 +6,8 @@ export default function IncomingHistoryToggle({
   onChange,
   incomingCount = 0,
   historyCount = 0,
+  incomingLabel = "Incoming",
+  historyLabel = "History",
 }) {
   return (
     <View style={styles.container}>
@@ -16,7 +18,7 @@ export default function IncomingHistoryToggle({
         <Text
           style={[styles.tabText, value === "incoming" && styles.activeTabText]}
         >
-          Incoming ({incomingCount})
+          {incomingLabel} ({incomingCount})
         </Text>
       </Pressable>
 
@@ -27,7 +29,7 @@ export default function IncomingHistoryToggle({
         <Text
           style={[styles.tabText, value === "history" && styles.activeTabText]}
         >
-          History ({historyCount})
+          {historyLabel} ({historyCount})
         </Text>
       </Pressable>
     </View>

@@ -23,7 +23,7 @@ export default function LoginForm({
         label="Password"
         placeholder="Enter your password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={setPassword} 
         secureTextEntry={hidePassword}
         rightIcon={hidePassword ? "eye-off-outline" : "eye-outline"}
         onRightPress={onTogglePassword}

@@ -1,0 +1,73 @@
+export const mockNotifications = [
+  {
+    id: "notif_001",
+    type: "out_for_delivery",
+    title: "Parcel Out for Delivery",
+    message:
+      "Your parcel IE123456789 is out for delivery today between 2:00 PM - 4:00 PM",
+    timeLabel: "10 minutes ago",
+    parcelTracking: "IE123456789",
+    isRead: false,
+    iconName: "cube-outline",
+    iconVariant: "pink",
+  },
+  {
+    id: "notif_002",
+    type: "schedule_updated",
+    title: "Delivery Schedule Updated",
+    message:
+      "Your delivery for IE334455667 has been rescheduled to April 25, 2026",
+    timeLabel: "1 hour ago",
+    parcelTracking: "IE334455667",
+    isRead: false,
+    iconName: "time-outline",
+    iconVariant: "blue",
+  },
+  {
+    id: "notif_003",
+    type: "delivered",
+    title: "Parcel Delivered",
+    message:
+      "Your parcel IE987654321 was successfully delivered at 11:30 AM today",
+    timeLabel: "3 hours ago",
+    parcelTracking: "IE987654321",
+    isRead: true,
+    iconName: "checkmark-circle-outline",
+    iconVariant: "green",
+  },
+  {
+    id: "notif_004",
+    type: "address_updated",
+    title: "Delivery Address Updated",
+    message:
+      "The delivery address for IE112233445 has been updated successfully",
+    timeLabel: "Yesterday",
+    parcelTracking: "IE112233445",
+    isRead: true,
+    iconName: "location-outline",
+    iconVariant: "pink",
+  },
+  {
+    id: "notif_005",
+    type: "in_transit",
+    title: "Parcel In Transit",
+    message: "Your parcel IE556677889 is now in transit and on its way to you",
+    timeLabel: "2 days ago",
+    parcelTracking: "IE556677889",
+    isRead: true,
+    iconName: "car-outline",
+    iconVariant: "blue",
+  },
+  {
+    id: "notif_006",
+    type: "collection_required",
+    title: "Collection Required",
+    message:
+      "Your parcel IE998877665 is ready for collection at your local DPD depot",
+    timeLabel: "3 days ago",
+    parcelTracking: "IE998877665",
+    isRead: true,
+    iconName: "storefront-outline",
+    iconVariant: "pink",
+  },
+];

@@ -3,22 +3,23 @@ import { formatDateKey } from "@/utils/date";
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
 import {
-  Pressable,
-  StyleSheet,
-  Switch,
-  Text,
-  TextInput,
-  View,
+    Pressable,
+    StyleSheet,
+    Switch,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
 import TextButton from "../../ui/TextButton";
 
 export default function ScheduleDetailsCard({
   selectedDates = [],
+  scheduleMode = "single",
+  onModeChange,
   onSave,
   onCancel,
 }) {
   const [name, setName] = useState("");
-  const [recurring, setRecurring] = useState(false);
   const [action, setAction] = useState("H");
 
   // Sort selected dates and determine start/end for display and validation
@@ -26,8 +27,12 @@ export default function ScheduleDetailsCard({
     return [...selectedDates].sort((a, b) => a - b);
   }, [selectedDates]);
 
+  const isRangeMode = scheduleMode === "range";
+  const requiredSelectionCount = isRangeMode ? 2 : 1;
   const startDate = orderedDates[0] ?? null;
-  const endDate = orderedDates[orderedDates.length - 1] ?? null;
+  const endDate = isRangeMode
+    ? (orderedDates[1] ?? null)
+    : (orderedDates[0] ?? null);
 
   function formatDate(date) {
     if (!date) {
@@ -39,18 +44,24 @@ export default function ScheduleDetailsCard({
 
   // Validation and pass to parent
   function handleSave() {
-    if (!startDate || !endDate || orderedDates.length === 0) {
+    if (
+      !startDate ||
+      !endDate ||
+      orderedDates.length !== requiredSelectionCount
+    ) {
       return;
     }
 
-    const dateStrings = orderedDates.map((date) => formatDate(date));
+    const dateStrings = isRangeMode
+      ? [formatDate(startDate), formatDate(endDate)]
+      : [formatDate(startDate)];
 
     onSave({
       name: name || `Schedule ${formatDate(startDate)}`,
       dates: dateStrings,
       startDate: formatDate(startDate),
       endDate: formatDate(endDate),
-      recurring,
+      mode: scheduleMode,
       action,
     });
   }
@@ -85,14 +96,32 @@ export default function ScheduleDetailsCard({
       </View>
 
       <View style={styles.formRow}>
-        <Text style={styles.label}>Recurring:</Text>
+        <Text style={styles.label}>Range:</Text>
         <Switch
-          value={recurring}
-          onValueChange={setRecurring}
+          value={isRangeMode}
+          onValueChange={(enabled) => {
+            if (onModeChange) {
+              onModeChange(enabled ? "range" : "single");
+            }
+          }}
           trackColor={{ false: "#d1d5db", true: Colors.dpdRed }}
-          thumbColor={recurring ? Colors.dpdRed : "#f4f3f4"}
+          thumbColor={isRangeMode ? Colors.dpdRed : "#f4f3f4"}
         />
       </View>
+
+      <Text style={styles.modeHint}>
+        {isRangeMode
+          ? "Range mode requires exactly 2 future dates (start and end)."
+          : "Single-day mode requires exactly 1 future date."}
+      </Text>
+
+      {orderedDates.length !== requiredSelectionCount ? (
+        <Text style={styles.validationHint}>
+          {isRangeMode
+            ? `Selected ${orderedDates.length}/2 dates. Go back and pick start and end.`
+            : `Selected ${orderedDates.length}/1 date. Go back and pick one date.`}
+        </Text>
+      ) : null}
 
       <View style={styles.formRow}>
         <Text style={styles.label}>Action:</Text>
@@ -163,6 +192,19 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: "#4B5563",
+  },
+  modeHint: {
+    marginTop: -2,
+    marginBottom: 12,
+    fontSize: 13,
+    color: "#4B5563",
+  },
+  validationHint: {
+    marginTop: -4,
+    marginBottom: 12,
+    fontSize: 13,
+    color: Colors.dpdRed,
+    fontWeight: "600",
   },
   closeBtn: {
     padding: 4,

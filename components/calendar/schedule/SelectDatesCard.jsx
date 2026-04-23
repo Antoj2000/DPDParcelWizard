@@ -1,35 +1,53 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
+import { Ionicons } from "@expo/vector-icons";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import TextButton from "../../ui/TextButton";
 
 export default function SelectDatesCard({
   onClose,
-  selectedDates,  
+  selectedDates,
+  scheduleMode = "single",
   onContinue,
 }) {
+  const isRangeMode = scheduleMode === "range";
+  const requiredCount = isRangeMode ? 2 : 1;
+  const orderedDates = [...selectedDates].sort((a, b) => a - b);
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>Select Delivery Dates</Text>
           <Text style={styles.subtitle}>
-            Tap dates on the calendar to select them
+            {isRangeMode
+              ? "Range mode: select 2 future dates (start and end)."
+              : "Single-day mode: select 1 future date."}
           </Text>
         </View>
         <Pressable style={styles.closeBtn} onPress={onClose}>
           <Ionicons name="close" size={18} color="#6B7280" />
         </Pressable>
       </View>
+
+      <Text style={styles.hint}>Past dates cannot be selected.</Text>
+
       <View style={styles.dateContainer}>
         <Text style={styles.dateText}>
-          Selected:{" "}
-          {selectedDates && selectedDates.length > 0
-            ? selectedDates.map((d) => d.toLocaleDateString()).join(", ")
+          Selected ({orderedDates.length}/{requiredCount}):{" "}
+          {orderedDates.length > 0
+            ? orderedDates.map((d) => d.toLocaleDateString()).join(", ")
             : "None"}
         </Text>
       </View>
+
+      {orderedDates.length !== requiredCount ? (
+        <Text style={styles.validationHint}>
+          {isRangeMode
+            ? "Pick exactly two dates for this range."
+            : "Pick exactly one date for single-day mode."}
+        </Text>
+      ) : null}
 
       <TextButton
         label="Continue to Schedule Details"
@@ -68,12 +86,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#4B5563",
   },
+  hint: {
+    marginBottom: 8,
+    fontSize: 13,
+    color: "#4B5563",
+  },
   dateContainer: {
     marginBottom: 10,
   },
   dateText: {
     fontSize: 14,
     color: Colors.darkText,
+  },
+  validationHint: {
+    marginBottom: 10,
+    fontSize: 13,
+    color: Colors.dpdRed,
+    fontWeight: "600",
   },
   buttonContainer: {
     backgroundColor: Colors.dpdRed,

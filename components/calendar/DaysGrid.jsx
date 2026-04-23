@@ -9,6 +9,7 @@ export default function DaysGrid({
   scheduleMap,
   selectedDates,
   isSelectingSchedule = false,
+  scheduleMode = "single",
 }) {
   return (
     <View style={styles.daysGrid}>
@@ -22,6 +23,7 @@ export default function DaysGrid({
           scheduleMap={scheduleMap}
           selectedDates={selectedDates}
           isSelectingSchedule={isSelectingSchedule}
+          scheduleMode={scheduleMode}
         />
       ))}
     </View>

@@ -21,12 +21,11 @@ export default function useSchedules() {
     const map = new Map();
 
     schedules.forEach((schedule) => {
-      if (schedule.recurring) {
+      if (schedule.mode === "range") {
         const start = new Date(schedule.startDate);
         const end = new Date(schedule.endDate);
-        const weekdays = schedule.dates.map((date) => new Date(date).getDay());
 
-        // Iterate through the date range and add entries for the specified weekdays
+        // Iterate through the selected date range and mark every day.
         for (
           let currentDate = new Date(
             start.getFullYear(),
@@ -36,13 +35,11 @@ export default function useSchedules() {
           currentDate <= end;
           currentDate.setDate(currentDate.getDate() + 1)
         ) {
-          if (weekdays.includes(currentDate.getDay())) {
-            const key = formatDateKey(currentDate);
-            map.set(key, schedule.action);
-          }
+          const key = formatDateKey(currentDate);
+          map.set(key, schedule.action);
         }
       } else {
-        // Add entries for non-recurring schedules
+        // Add entries for single-day schedules.
         schedule.dates.forEach((date) => {
           map.set(date, schedule.action);
         });

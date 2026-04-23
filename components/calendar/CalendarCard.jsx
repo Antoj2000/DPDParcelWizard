@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
+import { StyleSheet, Text, View } from "react-native";
+import DaysGrid from "./DaysGrid";
 import MonthHeader from "./MonthHeader";
 import WeekdayRow from "./WeekdayRow";
-import DaysGrid from "./DaysGrid";
 
 export default function CalendarCard({
   monthLabel,
@@ -15,6 +15,7 @@ export default function CalendarCard({
   scheduleMap,
   selectedDates,
   isSelectingSchedule = false,
+  scheduleMode = "single",
 }) {
   return (
     <View style={styles.calendarCard}>
@@ -22,7 +23,7 @@ export default function CalendarCard({
       <MonthHeader
         monthLabel={monthLabel}
         onPrev={onPrevMonth}
-        onNext={onNextMonth} 
+        onNext={onNextMonth}
       />
       <WeekdayRow />
       <DaysGrid
@@ -33,6 +34,7 @@ export default function CalendarCard({
         scheduleMap={scheduleMap}
         selectedDates={selectedDates}
         isSelectingSchedule={isSelectingSchedule}
+        scheduleMode={scheduleMode}
       />
     </View>
   );
@@ -51,7 +53,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.08,
     shadowRadius: 12,
-    
   },
   sectionTitle: {
     fontSize: 16,

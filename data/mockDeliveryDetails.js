@@ -4,7 +4,7 @@ export const mockDeliveryDetails = [
     trackingNumber: "901190123",
 
     eta: {
-      label: "10 Apr 2026",
+      label: "20 Apr 2026",
     },
 
     fromName: "Amazon Ireland",
@@ -18,8 +18,8 @@ export const mockDeliveryDetails = [
       eircode: "N37 P1H2",
     },
 
-    shippedAt: "2026-04-08",
-    expectedAt: "2026-04-10",
+    shippedAt: "2026-04-17",
+    expectedAt: "2026-04-20",
   },
 
   {
@@ -27,7 +27,7 @@ export const mockDeliveryDetails = [
     trackingNumber: "901190124",
 
     eta: {
-      label: "10 Apr 2026",
+      label: "22 Apr 2026",
     },
 
     fromName: "ASOS",
@@ -41,8 +41,8 @@ export const mockDeliveryDetails = [
       eircode: "H91 AB12",
     },
 
-    shippedAt: "2026-04-09",
-    expectedAt: "2026-04-10",
+    shippedAt: "2026-04-19",
+    expectedAt: "2026-04-22",
   },
 
   {
@@ -50,7 +50,7 @@ export const mockDeliveryDetails = [
     trackingNumber: "901190125",
 
     eta: {
-      label: "09 Apr 2026",
+      label: "24 Apr 2026",
     },
 
     fromName: "Amazon Ireland",
@@ -64,8 +64,8 @@ export const mockDeliveryDetails = [
       eircode: "N37 XY45",
     },
 
-    shippedAt: "2026-04-06",
-    expectedAt: "2026-04-09",
+    shippedAt: "2026-04-21",
+    expectedAt: "2026-04-24",
   },
 
   {
@@ -73,7 +73,7 @@ export const mockDeliveryDetails = [
     trackingNumber: "901190126",
 
     eta: {
-      label: "08 Apr 2026",
+      label: "25 Apr 2026",
     },
 
     fromName: "Zara",
@@ -87,8 +87,8 @@ export const mockDeliveryDetails = [
       eircode: "N37 P1H2",
     },
 
-    shippedAt: "2026-04-05",
-    expectedAt: "2026-04-08",
+    shippedAt: "2026-04-22",
+    expectedAt: "2026-04-25",
   },
 
   {
@@ -96,7 +96,7 @@ export const mockDeliveryDetails = [
     trackingNumber: "901190127",
 
     eta: {
-      label: "11 Apr 2026",
+      label: "27 Apr 2026",
     },
 
     fromName: "Nike",
@@ -110,8 +110,8 @@ export const mockDeliveryDetails = [
       eircode: "N37 P1H2",
     },
 
-    shippedAt: "2026-04-09",
-    expectedAt: "2026-04-11",
+    shippedAt: "2026-04-22",
+    expectedAt: "2026-04-27",
   },
 
   {
@@ -119,7 +119,7 @@ export const mockDeliveryDetails = [
     trackingNumber: "901190128",
 
     eta: {
-      label: "12 Apr 2026",
+      label: "29 Apr 2026",
     },
 
     fromName: "Apple",
@@ -133,8 +133,8 @@ export const mockDeliveryDetails = [
       eircode: "N37 P1H2",
     },
 
-    shippedAt: "2026-04-09",
-    expectedAt: "2026-04-12",
+    shippedAt: "2026-04-23",
+    expectedAt: "2026-04-29",
   },
 
   {
@@ -142,7 +142,7 @@ export const mockDeliveryDetails = [
     trackingNumber: "901190129",
 
     eta: {
-      label: "13 Apr 2026",
+      label: "01 May 2026",
     },
 
     fromName: "Currys",
@@ -156,7 +156,7 @@ export const mockDeliveryDetails = [
       eircode: "N37 P1H2",
     },
 
-    shippedAt: "2026-04-10",
-    expectedAt: "2026-04-13",
+    shippedAt: "2026-04-23",
+    expectedAt: "2026-05-01",
   },
 ];

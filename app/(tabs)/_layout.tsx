@@ -58,13 +58,6 @@ export default function TabLayout() {
             ),
           }}
         />
-
-        <Tabs.Screen
-          name="addresses"
-          options={{
-            href: null,
-          }}
-        />
       </Tabs>
     </View>
   );

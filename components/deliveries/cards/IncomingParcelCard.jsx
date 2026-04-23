@@ -3,7 +3,12 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import IconRow from "./IconRow";
 
-export default function IncomingParcelCard({ parcel, onPress, onManagePress }) {
+export default function IncomingParcelCard({
+  parcel,
+  onPress,
+  onManagePress,
+  canManage = true,
+}) {
   return (
     <View style={styles.card}>
       <Pressable
@@ -11,13 +16,15 @@ export default function IncomingParcelCard({ parcel, onPress, onManagePress }) {
         style={({ pressed }) => [styles.topArea, pressed && styles.pressed]}
       >
         <View style={styles.parcelIcon}>
-          <Ionicons name="cube-outline" size={18} color={Colors.dpdRed} />
+          <Ionicons name="cube-outline" size={22} color={Colors.dpdRed} />
         </View>
 
         <View style={styles.details}>
-          <Text style={styles.trackingNumber}>{parcel.trackingNumber}</Text>
-          <View style={styles.statusPill}>
-            <Text style={styles.statusText}>{parcel.statusDisplay}</Text>
+          <View style={styles.headerRow}>
+            <Text style={styles.trackingNumber}>{parcel.trackingNumber}</Text>
+            <View style={styles.statusPill}>
+              <Text style={styles.statusText}>{parcel.statusDisplay}</Text>
+            </View>
           </View>
 
           <Text style={styles.lineText}>From: {parcel.fromName}</Text>
@@ -43,14 +50,24 @@ export default function IncomingParcelCard({ parcel, onPress, onManagePress }) {
       </View>
 
       <Pressable
+        disabled={!canManage}
         onPress={onManagePress}
         style={({ pressed }) => [
           styles.manageButton,
-          pressed && styles.pressed,
+          !canManage && styles.manageButtonDisabled,
+          pressed && canManage && styles.pressed,
         ]}
       >
-        <Feather name="edit-2" size={16} color={Colors.mutedText} />
-        <Text style={styles.manageText}>Manage Parcel</Text>
+        <Feather
+          name="edit-2"
+          size={16}
+          color={canManage ? Colors.dpdRed : Colors.mutedText}
+        />
+        <Text
+          style={[styles.manageText, !canManage && styles.manageTextDisabled]}
+        >
+          {canManage ? "Manage Parcel" : "Cannot Manage (Less than 2 days)"}
+        </Text>
       </Pressable>
     </View>
   );
@@ -87,50 +104,62 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 12,
   },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 2,
+    gap: 4,
+  },
   trackingNumber: {
-    fontSize: 32 / 2,
+    fontSize: 16,
     fontWeight: "700",
     color: "#111827",
-    marginBottom: 6,
+    flexShrink: 1,
   },
   statusPill: {
-    alignSelf: "flex-start",
     borderWidth: 1,
     borderColor: "#F7A3B3",
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 4,
     backgroundColor: "#FDEFF2",
-    marginBottom: 10,
   },
   statusText: {
     color: Colors.dpdRed,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   lineText: {
     color: Colors.mutedText,
-    fontSize: 16,
-    lineHeight: 26,
+    fontSize: 14,
+    lineHeight: 20,
   },
   metaWrap: {
     marginTop: 6,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   manageButton: {
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#E7E7EA",
-    backgroundColor: "#F7F7F9",
+    borderColor: "#F3B6C1",
+    backgroundColor: "#FDEFF2",
     paddingVertical: 12,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     gap: 8,
   },
+  manageButtonDisabled: {
+    borderColor: "#E7E7EA",
+    backgroundColor: "#F7F7F9",
+  },
   manageText: {
-    color: "#969AA4",
-    fontSize: 17,
+    color: Colors.dpdRed,
+    fontSize: 12,
     fontWeight: "700",
+  },
+  manageTextDisabled: {
+    color: "#969AA4",
   },
 });

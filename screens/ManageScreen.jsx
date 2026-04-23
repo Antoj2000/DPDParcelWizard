@@ -15,29 +15,11 @@ export default function ManageScreen() {
   const [activeTab, setActiveTab] = useState("incoming");
   const [showManageForm, setShowManageForm] = useState(false);
   const [selectedParcel, setSelectedParcel] = useState(null);
-  const [managedOverrides, setManagedOverrides] = useState({});
 
-  const { inTransit, recentlyDelivered } = useParcels();
+  const { inTransit, recentlyDelivered, updateParcel } = useParcels();
 
   function getParcelKey(parcel) {
     return parcel.id || parcel.trackingNumber;
-  }
-
-  function mergeParcelWithOverride(parcel) {
-    const override = managedOverrides[getParcelKey(parcel)];
-    if (!override) {
-      return parcel;
-    }
-
-    return {
-      ...parcel,
-      ...override,
-      address: {
-        ...parcel.address,
-        ...(override.address || {}),
-      },
-      eta: override.eta || parcel.eta,
-    };
   }
 
   function openManageForm(parcel) {
@@ -55,11 +37,7 @@ export default function ManageScreen() {
       return;
     }
 
-    const parcelKey = getParcelKey(selectedParcel);
-    setManagedOverrides((current) => ({
-      ...current,
-      [parcelKey]: values,
-    }));
+    updateParcel(getParcelKey(selectedParcel), values);
     closeManageForm();
   }
 
@@ -78,17 +56,17 @@ export default function ManageScreen() {
 
   // Show all incoming parcels and sort by soonest delivery date
   const incomingParcels = useMemo(() => {
-    return inTransit
-      .map((parcel) => mergeParcelWithOverride(parcel))
-      .sort((a, b) => new Date(a.expectedAt) - new Date(b.expectedAt));
-  }, [inTransit, managedOverrides]);
+    return [...inTransit].sort(
+      (a, b) => new Date(a.expectedAt) - new Date(b.expectedAt),
+    );
+  }, [inTransit]);
 
   // Sort history by most recent delivery date
   const historyParcels = useMemo(() => {
-    return recentlyDelivered
-      .map((parcel) => mergeParcelWithOverride(parcel))
-      .sort((a, b) => new Date(b.expectedAt) - new Date(a.expectedAt));
-  }, [recentlyDelivered, managedOverrides]);
+    return [...recentlyDelivered].sort(
+      (a, b) => new Date(b.expectedAt) - new Date(a.expectedAt),
+    );
+  }, [recentlyDelivered]);
 
   return (
     <View style={styles.page}>

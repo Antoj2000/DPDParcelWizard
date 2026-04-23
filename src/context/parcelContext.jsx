@@ -1,3 +1,8 @@
+import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
+import { useAuth } from "@/src/context/authContext";
+import mapConsignmentsToParcels from "@/src/mappers/mapConsignments";
+import { getParcelsForAccount } from "@/src/services/parcelService";
+import { getParcelStatus, getParcelStatusDisplay } from "@/utils/parcels";
 import {
   createContext,
   useCallback,
@@ -7,13 +12,21 @@ import {
   useRef,
   useState,
 } from "react";
-import { mockDeliveryDetails } from "@/data/mockDeliveryDetails";
-import { getParcelsForAccount } from "@/src/services/parcelService";
-import mapConsignmentsToParcels from "@/src/mappers/mapConsignments";
-import { getParcelStatus, getParcelStatusDisplay } from "@/utils/parcels"; 
-import { useAuth } from "@/src/context/authContext";
 
 const ParcelContext = createContext(null);
+
+function formatEtaLabel(expectedAt) {
+  const parsed = new Date(expectedAt);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  const day = String(parsed.getDate()).padStart(2, "0");
+  const month = parsed.toLocaleString("en-IE", { month: "short" });
+  const year = parsed.getFullYear();
+  return `${day} ${month} ${year}`;
+}
 
 export function ParcelProvider({ children }) {
   const { isHydrating, mode, isMockMode, accountNo } = useAuth();
@@ -31,6 +44,30 @@ export function ParcelProvider({ children }) {
     setError(null);
     setLoading(false);
     setLastLoadedAt(null);
+  }, []);
+
+  const updateParcel = useCallback((parcelIdOrTracking, updates) => {
+    if (!parcelIdOrTracking || !updates) {
+      return;
+    }
+
+    setRawParcels((current) =>
+      current.map((parcel) => {
+        const parcelKey = parcel.id || parcel.trackingNumber;
+        if (parcelKey !== parcelIdOrTracking) {
+          return parcel;
+        }
+
+        return {
+          ...parcel,
+          ...updates,
+          address: {
+            ...parcel.address,
+            ...(updates.address || {}),
+          },
+        };
+      }),
+    );
   }, []);
 
   const refreshParcels = useCallback(async () => {
@@ -61,7 +98,7 @@ export function ParcelProvider({ children }) {
         const mappedParcels = mapConsignmentsToParcels(consignments);
         setRawParcels(mappedParcels);
         setLastLoadedAt(Date.now());
-      } catch (err) {
+      } catch (_err) {
         setError("Failed to load parcels");
       } finally {
         setLoading(false);
@@ -88,8 +125,14 @@ export function ParcelProvider({ children }) {
   const parcels = useMemo(() => {
     return rawParcels.map((parcel) => {
       const status = getParcelStatus(parcel.expectedAt);
+      const etaLabel = formatEtaLabel(parcel.expectedAt) || parcel.eta?.label;
+
       return {
         ...parcel,
+        eta: {
+          ...(parcel.eta || {}),
+          label: etaLabel,
+        },
         status,
         statusDisplay: getParcelStatusDisplay(status),
       };
@@ -103,7 +146,7 @@ export function ParcelProvider({ children }) {
   const recentlyDelivered = useMemo(() => {
     return parcels.filter((parcel) => parcel.status === "DELIVERED");
   }, [parcels]);
- 
+
   const inTransit = useMemo(() => {
     return parcels.filter((parcel) => parcel.status === "IN_TRANSIT");
   }, [parcels]);
@@ -119,6 +162,7 @@ export function ParcelProvider({ children }) {
       lastLoadedAt,
       refreshParcels,
       clearParcels,
+      updateParcel,
     }),
     [
       parcels,
@@ -130,6 +174,7 @@ export function ParcelProvider({ children }) {
       lastLoadedAt,
       refreshParcels,
       clearParcels,
+      updateParcel,
     ],
   );
 

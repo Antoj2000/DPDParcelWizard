@@ -30,29 +30,6 @@ function isValidDateKey(dateText) {
   );
 }
 
-function formatEtaLabel(dateText) {
-  const [yearText, monthText, dayText] = dateText.split("-");
-  const year = Number(yearText);
-  const month = Number(monthText);
-  const day = Number(dayText);
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  return `${String(day).padStart(2, "0")} ${monthNames[month - 1]} ${year}`;
-}
-
 export default function ManageDeliveryForm({ parcel, onCancel, onSubmit }) {
   const [inputValues, setInputValues] = useState({
     expectedAt: parcel?.expectedAt || "",
@@ -94,7 +71,6 @@ export default function ManageDeliveryForm({ parcel, onCancel, onSubmit }) {
 
     onSubmit({
       expectedAt,
-      eta: { label: formatEtaLabel(expectedAt) },
       address: {
         line1,
         line2,

@@ -32,6 +32,7 @@ export default function DrawerLayout() {
       }}
     >
       <Drawer.Screen name="(tabs)" />
+      <Drawer.Screen name="addresses" />
     </Drawer>
   );
 }

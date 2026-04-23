@@ -9,30 +9,30 @@ import EmptyState from "@/components/ui/EmptyState";
 import IncomingHistoryToggle from "@/components/ui/IncomingHistoryToggle";
 import useParcels from "@/src/hooks/useParcels";
 
-export default function Playground() {
+export default function ManageScreen() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("incoming");
 
   const { inTransit, recentlyDelivered } = useParcels();
 
-  // Filter incoming parcels to those arriving in 2+ days and sort by soonest delivery date
-  const incomingParcels = useMemo(() => {
+  function getDaysUntil(expectedAt) {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const expected = new Date(expectedAt);
+    const expectedDate = new Date(
+      expected.getFullYear(),
+      expected.getMonth(),
+      expected.getDate(),
+    );
 
-    return inTransit
-      .filter((parcel) => {
-        const expected = new Date(parcel.expectedAt);
-        const expectedDate = new Date(
-          expected.getFullYear(),
-          expected.getMonth(),
-          expected.getDate(),
-        );
-        const diffMs = expectedDate.getTime() - today.getTime();
-        const diffDays = Math.floor(diffMs / 86400000);
-        return diffDays >= 2;
-      })
-      .sort((a, b) => new Date(a.expectedAt) - new Date(b.expectedAt));
+    return Math.floor((expectedDate.getTime() - today.getTime()) / 86400000);
+  }
+
+  // Show all incoming parcels and sort by soonest delivery date
+  const incomingParcels = useMemo(() => {
+    return [...inTransit].sort(
+      (a, b) => new Date(a.expectedAt) - new Date(b.expectedAt),
+    );
   }, [inTransit]);
 
   // Sort history by most recent delivery date
@@ -60,25 +60,33 @@ export default function Playground() {
             <TabInfoBanner
               icon="create-outline"
               title="Manage Your Deliveries"
-              subtitle="Change delivery dates or addresses for parcels arriving in 2+ days"
+              subtitle="View all incoming parcels and manage those arriving in 2+ days"
               iconColor="#D4002A"
               iconBg="#F6DDE2"
             />
 
             {incomingParcels.length ? (
-              incomingParcels.map((parcel) => (
-                <IncomingParcelCard
-                  key={parcel.trackingNumber}
-                  parcel={parcel}
-                  onPress={() => router.push(`/${parcel.trackingNumber}`)}
-                  onManagePress={() => {}}
-                />
-              ))
+              incomingParcels.map((parcel) =>
+                (() => {
+                  const daysUntil = getDaysUntil(parcel.expectedAt);
+                  const canManage = daysUntil >= 2;
+
+                  return (
+                    <IncomingParcelCard
+                      key={parcel.trackingNumber}
+                      parcel={parcel}
+                      canManage={canManage}
+                      onPress={() => router.push(`/${parcel.trackingNumber}`)}
+                      onManagePress={canManage ? () => {} : undefined}
+                    />
+                  );
+                })(),
+              )
             ) : (
               <EmptyState
                 iconName="cube-outline"
                 title="No incoming parcels"
-                subtitle="Parcels that are at least 2 days out will appear here."
+                subtitle="Incoming parcels will appear here once they are on the way."
               />
             )}
           </>

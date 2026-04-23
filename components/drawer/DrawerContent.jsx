@@ -1,13 +1,20 @@
+import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 import MenuRow from "@/components/drawer/MenuRow";
 
 export default function DrawerContent() {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <MenuRow label="Profile" icon="person-outline" onPress={() => {}} />
-        <MenuRow label="Address Book" icon="book-outline" onPress={() => {}} />
+        <MenuRow
+          label="Address Book"
+          icon="book-outline"
+          onPress={() => router.push("/addresses")}
+        />
         <MenuRow label="Settings" icon="settings-outline" onPress={() => {}} />
         <MenuRow
           label="Notifications"

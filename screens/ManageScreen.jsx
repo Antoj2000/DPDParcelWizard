@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import TabInfoBanner from "@/components/deliveries/TabInfoBanner";
 import HistoryParcelCard from "@/components/deliveries/cards/HistoryParcelCard";
 import IncomingParcelCard from "@/components/deliveries/cards/IncomingParcelCard";
+import ManageDeliveryForm from "@/components/manage/ManageDeliveryForm";
 import EmptyState from "@/components/ui/EmptyState";
 import IncomingHistoryToggle from "@/components/ui/IncomingHistoryToggle";
 import useParcels from "@/src/hooks/useParcels";
@@ -12,8 +13,33 @@ import useParcels from "@/src/hooks/useParcels";
 export default function ManageScreen() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("incoming");
+  const [showManageForm, setShowManageForm] = useState(false);
+  const [selectedParcel, setSelectedParcel] = useState(null);
 
-  const { inTransit, recentlyDelivered } = useParcels();
+  const { inTransit, recentlyDelivered, updateParcel } = useParcels();
+
+  function getParcelKey(parcel) {
+    return parcel.id || parcel.trackingNumber;
+  }
+
+  function openManageForm(parcel) {
+    setSelectedParcel(parcel);
+    setShowManageForm(true);
+  }
+
+  function closeManageForm() {
+    setShowManageForm(false);
+    setSelectedParcel(null);
+  }
+
+  function submitManageForm(values) {
+    if (!selectedParcel) {
+      return;
+    }
+
+    updateParcel(getParcelKey(selectedParcel), values);
+    closeManageForm();
+  }
 
   function getDaysUntil(expectedAt) {
     const now = new Date();
@@ -77,7 +103,9 @@ export default function ManageScreen() {
                       parcel={parcel}
                       canManage={canManage}
                       onPress={() => router.push(`/${parcel.trackingNumber}`)}
-                      onManagePress={canManage ? () => {} : undefined}
+                      onManagePress={
+                        canManage ? () => openManageForm(parcel) : undefined
+                      }
                     />
                   );
                 })(),
@@ -118,6 +146,14 @@ export default function ManageScreen() {
           </>
         )}
       </ScrollView>
+
+      {showManageForm && selectedParcel && (
+        <ManageDeliveryForm
+          parcel={selectedParcel}
+          onCancel={closeManageForm}
+          onSubmit={submitManageForm}
+        />
+      )}
     </View>
   );
 }

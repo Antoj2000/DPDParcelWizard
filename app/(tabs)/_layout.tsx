@@ -1,7 +1,7 @@
-import { Tabs } from "expo-router";
 import { HapticTab } from "@/components/expo/haptic-tab";
 import { IconSymbol } from "@/components/expo/icon-symbol";
-import { View, StyleSheet } from "react-native";
+import { Tabs } from "expo-router";
+import { StyleSheet, View } from "react-native";
 
 export default function TabLayout() {
   return (
@@ -16,9 +16,9 @@ export default function TabLayout() {
         <Tabs.Screen
           name="deliveries"
           options={{
-            title: "Deliveries",
+            title: "Home",
             tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="shippingbox.fill" color={color} />
+              <IconSymbol size={28} name="house.fill" color={color} />
             ),
           }}
         />
@@ -32,11 +32,11 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="addresses"
+          name="manage"
           options={{
-            title: "Addresses",
+            title: "Deliveries",
             tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="house" color={color} />
+              <IconSymbol size={28} name="shippingbox.fill" color={color} />
             ),
           }}
         />
@@ -56,6 +56,13 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => (
               <IconSymbol size={28} name="play.circle.fill" color={color} />
             ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="addresses"
+          options={{
+            href: null,
           }}
         />
       </Tabs>

@@ -8,26 +8,34 @@ export default function IncomingHistoryToggle({
   historyCount = 0,
   incomingLabel = "Incoming",
   historyLabel = "History",
+  incomingValue = "incoming",
+  historyValue = "history",
 }) {
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={() => onChange("incoming")}
-        style={[styles.tab, value === "incoming" && styles.activeTab]}
+        onPress={() => onChange(incomingValue)}
+        style={[styles.tab, value === incomingValue && styles.activeTab]}
       >
         <Text
-          style={[styles.tabText, value === "incoming" && styles.activeTabText]}
+          style={[
+            styles.tabText,
+            value === incomingValue && styles.activeTabText,
+          ]}
         >
           {incomingLabel} ({incomingCount})
         </Text>
       </Pressable>
 
       <Pressable
-        onPress={() => onChange("history")}
-        style={[styles.tab, value === "history" && styles.activeTab]}
+        onPress={() => onChange(historyValue)}
+        style={[styles.tab, value === historyValue && styles.activeTab]}
       >
         <Text
-          style={[styles.tabText, value === "history" && styles.activeTabText]}
+          style={[
+            styles.tabText,
+            value === historyValue && styles.activeTabText,
+          ]}
         >
           {historyLabel} ({historyCount})
         </Text>

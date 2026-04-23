@@ -1,12 +1,13 @@
+import { Colors } from "@/constants/colors";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-import { Colors } from "@/constants/colors";
 
-import { AuthProvider } from "@/src/context/authContext";
-import { AccountProvider } from "@/src/context/accountContext";
-import { ParcelProvider } from "@/src/context/parcelContext";
+import DrawerOrHomeButton from "@/components/header/DrawerOrHomeButton";
 import LogoutButton from "@/components/header/LogoutButton";
+import { AccountProvider } from "@/src/context/accountContext";
+import { AuthProvider } from "@/src/context/authContext";
+import { ParcelProvider } from "@/src/context/parcelContext";
 
 export default function RootLayout() {
   return (
@@ -24,6 +25,7 @@ export default function RootLayout() {
                 headerStyle: { backgroundColor: Colors.dpdRed },
                 headerTintColor: "#fff",
                 headerTitleStyle: { fontWeight: 700, fontSize: 18 },
+                headerLeft: () => <DrawerOrHomeButton />,
                 headerRight: () => <LogoutButton />,
               }}
             />

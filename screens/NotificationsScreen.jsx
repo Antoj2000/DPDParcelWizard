@@ -53,7 +53,6 @@ export default function NotificationsScreen() {
         style={styles.container}
         contentContainerStyle={styles.content}
       >
-        {/* Header banner */}
         <View style={styles.banner}>
           <View style={styles.bannerIconCircle}>
             <Ionicons
@@ -82,6 +81,8 @@ export default function NotificationsScreen() {
           historyCount={unreadCount}
           incomingLabel="All"
           historyLabel="Unread"
+          incomingValue="all"
+          historyValue="unread"
         />
 
         <NotificationActionBar

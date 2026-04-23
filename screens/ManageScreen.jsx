@@ -9,7 +9,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import IncomingHistoryToggle from "@/components/ui/IncomingHistoryToggle";
 import useParcels from "@/src/hooks/useParcels";
 
-export default function Playground() {
+export default function ManageScreen() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("incoming");
 

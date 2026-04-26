@@ -1,4 +1,7 @@
+import AddressBookDropdown from "@/components/addresses/AddressBookDropdown";
+import NewAddressForm from "@/components/addresses/NewAddressForm";
 import { Colors } from "@/constants/colors";
+import useAddresses from "@/src/hooks/useAddresses";
 import { formatDateKey } from "@/utils/date";
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
@@ -19,8 +22,20 @@ export default function ScheduleDetailsCard({
   onSave,
   onCancel,
 }) {
+  const { addresses } = useAddresses();
+
   const [name, setName] = useState("");
   const [action, setAction] = useState("H");
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [customAddress, setCustomAddress] = useState(null);
+  const [showCustomAddressForm, setShowCustomAddressForm] = useState(false);
+
+  const selectedSavedAddress = useMemo(
+    () => addresses.find((address) => address.id === selectedAddressId) || null,
+    [addresses, selectedAddressId],
+  );
+
+  const redirectAddress = selectedSavedAddress || customAddress;
 
   // Sort selected dates and determine start/end for display and validation
   const orderedDates = useMemo(() => {
@@ -52,18 +67,40 @@ export default function ScheduleDetailsCard({
       return;
     }
 
+    if (action === "A") {
+      const line1 = redirectAddress?.line1?.trim() || "";
+      const line4 = redirectAddress?.line4?.trim() || "";
+      const eircode = redirectAddress?.eircode?.trim() || "";
+
+      if (!line1 || !line4 || !eircode) {
+        return;
+      }
+    }
+
     const dateStrings = isRangeMode
       ? [formatDate(startDate), formatDate(endDate)]
       : [formatDate(startDate)];
 
-    onSave({
+    const payload = {
       name: name || `Schedule ${formatDate(startDate)}`,
       dates: dateStrings,
       startDate: formatDate(startDate),
       endDate: formatDate(endDate),
       mode: scheduleMode,
       action,
-    });
+    };
+
+    if (action === "A") {
+      payload.redirectAddress = {
+        line1: redirectAddress.line1.trim(),
+        line2: redirectAddress.line2?.trim() || "",
+        line3: redirectAddress.line3?.trim() || "",
+        line4: redirectAddress.line4.trim(),
+        eircode: redirectAddress.eircode.trim().toUpperCase(),
+      };
+    }
+
+    onSave(payload);
   }
 
   return (
@@ -153,12 +190,52 @@ export default function ScheduleDetailsCard({
         </View>
       </View>
 
+      {action === "A" ? (
+        <View style={styles.redirectWrap}>
+          <AddressBookDropdown
+            label="Redirect Address"
+            hint="Choose from your saved addresses or enter a one-time address"
+            addresses={addresses}
+            selectedAddressId={selectedAddressId}
+            customAddress={customAddress}
+            onSelectSavedAddress={(address) => {
+              setSelectedAddressId(address.id);
+            }}
+            onSelectOther={() => {
+              setSelectedAddressId(null);
+              setShowCustomAddressForm(true);
+            }}
+          />
+
+          {!redirectAddress ? (
+            <Text style={styles.validationHint}>
+              Select a redirect destination to save this schedule.
+            </Text>
+          ) : null}
+        </View>
+      ) : null}
+
       <TextButton
         label="Save Schedule"
         onPress={handleSave}
         style={styles.saveButton}
         textStyle={styles.saveButtonText}
       />
+
+      {showCustomAddressForm && (
+        <NewAddressForm
+          onCancel={() => setShowCustomAddressForm(false)}
+          onSubmit={(values) => {
+            setCustomAddress(values);
+            setSelectedAddressId(null);
+            setShowCustomAddressForm(false);
+          }}
+          initialValues={customAddress}
+          requireTitle={false}
+          title="Custom Redirect Address"
+          subtitle="Enter a one-time redirect destination"
+        />
+      )}
     </View>
   );
 }
@@ -266,5 +343,9 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 15,
     fontWeight: "600",
+  },
+  redirectWrap: {
+    marginTop: 2,
+    marginBottom: 12,
   },
 });

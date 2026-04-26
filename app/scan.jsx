@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
+import { useRouter } from "expo-router";
+import useAccount from "@/src/hooks/useAccount";
 
 export default function Scan() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
+
+  const router = useRouter();
+  const { account } = useAccount();
 
   useEffect(() => {
     if (!permission) return;
@@ -21,6 +26,11 @@ export default function Scan() {
     );
   }
 
+  const userName =
+    [account?.firstName, account?.lastName].filter(Boolean).join(" ") || "User";
+
+  const accountNumber = account?.id || "Unknown";
+
   return (
     <View style={styles.container}>
       <CameraView
@@ -29,10 +39,21 @@ export default function Scan() {
         onBarcodeScanned={
           scanned
             ? undefined
-            : ({ data }) => {
+            : () => {
                 setScanned(true);
-                console.log("Scanned:", data);
-                
+                Alert.alert(
+                  "Account " + accountNumber,
+                  userName + ", your locker number is #47",
+                  [
+                    {
+                      text: "OK",
+                      onPress: () => {
+                        router.replace("/(tabs)/deliveries");
+                      },
+                    },
+                  ],
+                  { cancelable: false },
+                );
               }
         }
       />

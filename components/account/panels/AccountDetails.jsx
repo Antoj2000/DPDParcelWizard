@@ -24,7 +24,7 @@ export default function AccountDetails() {
 
       {defaultAddress && (
         <View style={styles.row}>
-          <Text style={styles.label}>Delivery Address</Text>
+          <Text style={styles.label}>Default Delivery Address</Text>
 
           <View style={styles.addressCard}>
             <Text style={styles.addressText}>{defaultAddress.line1}</Text>
@@ -34,15 +34,6 @@ export default function AccountDetails() {
             <Text style={styles.addressText}>{defaultAddress.line3}</Text>
             <Text style={styles.addressText}>{defaultAddress.line4}</Text>
             <Text style={styles.addressEircode}>{defaultAddress.eircode}</Text>
-          </View>
-          <View style={styles.changeButton}>
-            <IconButton
-              icon="location-outline"
-              size={18}
-              color={Colors.dpdRed}
-              label="Change Address"
-              textStyle={styles.buttonText}
-            />
           </View>
         </View>
       )}
@@ -71,13 +62,13 @@ const styles = StyleSheet.create({
 
   row: {
     gap: 2,
-    marginBottom: 4,
+    marginBottom: 2,
   },
 
   label: {
     fontSize: 12,
     color: Colors.mutedText,
-    fontWeight: "500",
+    fontWeight: "600",
   },
 
   value: {
@@ -106,7 +97,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   changeButton: {
-    marginVertical: 16,
+    marginVertical: 4,
     paddingVertical: 8,
     borderRadius: 8,
     backgroundColor: "#e2e1e1",

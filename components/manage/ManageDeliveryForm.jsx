@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import {
     KeyboardAvoidingView,
     Modal,
@@ -7,10 +7,13 @@ import {
     View,
 } from "react-native";
 
+import AddressBookDropdown from "@/components/addresses/AddressBookDropdown";
 import FormFooter from "@/components/addresses/FormFooter";
 import FormHeader from "@/components/addresses/FormHeader";
+import NewAddressForm from "@/components/addresses/NewAddressForm";
 import Input from "@/components/ui/Input";
 import { Colors } from "@/constants/colors";
+import useAddresses from "@/src/hooks/useAddresses";
 
 function isValidDateKey(dateText) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText)) {
@@ -31,20 +34,30 @@ function isValidDateKey(dateText) {
 }
 
 export default function ManageDeliveryForm({ parcel, onCancel, onSubmit }) {
+  const { addresses } = useAddresses();
+
+  const initialCustomAddress = useMemo(
+    () => ({
+      line1: parcel?.address?.line1 || "",
+      line2: parcel?.address?.line2 || "",
+      line3: parcel?.address?.line3 || "",
+      line4: parcel?.address?.line4 || "",
+      eircode: parcel?.address?.eircode || "",
+    }),
+    [parcel],
+  );
+
   const [inputValues, setInputValues] = useState({
     expectedAt: parcel?.expectedAt || "",
-    line1: parcel?.address?.line1 || "",
-    line2: parcel?.address?.line2 || "",
-    line3: parcel?.address?.line3 || "",
-    line4: parcel?.address?.line4 || "",
-    eircode: parcel?.address?.eircode || "",
   });
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [customAddress, setCustomAddress] = useState(initialCustomAddress);
+  const [showCustomAddressForm, setShowCustomAddressForm] = useState(false);
 
-  const line1Ref = useRef();
-  const line2Ref = useRef();
-  const line3Ref = useRef();
-  const line4Ref = useRef();
-  const eircodeRef = useRef();
+  const selectedSavedAddress = useMemo(
+    () => addresses.find((address) => address.id === selectedAddressId) || null,
+    [addresses, selectedAddressId],
+  );
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputValues((current) => ({
@@ -55,11 +68,12 @@ export default function ManageDeliveryForm({ parcel, onCancel, onSubmit }) {
 
   function submitHandler() {
     const expectedAt = inputValues.expectedAt.trim();
-    const line1 = inputValues.line1.trim();
-    const line2 = inputValues.line2.trim();
-    const line3 = inputValues.line3.trim();
-    const line4 = inputValues.line4.trim();
-    const eircode = inputValues.eircode.trim().toUpperCase();
+    const resolvedAddress = selectedSavedAddress || customAddress;
+    const line1 = resolvedAddress?.line1?.trim() || "";
+    const line2 = resolvedAddress?.line2?.trim() || "";
+    const line3 = resolvedAddress?.line3?.trim() || "";
+    const line4 = resolvedAddress?.line4?.trim() || "";
+    const eircode = resolvedAddress?.eircode?.trim().toUpperCase() || "";
 
     if (!expectedAt || !line1 || !line4 || !eircode) {
       return;
@@ -105,77 +119,21 @@ export default function ManageDeliveryForm({ parcel, onCancel, onSubmit }) {
                 value: inputValues.expectedAt,
                 autoCapitalize: "none",
                 autoCorrect: false,
-                returnKeyType: "next",
-                blurOnSubmit: false,
-                onSubmitEditing: () => line1Ref.current?.focus(),
-              }}
-            />
-
-            <Input
-              ref={line1Ref}
-              label="Address Line 1"
-              placeholder="House number + street"
-              textInputConfig={{
-                autoComplete: "address-line1",
-                onChangeText: (v) => inputChangedHandler("line1", v),
-                value: inputValues.line1,
-                returnKeyType: "next",
-                blurOnSubmit: false,
-                onSubmitEditing: () => line2Ref.current?.focus(),
-              }}
-            />
-
-            <Input
-              ref={line2Ref}
-              label="Address Line 2"
-              placeholder="Area (Optional)"
-              textInputConfig={{
-                onChangeText: (v) => inputChangedHandler("line2", v),
-                value: inputValues.line2,
-                returnKeyType: "next",
-                blurOnSubmit: false,
-                onSubmitEditing: () => line3Ref.current?.focus(),
-              }}
-            />
-
-            <Input
-              ref={line3Ref}
-              label="Address Line 3"
-              placeholder="Town / city"
-              textInputConfig={{
-                onChangeText: (v) => inputChangedHandler("line3", v),
-                value: inputValues.line3,
-                returnKeyType: "next",
-                blurOnSubmit: false,
-                onSubmitEditing: () => line4Ref.current?.focus(),
-              }}
-            />
-
-            <Input
-              ref={line4Ref}
-              label="Address Line 4"
-              placeholder="County"
-              textInputConfig={{
-                onChangeText: (v) => inputChangedHandler("line4", v),
-                value: inputValues.line4,
-                returnKeyType: "next",
-                blurOnSubmit: false,
-                onSubmitEditing: () => eircodeRef.current?.focus(),
-              }}
-            />
-
-            <Input
-              ref={eircodeRef}
-              label="Eircode"
-              placeholder="e.g. D02 X285"
-              textInputConfig={{
-                autoComplete: "postal-code",
-                onChangeText: (v) => inputChangedHandler("eircode", v),
-                value: inputValues.eircode,
-                autoCapitalize: "characters",
-                maxLength: 8,
                 returnKeyType: "done",
                 onSubmitEditing: submitHandler,
+              }}
+            />
+
+            <AddressBookDropdown
+              addresses={addresses}
+              selectedAddressId={selectedAddressId}
+              customAddress={customAddress}
+              onSelectSavedAddress={(address) => {
+                setSelectedAddressId(address.id);
+              }}
+              onSelectOther={() => {
+                setSelectedAddressId(null);
+                setShowCustomAddressForm(true);
               }}
             />
           </ScrollView>
@@ -183,6 +141,21 @@ export default function ManageDeliveryForm({ parcel, onCancel, onSubmit }) {
           <FormFooter onCancel={onCancel} onSubmit={submitHandler} />
         </View>
       </KeyboardAvoidingView>
+
+      {showCustomAddressForm && (
+        <NewAddressForm
+          onCancel={() => setShowCustomAddressForm(false)}
+          onSubmit={(values) => {
+            setCustomAddress(values);
+            setSelectedAddressId(null);
+            setShowCustomAddressForm(false);
+          }}
+          initialValues={customAddress}
+          requireTitle={false}
+          title="Custom Delivery Address"
+          subtitle="Enter a one-time delivery address"
+        />
+      )}
     </Modal>
   );
 }

@@ -1,17 +1,24 @@
-import { useState, useRef } from "react";
-import {
-  KeyboardAvoidingView,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
 import { Colors } from "@/constants/colors";
+import { useRef, useState } from "react";
+import {
+    KeyboardAvoidingView,
+    Modal,
+    ScrollView,
+    StyleSheet,
+    View,
+} from "react-native";
 import Input from "../ui/Input";
-import FormHeader from "./FormHeader";
 import FormFooter from "./FormFooter";
+import FormHeader from "./FormHeader";
 
-export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
+export default function NewAddressForm({
+  onCancel,
+  onSubmit,
+  initialValues,
+  requireTitle = true,
+  title,
+  subtitle,
+}) {
   const [inputValues, setInputValues] = useState({
     title: initialValues?.title || "",
     line1: initialValues?.line1 || "",
@@ -38,37 +45,45 @@ export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
 
   function submitHandler() {
     if (
-      !inputValues.title.trim() ||
+      (requireTitle && !inputValues.title.trim()) ||
       !inputValues.line1.trim() ||
       !inputValues.line4.trim() ||
       !inputValues.eircode.trim()
     ) {
       return;
     }
-    onSubmit({
-      ...inputValues,
+
+    const payload = {
+      line1: inputValues.line1.trim(),
+      line2: inputValues.line2.trim(),
+      line3: inputValues.line3.trim(),
+      line4: inputValues.line4.trim(),
       eircode: inputValues.eircode.trim().toUpperCase(),
-    });
+    };
+
+    if (requireTitle) {
+      payload.title = inputValues.title.trim();
+    }
+
+    onSubmit(payload);
   }
 
   const isEditing = !!initialValues;
+  const computedTitle = title || (isEditing ? "Edit Address" : "New Address");
+  const computedSubtitle =
+    subtitle ||
+    (isEditing
+      ? "Update your saved delivery address"
+      : "Add a new delivery address to your book");
 
   return (
     <Modal animationType="slide" transparent>
-      <KeyboardAvoidingView
-        style={styles.overlay}
-        behavior="padding"
-        
-      >
+      <KeyboardAvoidingView style={styles.overlay} behavior="padding">
         <View style={styles.sheet}>
           <FormHeader
             icon="map-outline"
-            title={isEditing ? "Edit Address" : "New Address"}
-            subtitle={
-              isEditing
-                ? "Update your saved delivery address"
-                : "Add a new delivery address to your book"
-            }
+            title={computedTitle}
+            subtitle={computedSubtitle}
             onClose={onCancel}
           />
 
@@ -77,17 +92,19 @@ export default function NewAddressForm({ onCancel, onSubmit, initialValues }) {
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
-            <Input
-              label="Title"
-              placeholder="e.g. Home, Work, Mam's"
-              textInputConfig={{
-                onChangeText: (v) => inputChangedHandler("title", v),
-                value: inputValues.title,
-                returnKeyType: "next",
-                blurOnSubmit: false,
-                onSubmitEditing: () => line1Ref.current?.focus(),
-              }}
-            />
+            {requireTitle ? (
+              <Input
+                label="Title"
+                placeholder="e.g. Home, Work, Mam's"
+                textInputConfig={{
+                  onChangeText: (v) => inputChangedHandler("title", v),
+                  value: inputValues.title,
+                  returnKeyType: "next",
+                  blurOnSubmit: false,
+                  onSubmitEditing: () => line1Ref.current?.focus(),
+                }}
+              />
+            ) : null}
 
             <Input
               ref={line1Ref}

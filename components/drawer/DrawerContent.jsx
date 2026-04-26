@@ -24,7 +24,7 @@ export default function DrawerContent() {
         <MenuRow
           label="Help & Support"
           icon="help-circle-outline"
-          onPress={() => {}}
+          onPress={() => router.push("/support")}
         />
 
         <View style={styles.divider} />

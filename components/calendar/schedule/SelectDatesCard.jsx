@@ -45,7 +45,7 @@ export default function SelectDatesCard({
         <Text style={styles.validationHint}>
           {isRangeMode
             ? "Pick exactly two dates for this range."
-            : "Pick exactly one date for single-day mode."}
+            : "Pick a starting date to proceed."}
         </Text>
       ) : null}
 

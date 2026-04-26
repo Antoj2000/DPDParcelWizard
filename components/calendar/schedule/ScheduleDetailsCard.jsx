@@ -111,15 +111,15 @@ export default function ScheduleDetailsCard({
 
       <Text style={styles.modeHint}>
         {isRangeMode
-          ? "Range mode requires exactly 2 future dates (start and end)."
+          ? "Range mode requires 2 future dates (start and end)."
           : "Single-day mode requires exactly 1 future date."}
       </Text>
 
       {orderedDates.length !== requiredSelectionCount ? (
         <Text style={styles.validationHint}>
           {isRangeMode
-            ? `Selected ${orderedDates.length}/2 dates. Go back and pick start and end.`
-            : `Selected ${orderedDates.length}/1 date. Go back and pick one date.`}
+            ? `Selected ${orderedDates.length}/2 dates. Pick a start and end date.`
+            : `Selected ${orderedDates.length}/1 date. Pick a date to proceed.`}
         </Text>
       ) : null}
 

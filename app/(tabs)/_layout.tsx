@@ -49,15 +49,7 @@ export default function TabLayout() {
             ),
           }}
         />
-        <Tabs.Screen
-          name="playground"
-          options={{
-            title: "Playground",
-            tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="play.circle.fill" color={color} />
-            ),
-          }}
-        />
+        <Tabs.Screen name="playground" options={{ href: null }} />
       </Tabs>
     </View>
   );

@@ -8,7 +8,7 @@ export default function WelcomeCard() {
   const { arrivingToday, inTransit, recentlyDelivered } = useParcels();
   const { account } = useAccount();
 
-  // Compute stats from real delivery types
+  // Compute stats for the welcome card
   const todayCount = arrivingToday.length;
   const inTransitCount = inTransit.length;
   const deliveredCount = recentlyDelivered.length;

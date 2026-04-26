@@ -1,24 +1,27 @@
+import { router } from "expo-router";
+import { useState } from "react";
 import {
+  Alert,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Pressable,
   ScrollView,
   StyleSheet,
-  Alert,
-  KeyboardAvoidingView,
-  View,
-  Pressable,
   Text,
+  View,
 } from "react-native";
-import { useState } from "react";
-import { router } from "expo-router";
 
-import LoginToggle from "@/components/login/LoginToggle";
-import LoginCard from "@/components/login/LoginCard";
 import LoginButton from "@/components/login/LoginButton";
+import LoginCard from "@/components/login/LoginCard";
 import LoginForm from "@/components/login/LoginForm";
+import LoginToggle from "@/components/login/LoginToggle";
 import RegisterForm from "@/components/login/RegisterForm";
 
-import { createAccount } from "@/src/services/accountService";
-import { useAuth } from "@/src/context/authContext";
 import { Colors } from "@/constants/colors";
+import { useAuth } from "@/src/context/authContext";
+import { createAccount } from "@/src/services/accountService";
+
+const loginBackgroundImage = require("@/assets/images/LoginScreen.png");
 
 export default function LoginScreen() {
   const { login, skipLogin } = useAuth();
@@ -32,7 +35,6 @@ export default function LoginScreen() {
     }
   }
 
-  
   const [loginState, setLoginState] = useState("login");
   const [loginValues, setLoginValues] = useState({
     accountNo: "",
@@ -108,94 +110,105 @@ export default function LoginScreen() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.root}
-      behavior="padding"
-      //keyboardVerticalOffset={10}
+    <ImageBackground
+      source={loginBackgroundImage}
+      style={styles.backgroundImage}
+      resizeMode="cover"
     >
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.content}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={styles.root}
+        behavior="padding"
+        //keyboardVerticalOffset={10}
       >
-        <LoginCard>
-          <LoginToggle value={loginState} onChange={setLoginState} />
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <LoginCard>
+            <LoginToggle value={loginState} onChange={setLoginState} />
 
-          {loginState === "login" ? (
-            <LoginForm
-              accountNo={loginValues.accountNo}
-              setAccountNo={(value) => updateLoginField("accountNo", value)}
-              password={loginValues.password}
-              setPassword={(value) => updateLoginField("password", value)}
-              hidePassword={visibility.loginPassword}
-              onTogglePassword={() =>
-                setVisibility((prev) => ({
-                  ...prev,
-                  loginPassword: !prev.loginPassword,
-                }))
+            {loginState === "login" ? (
+              <LoginForm
+                accountNo={loginValues.accountNo}
+                setAccountNo={(value) => updateLoginField("accountNo", value)}
+                password={loginValues.password}
+                setPassword={(value) => updateLoginField("password", value)}
+                hidePassword={visibility.loginPassword}
+                onTogglePassword={() =>
+                  setVisibility((prev) => ({
+                    ...prev,
+                    loginPassword: !prev.loginPassword,
+                  }))
+                }
+              />
+            ) : (
+              <RegisterForm
+                firstName={registerValues.firstName}
+                setFirstName={(value) =>
+                  updateRegisterField("firstName", value)
+                }
+                lastName={registerValues.lastName}
+                setLastName={(value) => updateRegisterField("lastName", value)}
+                email={registerValues.email}
+                setEmail={(value) => updateRegisterField("email", value)}
+                password={registerValues.password}
+                setPassword={(value) => updateRegisterField("password", value)}
+                confirmPassword={registerValues.confirmPassword}
+                setConfirmPassword={(value) =>
+                  updateRegisterField("confirmPassword", value)
+                }
+                hidePassword={visibility.registerPassword}
+                setHidePassword={() =>
+                  setVisibility((prev) => ({
+                    ...prev,
+                    registerPassword: !prev.registerPassword,
+                  }))
+                }
+                hideConfirmPassword={visibility.registerConfirmPassword}
+                setHideConfirmPassword={() =>
+                  setVisibility((prev) => ({
+                    ...prev,
+                    registerConfirmPassword: !prev.registerConfirmPassword,
+                  }))
+                }
+              />
+            )}
+
+            <LoginButton
+              title={loginState === "login" ? "Login" : "Register"}
+              onPress={loginState === "login" ? handleLogin : handleRegister}
+              disabled={
+                loginState === "login"
+                  ? !loginValues.accountNo || !loginValues.password
+                  : !registerValues.firstName ||
+                    !registerValues.lastName ||
+                    !registerValues.email ||
+                    !registerValues.password ||
+                    !registerValues.confirmPassword
               }
             />
-          ) : (
-            <RegisterForm
-              firstName={registerValues.firstName}
-              setFirstName={(value) => updateRegisterField("firstName", value)}
-              lastName={registerValues.lastName}
-              setLastName={(value) => updateRegisterField("lastName", value)}
-              email={registerValues.email}
-              setEmail={(value) => updateRegisterField("email", value)}
-              password={registerValues.password}
-              setPassword={(value) => updateRegisterField("password", value)}
-              confirmPassword={registerValues.confirmPassword}
-              setConfirmPassword={(value) =>
-                updateRegisterField("confirmPassword", value)
-              }
-              hidePassword={visibility.registerPassword}
-              setHidePassword={() =>
-                setVisibility((prev) => ({
-                  ...prev,
-                  registerPassword: !prev.registerPassword,
-                }))
-              }
-              hideConfirmPassword={visibility.registerConfirmPassword}
-              setHideConfirmPassword={() =>
-                setVisibility((prev) => ({
-                  ...prev,
-                  registerConfirmPassword: !prev.registerConfirmPassword,
-                }))
-              }
-            />
-          )}
 
-          <LoginButton
-            title={loginState === "login" ? "Login" : "Register"}
-            onPress={loginState === "login" ? handleLogin : handleRegister}
-            disabled={
-              loginState === "login"
-                ? !loginValues.accountNo || !loginValues.password
-                : !registerValues.firstName ||
-                  !registerValues.lastName ||
-                  !registerValues.email ||
-                  !registerValues.password ||
-                  !registerValues.confirmPassword
-            }
-          />
-
-          <View style={styles.skipWrap}>
-            <Pressable onPress={handleSkipLogin} style={styles.skipButton}>
-              <Text style={styles.skipText}>Dev Login</Text>
-            </Pressable>
-          </View>
-        </LoginCard>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <View style={styles.skipWrap}>
+              <Pressable onPress={handleSkipLogin} style={styles.skipButton}>
+                <Text style={styles.skipText}>Dev Login</Text>
+              </Pressable>
+            </View>
+          </LoginCard>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+  },
   root: {
     flex: 1,
-    backgroundColor: Colors.dpdRed,
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   container: {
     flex: 1,
@@ -204,7 +217,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
+    marginBottom: 60,
     padding: 16,
   },
   skipWrap: {

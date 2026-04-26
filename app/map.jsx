@@ -4,10 +4,14 @@ import { useLocalSearchParams } from "expo-router";
 import MapView, { Marker } from "react-native-maps";
 
 export default function Map() {
-  const { latitude, longitude } = useLocalSearchParams(); 
+  const { latitude, longitude } = useLocalSearchParams();
 
   const parsedLatitude = Number(latitude);
   const parsedLongitude = Number(longitude);
+
+  // DPD head office coordinates
+  const dpdLatitude = 53.40803;
+  const dpdLongitude = -7.89955;
 
   const hasValidCoords =
     !Number.isNaN(parsedLatitude) && !Number.isNaN(parsedLongitude);
@@ -42,6 +46,13 @@ export default function Map() {
             longitude: parsedLongitude,
           }}
           title="Your location"
+        />
+        <Marker
+          coordinate={{
+            latitude: dpdLatitude,
+            longitude: dpdLongitude,
+          }}
+          title="DPD Head Office"
         />
       </MapView>
     </View>

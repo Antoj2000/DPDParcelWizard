@@ -8,6 +8,7 @@ import NewAddressForm from "@/components/addresses/NewAddressForm";
 import useAddresses from "@/src/hooks/useAddresses";
 
 export default function AddressScreen() {
+
   const [showModal, setShowModal] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
